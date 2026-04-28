@@ -11,11 +11,9 @@ if (numero % 2 == 0) {
 }
 
 if (numero > 0) {
-    console.log("O número é Positivo");
+    console.log("O número é Positivo")
 } else if (numero < 0) {
-    console.log("O número é Negativo");
+    console.log("O número é Negativo")
 } else {
-    console.log("O número é Zero");
+    console.log("O número é Zero")
 }
-
-//testando o github

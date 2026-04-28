@@ -3,8 +3,8 @@
 // ● ‘Primeiro é maior’, caso o primeiro seja maior que o segundo;
 // ● ‘Segundo maior’, caso o segundo seja maior que o primeiro.
 
-let numero1: number = Number(prompt("Digite o primeiro valor: "));
-let numero2: number = Number(prompt("Digite o segundo valor: "));
+let numero1: number = Number(prompt("Digite o primeiro valor: "))
+let numero2: number = Number(prompt("Digite o segundo valor: "))
 
 if (numero1 === numero2) {
     console.log("Números iguais")
