@@ -2,15 +2,15 @@
 //  Par ou Ímpar
 //  Positivo ou Negativo
 
-export let numero: number = Number(prompt("Digite um número: "))
+let Numero: number = Number(prompt("Digite um número: "))
 
-if (numero % 2 == 0) {
+if (Numero % 2 == 0) {
     console.log("O número é Par !")
 } else {
     console.log("Número é Ímpar !")
 }
 
-if (numero > 0) {
+if (Numero > 0) {
     console.log("O número é Positivo")
 } else if (numero < 0) {
     console.log("O número é Negativo")
