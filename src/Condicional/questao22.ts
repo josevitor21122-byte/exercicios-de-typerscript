@@ -15,13 +15,6 @@ function gerenciar_tarefas(): void {
 
     while (Opcao !== "4") {
 
-        Opcao = prompt(
-            "1 - Adicionar tarefa\n" +
-            "2 - Concluir tarefa\n" +
-            "3 - Exibir tarefas\n" +
-            "4 - Sair"
-        )
-
         if (Opcao === "1") {
 
             let tarefa = prompt("Digite a tarefa:")!

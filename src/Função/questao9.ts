@@ -16,4 +16,4 @@ let numPositivo: number = Number(prompt("Digite um número positivo: "))
 
 let Resultado = somarAte(numPositivo)
 
-console.log("a soma de 1 até: " + numPositivo + " é:  " + resultado)
+console.log("a soma de 1 até: " + numPositivo + " é:  " + Resultado)

@@ -5,6 +5,7 @@
 let digitaNumero: number = 1
 let quantNum = 0
 let somaTotal = 0
+let numero = 0
 
 while (digitaNumero !== 0) {
     digitaNumero = Number(prompt("Informe um número, digite ( 0 ) para sair: "))
