@@ -26,17 +26,17 @@ for (let i = 0; i < notas.length; i++) {
 }
 let Media = 0;
 if (quantidade > 0) {
-    media = soma / quantidade;
+    Media = soma / quantidade;
 }
 let acimaMedia = 0;
 for (let i = 0; i < notas.length; i++) {
-    if (notas[i] > media) {
+    if (notas[i] > Media) {
         acimaMedia++;
     }
 }
 console.log("Quantidade de notas: " + quantidade);
 console.log("Notas em ordem inversa: " + notasReversas);
 console.log("Soma das notas: " + soma);
-console.log("Média das notas: " + media.toFixed(2));
+console.log("Média das notas: " + Media.toFixed(2));
 console.log("Notas acima da média: " + acimaMedia);
 export {};

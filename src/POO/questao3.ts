@@ -17,30 +17,38 @@ class Retangulo {
         this._altura = altura;
     }
 
-    public mudarLados(novaBase: number, novaAltura: number): void {
+    mudarLados(novaBase: number, novaAltura: number): void {
         if (novaBase <= 0 || novaAltura <= 0) {
-            console.error("Os lados devem ser maiores que zero.");
+            console.log("Os lados devem ser maiores que zero.");
             return;
         }
         this._base = novaBase;
         this._altura = novaAltura;
     }
 
-    public retornarBase(): number {
+    retornarBase(): number {
         return this._base;
     }
 
-    public retornarAltura(): number {
+    retornarAltura(): number {
         return this._altura;
     }
 
-    public calcularArea(): number {
+    calcularArea(): number {
         return this._base * this._altura;
     }
 
-    public calcularPerimetro(): number {
+    calcularPerimetro(): number {
         return 2 * (this._base + this._altura);
     }
+
+    exibir(){
+        console.log(`Base: ${this._base} | Altura: ${this._altura}\nÁrea: ${this.calcularArea()}\nPerímetro: ${this.calcularPerimetro()}`);
+    }
 }
-    const meuRetangulo = new Retangulo(10, 5);
+    let meuRetangulo = new Retangulo(1, 2);
+    meuRetangulo.mudarLados(10, 5)
+    meuRetangulo.calcularArea()
+    meuRetangulo.calcularPerimetro()
+    meuRetangulo.exibir()
 }

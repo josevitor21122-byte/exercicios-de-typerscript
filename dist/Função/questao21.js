@@ -18,11 +18,6 @@ function gerar_lista_compras() {
     let lista = [];
     let opcao = "";
     while (opcao !== "5") {
-        opcao = prompt("1 - Adicionar item\n" +
-            "2 - Mostrar lista\n" +
-            "3 - Quantidade de itens\n" +
-            "4 - Remover item/n" +
-            "5 - Sair");
         if (opcao === "1") {
             let nome = prompt("Digite o nome do item:");
             if (nome.toLowerCase() === "fim")

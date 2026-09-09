@@ -11,7 +11,7 @@ else {
 if (Numero > 0) {
     console.log("O número é Positivo");
 }
-else if (numero < 0) {
+else if (Numero < 0) {
     console.log("O número é Negativo");
 }
 else {
