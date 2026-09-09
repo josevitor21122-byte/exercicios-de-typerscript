@@ -7,7 +7,7 @@
 //  Calcular Perímetro.
 
 
-export function executarQuestao2(): void {
+export function executarQuestao3(): void {
 class Retangulo {
     private _base: number;
     private _altura: number;
