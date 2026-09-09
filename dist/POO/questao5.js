@@ -12,9 +12,27 @@ export function executarQuestao5() {
             this.altura = altura;
         }
         envelhecer() {
-            this.idade + 1;
-            if (this.idade > 21) {
+            if (this.idade < 21) {
+                this.crescer(0.5);
             }
+            this.idade += 1;
+        }
+        engordar(pesoKg) {
+            this.peso += pesoKg;
+        }
+        emagrecer(pesoKg) {
+            this.peso -= pesoKg;
+        }
+        crescer(alturaCm) {
+            this.altura += alturaCm;
+        }
+        exibir() {
+            console.log(`Nome: ${this.nome} | Idade: ${this.idade} anos | Peso: ${this.peso}kg | Altura: ${this.altura}cm`);
         }
     }
+    let novaPessoa = new Pessoa("Carlos", 18, 70, 175);
+    novaPessoa.exibir();
+    novaPessoa.envelhecer();
+    novaPessoa.engordar(3);
+    novaPessoa.exibir();
 }
