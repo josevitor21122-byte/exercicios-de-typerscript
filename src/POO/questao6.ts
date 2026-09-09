@@ -4,3 +4,26 @@
 // atributos são obrigatórios. Por fim, faça com que esse sistema interaja com o usuário permitido que
 // ele, depois de cadastrar as suas informações, possa usar os métodos disponíveis.
 
+class ContaCorrente {
+    private numConta: number
+    private nomeCorrentista: string
+    private saldo: number
+
+    constructor(numConta: number, nomeCorrentista: string, saldo: number = 0) {
+        this.numConta = numConta
+        this.nomeCorrentista = nomeCorrentista
+        this.saldo = saldo
+    }
+
+    alterarNome(novoNome: string) {
+        this.nomeCorrentista = novoNome
+    }
+
+    deposito(deposito: number) {
+        this.saldo = this.saldo + deposito
+    }
+
+    saque(saque: number) {
+        this.saldo = this.saldo = saque
+    }
+}
