@@ -1,12 +1,22 @@
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 //POO
 import { executarQuestao1 } from "./POO/questao1.js";
 import { executarQuestao2 } from "./POO/questao2.js";
 import { executarQuestao3 } from "./POO/questao3.js";
 import { executarQuestao4 } from "./POO/questao4.js";
 import { executarQuestao5 } from "./POO/questao5.js";
+import { executarQuestao6 } from "./POO/questao6.js";
+import { executarQuestao7 } from "./POO/questao7.js";
+import { executarQuestao8 } from "./POO/questao8.js";
+import { executarQuestao9 } from "./POO/questao9.js";
+import { executarQuestao10 } from "./POO/questao10.js";
 (_a = document.getElementById('btn1')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", executarQuestao1);
 (_b = document.getElementById('btn2')) === null || _b === void 0 ? void 0 : _b.addEventListener("click", executarQuestao2);
 (_c = document.getElementById('btn3')) === null || _c === void 0 ? void 0 : _c.addEventListener("click", executarQuestao3);
 (_d = document.getElementById('btn4')) === null || _d === void 0 ? void 0 : _d.addEventListener("click", executarQuestao4);
 (_e = document.getElementById('btn5')) === null || _e === void 0 ? void 0 : _e.addEventListener("click", executarQuestao5);
+(_f = document.getElementById('btn6')) === null || _f === void 0 ? void 0 : _f.addEventListener("click", executarQuestao6);
+(_g = document.getElementById('btn7')) === null || _g === void 0 ? void 0 : _g.addEventListener("click", executarQuestao7);
+(_h = document.getElementById('btn8')) === null || _h === void 0 ? void 0 : _h.addEventListener("click", executarQuestao8);
+(_j = document.getElementById('btn9')) === null || _j === void 0 ? void 0 : _j.addEventListener("click", executarQuestao9);
+(_k = document.getElementById('btn10')) === null || _k === void 0 ? void 0 : _k.addEventListener("click", executarQuestao10);
