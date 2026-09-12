@@ -5,18 +5,32 @@
 // teclado e calcular o salário de cada um.
 
 export function executarQuestao15(): void {
-abstract class Funcionario {
-    private nome: string
+class Funcionario {
+    protected nome: string
 
     constructor(nome: string) {
         this.nome = nome
     }
+}
 
-    public getNome(): string {
-        return this.nome
+class FuncionarioHorista extends Funcionario {
+    private horasTrabalhadas: number
+    private valorHora: number
+
+    constructor(nome: string, horasTrabalhadas: number, valorHora: number) {
+        super(nome)
+        this.horasTrabalhadas = horasTrabalhadas
+        this.valorHora = valorHora
     }
 
-    public abstract calcularSalario(): number
+    calcularSalario(): number {
+        return this.horasTrabalhadas * this.valorHora
+    }
+
+    exibirDados(): void {
+        console.log(`Funcionari: ${this.nome}`)
+        console.log(`Salário: R$ ${this.calcularSalario()}`)
+    }
 }
 
 class FuncionarioAssalariado extends Funcionario {
@@ -27,37 +41,34 @@ class FuncionarioAssalariado extends Funcionario {
         this.salarioMensal = salarioMensal
     }
 
-    public calcularSalario(): number {
+    calcularSalario(): number {
         return this.salarioMensal
     }
-}
 
-class FuncionarioHorista extends Funcionario {
-    private valorHora: number
-    private horasTrabalhadas: number
-
-    constructor(nome: string, valorHora: number, horasTrabalhadas: number) {
-        super(nome)
-        this.valorHora = valorHora
-        this.horasTrabalhadas = horasTrabalhadas
-    }
-
-    public calcularSalario(): number {
-        return this.valorHora * this.horasTrabalhadas
+    exibirDados(): void {
+        console.log(`Funcionário: ${this.nome}`)
+        console.log(`Salário: ${this.calcularSalario()}`)
     }
 }
 
-    const nomeAssalariado = String(prompt("Nome: "))
-    const salarioFixo = Number(prompt("Salário Fixo Mensal: R$ "))
+let tipo = prompt("Digite o tipo de funcionário (H - horista / A assalariado): ")
+if (tipo === "H") {
+    let nome = String(prompt("Nome: "))
+    let horas = Number(prompt("Horas trabalhadas: "))
+    let valorHora = Number(prompt("Valor da hora: "))
 
-    const assalariado: Funcionario = new FuncionarioAssalariado(nomeAssalariado, salarioFixo)
+    let funcionario = new FuncionarioHorista(nome, horas, valorHora)
 
-    let nomeHorista = String(prompt("Nome: "))
-    let valorHora = Number(prompt("valor por hora: "))
-    let horasTrabalhadas = Number(prompt("Horas Trabalhadas: "))
+    funcionario.exibirDados()
+} else if (tipo === "A") {
+    let nome = String(prompt("Nome: "))
+    let salario = Number(prompt("Salário mensal: "))
 
-    let horista: Funcionario = new FuncionarioHorista(nomeHorista, valorHora, horasTrabalhadas)
+    let funcionario = new FuncionarioAssalariado(nome, salario)
 
-    console.log(`Funcionário: ${assalariado.getNome()} | Salário: R$ ${assalariado.calcularSalario()}`)
-    console.log(`Funcionário: ${horista.getNome()} | Salário: R$ ${horista.calcularSalario()}`)
+    funcionario.exibirDados()
+
+} else {
+    console.log("Tipo de funcionário inválido!")
+}
 }

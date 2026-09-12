@@ -10,26 +10,36 @@ export function executarQuestao13(): void {
     private nota2: number
 
     constructor(nome: string, nota1: number, nota2: number) {
-      this.nome = nome
-      this.nota1 = nota1
-      this.nota2 = nota2
+        this.nome = nome
+        this.nota1 = nota1
+        this.nota2 = nota2
     }
 
-    public verificarAprovacao(): void {
-      const media = (this.nota1 + this.nota2) / 2
-      const status = media >= 7 ? "APROVADO!" : "REPROVADO!"
-      
-      console.log(`• Aluno(a): ${this.nome} | Média: ${media} | Situação: ${status}`)
+    public calcularMedia(): number {
+        return (this.nota1 + this.nota2) / 2
     }
-  }
 
-  let listaAlunos: Aluno[] = []
+    public verificarSituacao(): void {
+        let media = this.calcularMedia()
 
-  listaAlunos.push(new Aluno("Guilherme", 8.5, 7.0))
-  listaAlunos.push(new Aluno("Beatriz", 5.5, 6.0))
-  listaAlunos.push(new Aluno("Thiago", 9.0, 10.0))
+        if (media >= 7) {
+            console.log(`${this.nome} foi aprovado! Média: ${media}`)
+        } else {
+            console.log(`${this.nome} foi reprovado! Média: ${media}`)
+        }
+    }
+}
 
-  for (let aluno of listaAlunos) {
-    aluno.verificarAprovacao()
-  }
+let quantidade = Number(prompt("Quantos alunos deseja cadastrar?"))
+
+for (let i = 1; i <= quantidade; i++) {
+
+    let nome = String(prompt(`Digite o nome do ${i}º aluno:`))
+    let nota1 = Number(prompt("Digite a primeira nota:"))
+    let nota2 = Number(prompt("Digite a segunda nota:"))
+
+    let aluno = new Aluno(nome, nota1, nota2)
+
+    aluno.verificarSituacao()
+}
 }
