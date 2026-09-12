@@ -4,25 +4,30 @@
 // total do aluguel e exiba o resumo da locação. Por fim, o sistema deve perguntar se deseja fazer uma
 // nova locação.
 export function executarQuestao12() {
-    class Locacao {
-        constructor(modeloCarro, valorDiaria, quantidadeDias) {
-            this.modeloCarro = modeloCarro;
-            this.valorDiaria = valorDiaria;
-            this.quantidadeDias = quantidadeDias;
+    class Carro {
+        constructor(modelo, diaria, dias) {
+            this.modelo = modelo;
+            this.diaria = diaria;
+            this.dias = dias;
         }
-        calcularEExibirTotal() {
-            let total = this.valorDiaria * this.quantidadeDias;
-            console.log(`Carro: ${this.modeloCarro}`);
-            console.log(`Diária: R$ ${this.valorDiaria.toFixed(2)} | Dias: ${this.quantidadeDias}`);
-            console.log(`Total do Aluguel: R$ ${total}`);
+        calcularTotal() {
+            return this.diaria * this.dias;
+        }
+        exibirResumo() {
+            let total = this.calcularTotal();
+            console.log(`Modelo: ${this.modelo}`);
+            console.log(`Valor da diária: R$ ${this.diaria}`);
+            console.log(`Quantidade de dias: ${this.dias}`);
+            console.log(`Valor total: R$ ${total}`);
         }
     }
-    let listaLocacoes = [];
-    listaLocacoes.push(new Locacao("Hyundai HB20", 120.00, 5));
-    console.log("Deseja fazer uma nova locação? (s/n): s");
-    listaLocacoes.push(new Locacao("Toyota Corolla", 250.00, 3));
-    console.log("Deseja fazer uma nova locação? (s/n): n");
-    for (let locacao of listaLocacoes) {
-        locacao.calcularEExibirTotal();
+    let continuar = "sim";
+    while (continuar == "sim") {
+        let modelo = String(prompt("Digite o modelo do carro:"));
+        let diaria = Number(prompt("Digite o valor da diária:"));
+        let dias = Number(prompt("Digite a quantidade de dias:"));
+        let carro = new Carro(modelo, diaria, dias);
+        carro.exibirResumo();
+        continuar = String(prompt("Deseja fazer uma nova locação? (sim/não)"));
     }
 }

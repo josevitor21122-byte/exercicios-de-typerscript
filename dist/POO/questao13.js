@@ -9,17 +9,25 @@ export function executarQuestao13() {
             this.nota1 = nota1;
             this.nota2 = nota2;
         }
-        verificarAprovacao() {
-            const media = (this.nota1 + this.nota2) / 2;
-            const status = media >= 7 ? "APROVADO!" : "REPROVADO!";
-            console.log(`• Aluno(a): ${this.nome} | Média: ${media} | Situação: ${status}`);
+        calcularMedia() {
+            return (this.nota1 + this.nota2) / 2;
+        }
+        verificarSituacao() {
+            let media = this.calcularMedia();
+            if (media >= 7) {
+                console.log(`${this.nome} foi aprovado! Média: ${media}`);
+            }
+            else {
+                console.log(`${this.nome} foi reprovado! Média: ${media}`);
+            }
         }
     }
-    let listaAlunos = [];
-    listaAlunos.push(new Aluno("Guilherme", 8.5, 7.0));
-    listaAlunos.push(new Aluno("Beatriz", 5.5, 6.0));
-    listaAlunos.push(new Aluno("Thiago", 9.0, 10.0));
-    for (let aluno of listaAlunos) {
-        aluno.verificarAprovacao();
+    let quantidade = Number(prompt("Quantos alunos deseja cadastrar?"));
+    for (let i = 1; i <= quantidade; i++) {
+        let nome = String(prompt(`Digite o nome do ${i}º aluno:`));
+        let nota1 = Number(prompt("Digite a primeira nota:"));
+        let nota2 = Number(prompt("Digite a segunda nota:"));
+        let aluno = new Aluno(nome, nota1, nota2);
+        aluno.verificarSituacao();
     }
 }

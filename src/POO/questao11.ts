@@ -13,13 +13,13 @@ export function executarQuestao11(): void {
       this.nomePedido = nomePedido
       this.valor = valor
     }
-    public exibirResumo(): void {
+    exibirResumo(): void {
       console.log(`Cliente: ${this.nomeCliente}`)
       console.log(`Item Pedido: ${this.nomePedido}`)
       console.log(`Valor Total: R$ ${this.valor}`)
     }
   }
 
-  const novoPedido = new Pedido("Lucas", "X-Burguer + Batata Frita", 34.90)
+  let novoPedido = new Pedido("Lucas", "X-Burguer + Batata Frita", 34.90)
   novoPedido.exibirResumo()
 }

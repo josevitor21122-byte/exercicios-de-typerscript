@@ -14,6 +14,6 @@ export function executarQuestao11() {
             console.log(`Valor Total: R$ ${this.valor}`);
         }
     }
-    const novoPedido = new Pedido("Lucas", "X-Burguer + Batata Frita", 34.90);
+    let novoPedido = new Pedido("Lucas", "X-Burguer + Batata Frita", 34.90);
     novoPedido.exibirResumo();
 }

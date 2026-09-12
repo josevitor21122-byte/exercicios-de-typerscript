@@ -8,44 +8,44 @@
 // momento.
 export function executarQuestao10() {
     class Tamagushi {
-        constructor(nome, fome = 0, saude = 100, idade = 0) {
+        constructor(nome, fome, saude, idade) {
             this.nome = nome;
             this.fome = fome;
             this.saude = saude;
             this.idade = idade;
         }
-        alterarNome(novoNome) { this.nome = novoNome; }
-        alterarFome(novaFome) { this.fome = novaFome; }
-        alterarSaude(novaSaude) { this.saude = novaSaude; }
-        alterarIdade(novaIdade) { this.idade = novaIdade; }
-        retornarNome() { return this.nome; }
-        retornarFome() { return this.fome; }
-        retornarSaude() { return this.saude; }
-        retornarIdade() { return this.idade; }
-        retornarHumor() {
-            const pontosHumor = this.saude - this.fome;
-            if (pontosHumor >= 50) {
-                return "Muito Feliz! ";
-            }
-            else if (pontosHumor >= 0) {
-                return "Ok / Normal ";
-            }
-            else {
-                return "Triste / Doente ";
-            }
+        alterarNome(nome) {
+            this.nome = nome;
         }
-        exibirStatus() {
-            console.log(`Status de ${this.retornarNome()} ---`);
-            console.log(`Idade: ${this.retornarIdade()} anos`);
-            console.log(`Fome: ${this.retornarFome()}`);
-            console.log(`Saúde: ${this.retornarSaude()}`);
-            console.log(`Humor: ${this.retornarHumor()}`);
+        alterarFome(fome) {
+            this.fome = fome;
+        }
+        alterarSaude(saude) {
+            this.saude = saude;
+        }
+        alterarIdade(idade) {
+            this.idade = idade;
+        }
+        retornarNome() {
+            return this.nome;
+        }
+        retornarFome() {
+            return this.fome;
+        }
+        retornarSaude() {
+            return this.saude;
+        }
+        retornarIdade() {
+            return this.idade;
+        }
+        retornarHumor() {
+            return (this.saude + (100 - this.fome)) / 2;
         }
     }
-    const meuBichinho = new Tamagushi("Tama", 10, 90, 1);
-    meuBichinho.exibirStatus();
-    meuBichinho.alterarFome(80);
-    meuBichinho.alterarSaude(30);
-    meuBichinho.alterarIdade(2);
-    meuBichinho.exibirStatus();
+    let bichinho = new Tamagushi("Amarelinho", 40, 80, 4);
+    console.log("Nome: ", bichinho.retornarNome());
+    console.log("Fome: ", bichinho.retornarFome());
+    console.log("Saúde: ", bichinho.retornarSaude());
+    console.log("Idade: ", bichinho.retornarIdade());
+    console.log("Humor: ", bichinho.retornarHumor());
 }

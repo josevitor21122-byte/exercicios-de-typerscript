@@ -9,55 +9,65 @@
 
 export function executarQuestao10(): void {
   class Tamagushi {
-    private nome: string
-    private fome: number
-    private saude: number
-    private idade: number
+    nome: string
+    fome: number
+    saude: number
+    idade: number
 
-    constructor(nome: string, fome: number = 0, saude: number = 100, idade: number = 0) {
-      this.nome = nome
-      this.fome = fome
-      this.saude = saude
-      this.idade = idade
+    constructor(
+        nome: string,
+        fome: number,
+        saude: number,
+        idade: number
+    ) {
+        this.nome = nome
+        this.fome = fome
+        this.saude = saude
+        this.idade = idade
     }
 
-    alterarNome(novoNome: string): void { this.nome = novoNome; }
-    alterarFome(novaFome: number): void { this.fome = novaFome; }
-    alterarSaude(novaSaude: number): void { this.saude = novaSaude; }
-    alterarIdade(novaIdade: number): void { this.idade = novaIdade; }
-
-    retornarNome(): string { return this.nome }
-    retornarFome(): number { return this.fome }
-    retornarSaude(): number { return this.saude }
-    retornarIdade(): number { return this.idade }
-
-    public retornarHumor(): string {
-      const pontosHumor = this.saude - this.fome
-
-      if (pontosHumor >= 50) {
-        return "Muito Feliz! "
-      } else if (pontosHumor >= 0) {
-        return "Ok / Normal "
-      } else {
-        return "Triste / Doente "
-      }
+    alterarNome(nome: string): void {
+        this.nome = nome
     }
 
-    public exibirStatus(): void {
-      console.log(`Status de ${this.retornarNome()} ---`);
-      console.log(`Idade: ${this.retornarIdade()} anos`)
-      console.log(`Fome: ${this.retornarFome()}`)
-      console.log(`Saúde: ${this.retornarSaude()}`)
-      console.log(`Humor: ${this.retornarHumor()}`)
+    alterarFome(fome: number): void {
+        this.fome = fome
     }
-  }
 
-  const meuBichinho = new Tamagushi("Tama", 10, 90, 1)
+    alterarSaude(saude: number): void {
+        this.saude = saude
+    }
 
-  meuBichinho.exibirStatus()
-  meuBichinho.alterarFome(80)
-  meuBichinho.alterarSaude(30)
-  meuBichinho.alterarIdade(2)
-  
-  meuBichinho.exibirStatus()
+    alterarIdade(idade: number): void {
+        this.idade = idade
+    }
+
+    retornarNome(): string {
+        return this.nome
+    }
+
+    retornarFome(): number {
+        return this.fome
+    }
+
+    retornarSaude(): number {
+        return this.saude
+    }
+
+    retornarIdade(): number {
+        return this.idade
+    }
+
+    retornarHumor(): number {
+        return (this.saude + (100 - this.fome)) / 2
+    }
+}
+
+let bichinho = new Tamagushi("Amarelinho", 40, 80, 4)
+
+console.log("Nome: ", bichinho.retornarNome())
+console.log("Fome: ", bichinho.retornarFome())
+console.log("Saúde: ", bichinho.retornarSaude())
+console.log("Idade: ", bichinho.retornarIdade())
+console.log("Humor: ", bichinho.retornarHumor())
 }
