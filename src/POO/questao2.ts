@@ -12,25 +12,25 @@ export function executarQuestao2(): void {
         this._tamanhoDoLado = tamanhoDoLado;
     }
 
-    public mudarValorDoLado(novoLado: number): void {
+    mudarValorDoLado(novoLado: number): void {
         if (novoLado <= 0) {
-            console.error("O tamanho do lado deve ser maior que zero.");
-            return;
+            console.error("O tamanho do lado deve ser maior que zero.")
+            return
         }
         this._tamanhoDoLado = novoLado;
     }
 
-    public retornarValorDoLado(): number {
-        return this._tamanhoDoLado;
+    retornarValorDoLado(): number {
+        return this._tamanhoDoLado
     }
 
-    public calcularArea(): number {
-        return this._tamanhoDoLado * this._tamanhoDoLado;
+    calcularArea(): number {
+        return this._tamanhoDoLado * this._tamanhoDoLado
     }
     }
     
     let quadrado = new Quadrado(3)
-    console.log(`Lado inicial: ${quadrado.retornarValorDoLado()}`); // Saída: 5
-    console.log(`Área inicial: ${quadrado.calcularArea()}`);
+    console.log(`Lado inicial: ${quadrado.retornarValorDoLado()}`)
+    console.log(`Área inicial: ${quadrado.calcularArea()}`)
 
 }

@@ -16,8 +16,11 @@ export function executarQuestao9(): void {
     }
 
     exibirValorEstoque(): void {
-      const valorTotal = this.preco * this.quantidade
-      console.log(`Produto: ${this.nome} | Qtd: ${this.quantidade} | Preço Un: R$ ${this.preco.toFixed(2)} | Total em Estoque: R$ ${valorTotal}`)
+      let valorTotal = this.preco * this.quantidade
+      console.log(`Produto: ${this.nome}`)
+      console.log(`Qtd: ${this.quantidade}`)  
+      console.log(`Preço: ${this.preco}`)
+      console.log(`Total em Estque: ${valorTotal}`)
     }
   }
 

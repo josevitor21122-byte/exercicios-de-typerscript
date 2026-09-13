@@ -4,37 +4,37 @@
 
 export function executarQuestao4(): void {
     class Retangulo {
-        private _base: number
-        private _altura: number
+        private base: number
+        private altura: number
 
         constructor(base: number, altura: number) {
-            this._base = base
-            this._altura = altura
+            this.base = base
+            this.altura = altura
         }
 
-        public mudarLados(novaBase: number, novaAltura: number): void {
+        mudarLados(novaBase: number, novaAltura: number): void {
             if (novaBase <= 0 || novaAltura <= 0) {
                 console.log("Os lados devem ser maiores que zero.")
                 return
             }
-            this._base = novaBase
-            this._altura = novaAltura
+            this.base = novaBase
+            this.altura = novaAltura
         }
 
-        public retornarBase(): number {
-            return this._base
+        retornarBase(): number {
+            return this.base
         }
 
-        public retornarAltura(): number {
-            return this._altura
+        retornarAltura(): number {
+            return this.altura
         }
 
-        public calcularArea(): number {
-            return this._base * this._altura
+        calcularArea(): number {
+            return this.base * this.altura
         }
 
-        public calcularPerimetro(): number {
-            return 2 * (this._base + this._altura)
+        calcularPerimetro(): number {
+            return 2 * (this.base + this.altura)
         }
     }
 
