@@ -5,56 +5,40 @@
 
 export function executarQuestao14(): void {
 class Livro {
-    constructor(
+    
+     constructor(
         private _titulo: string,
         private _autor: string, 
         private _anoPublicacao: number,
         private _disponivel: boolean = true
     ) {}
-
-    get titulo(): string {
-        return this._titulo;
+    
+     public get titulo(): string {
+        return this._titulo
     }
-    set titulo(novoTitulo: string) {
-        this._titulo = novoTitulo;
+    public set titulo(value: string) {
+        this._titulo = value
     }
 
-    get autor(): string {
+    public get autor(): string {
         return this._autor
     }
-    set autor(novoAutor: string) {
-        this._autor = novoAutor
+    public set autor(value: string) {
+        this._autor = value
     }
 
-    get anoPublicacao(): number {
+    public get anoPublicacao(): number {
         return this._anoPublicacao
     }
-    set anoPublicacao(novoAno: number) {
-        this._anoPublicacao = novoAno
+    public set anoPublicacao(value: number) {
+        this._anoPublicacao = value
     }
 
-    get disponivel(): boolean {
+    public get disponivel(): boolean {
         return this._disponivel
     }
-    set disponivel(status: boolean) {
-        this._disponivel = status
-    }
-
-
-    emprestar(): boolean {
-        if (this.disponivel) {
-            this.disponivel = false
-            return true
-        }
-        return false
-    }
-
-    public exibirInformacoes(): void {
-        let status = this.disponivel ? "Disponível" : "Emprestado";
-        console.log(`- [${status}] "${this.titulo}" por ${this.autor} (${this.anoPublicacao})`);
+    public set disponivel(value: boolean) {
+        this._disponivel = value
     }
 }
-
-let biblioteca: Livro[] = []
-
 }
