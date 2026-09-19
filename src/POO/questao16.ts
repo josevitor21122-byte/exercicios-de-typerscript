@@ -10,164 +10,116 @@
 // ao final a disparar a rotina simularHoraAlimentacao() chamando o método de som de cada um.
 
 export function executarQuestao16(): void {
+    // 16. Herança Polimorfismo Encapsulamento
+class Animal {
+    protected nome: string
+    protected especie: string
+    protected idade: number
+    protected tipo: string
 
-    // SUPERCLASSE ABSTRATA
-    abstract class Animal {
-
-        constructor(private _nome: string, private _especie: string, private _idade: number, private _sexo: string) {}
-
-        public get nome(): string {
-            return this._nome
-        }
-
-        public set nome(value: string) {
-            this._nome = value
-        }
-
-        public get especie(): string {
-            return this._especie
-        }
-
-        public set especie(value: string) {
-            this._especie = value
-        }
-
-        public get idade(): number {
-            return this._idade
-        }
-
-        public set idade(value: number) {
-            this._idade = value
-        }
-
-        public get sexo(): string {
-            return this._sexo
-        }
-
-        public set sexo(value: string) {
-            this._sexo = value
-        }
-
-        abstract emitirSom(): void
-        abstract mover(): void
+    constructor(nome: string, especie: string, idade: number, tipo: string) {
+        this.nome = nome
+        this.especie = especie
+        this.idade = idade
+        this.tipo = tipo
     }
 
-    class Mamifero extends Animal {
-
-        constructor(nome: string, especie: string, idade: number, sexo: string, private _tipoAlimentacao: string) {
-            super(nome, especie, idade, sexo)
-        }
-
-        public get tipoAlimentacao(): string {
-            return this._tipoAlimentacao
-        }
-
-        public set tipoAlimentacao(value: string) {
-            this._tipoAlimentacao = value
-        }
-
-        emitirSom(): void {
-            console.log(`${this.nome} está emitindo um som de mamífero.`)
-        }
-
-        mover(): void {
-            console.log(`${this.nome} está se movimentando.`)
-        }
+    public getNome(): string {
+        return this.nome
     }
 
-    class Ave extends Animal {
-
-        constructor(nome: string, especie: string, idade: number, sexo: string, private _migratoria: boolean) {
-            super(nome, especie, idade, sexo)
-        }
-
-        public get migratoria(): boolean {
-            return this._migratoria
-        }
-
-        public set migratoria(value: boolean) {
-            this._migratoria = value
-        }
-
-        emitirSom(): void {
-            console.log(`${this.nome} está cantando.`)
-        }
-
-        mover(): void {
-            console.log(`${this.nome} está voando.`)
-        }
+    public getTipo(): string {
+        return this.tipo
     }
 
-
-    function simularHoraAlimentacao(listaAnimais: Animal[]): void {
-
-        for (let animal of listaAnimais) {
-
-            console.log(`O tratador está alimentando ${animal.nome}.`)
-
-            animal.emitirSom()
-        }
+    emitirSom(): void {
+        console.log("Som genérico do animal")
     }
 
-    let listaAnimais: Animal[] = []
+    exibirDados(): void {
+        console.log(`Nome: ${this.nome}`)
+        console.log(`Espécie: ${this.especie}`)
+        console.log(`Idade: ${this.idade}`)
+    }
+}
 
-    let quantidade = Number(prompt("Quantos animais deseja cadastrar?"))
+class Mamifero extends Animal {
+    private tipoAlimentacao: string
 
-    for (let i = 0; i < quantidade; i++) {
-
-        let tipo = String(prompt("Digite o tipo do animal: Mamífero ou Ave"))
-
-        let nome = prompt("Digite o nome do animal:")!
-        let especie = prompt("Digite a espécie do animal:")!
-        let idade = Number(prompt("Digite a idade do animal:"))
-        let sexo = prompt("Digite o sexo do animal:")!
-
-
-        if (tipo === "mamífero") {
-
-            let alimentacao = String(prompt("Digite o tipo de alimentação: Carnívoro, Herbívoro, etc."))
-
-
-            let mamifero = new Mamifero(nome, especie, idade, sexo, alimentacao)
-
-            listaAnimais.push(mamifero)
-
-        } else if (tipo === "ave") {
-
-            let migratoria = String(prompt("A ave é migratória? (s/n)"))
-            let ehMigratoria = migratoria === "s"
-
-
-            let ave = new Ave(nome, especie, idade, sexo, ehMigratoria)
-            listaAnimais.push(ave)
-        } else {
-            console.log("Tipo de animal inválido.")
-        }
+    constructor(nome: string, especie: string, idade: number, tipoAlimentacao: string) {
+        super(nome, especie, idade, "M")
+        this.tipoAlimentacao = tipoAlimentacao
     }
 
-    for (let animal of listaAnimais) {
-
-        if (animal instanceof Mamifero) {
-
-            console.log(`Nome: ${animal.nome}`)
-            console.log(`Espécie: ${animal.especie}`)
-            console.log(`Idade: ${animal.idade}`)
-            console.log(`Sexo: ${animal.sexo}`)
-            console.log(`Alimentação: ${animal.tipoAlimentacao}`)
-        }
+    emitirSom(): void {
+        console.log(`${this.nome} faz: Rooooar`)
     }
 
-    for (let animal of listaAnimais) {
+    exibirDados(): void {
+        super.exibirDados()
+        console.log(`Alimentação: ${this.tipoAlimentacao}`)
+    }
+}
 
-        if (animal instanceof Ave) {
+class Ave extends Animal {
+    private migratoria: boolean
 
-            console.log(`Nome: ${animal.nome}`)
-            console.log(`Espécie: ${animal.especie}`)
-            console.log(`Idade: ${animal.idade}`)
-            console.log(`Sexo: ${animal.sexo}`)
-            console.log(`Migratória: ${animal.migratoria ? "Sim" : "Não"}`)
-        }
+    constructor(nome: string, especie: string, idade: number, migratoria: boolean) {
+        super(nome, especie, idade, "A")
+        this.migratoria = migratoria
     }
 
-    simularHoraAlimentacao(listaAnimais)
+    emitirSom(): void {
+        console.log(`${this.nome} faz: Piu Piu`)
+    }
+
+    exibirDados(): void {
+        super.exibirDados()
+        let textoMigratoria = this.migratoria ? "Sim" : "Não";
+        console.log(`Migratória: ${textoMigratoria}`)
+    }
+}
+
+let animais: Animal[] = []
+
+let quantidade = Number(prompt("Quantos animais deseja cadastrar? "))
+
+for (let i = 0; i < quantidade; i++) {
+    let tipoDigitado = String(prompt("Digite M para Mamífero ou A para Ave: "))
+    let nome = String(prompt("Nome: "))
+    let especie = String(prompt("Espécie: "))
+    let idade = Number(prompt("Idade: "))
+
+    if (tipoDigitado === "M") {
+
+        let alimentacao = String(prompt("Tipo de alimentação: "))
+        animais.push(new Mamifero(nome, especie, idade, alimentacao))
+
+    } else if (tipoDigitado === "A") {
+
+        let respostaMigratoria = String(prompt("É migratória? (S/N): "))
+        let migratoria = respostaMigratoria === "S"
+        animais.push(new Ave(nome, especie, idade, migratoria))
+
+    } else {
+        console.log("Tipo inválido! ")
+    }
+}
+
+for (let animal of animais) {
+    if (animal.getTipo() === "M") {
+        animal.exibirDados()
+    }
+}
+
+for (let animal of animais) {
+    if (animal.getTipo() === "A") {
+        animal.exibirDados()
+    }
+}
+
+for (let animal of animais) {
+    console.log(`O tratador está alimentando o(a) ${animal.getNome()}`)
+    animal.emitirSom()
+}
 }
