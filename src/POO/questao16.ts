@@ -10,7 +10,6 @@
 // ao final a disparar a rotina simularHoraAlimentacao() chamando o método de som de cada um.
 
 export function executarQuestao16(): void {
-    // 16. Herança Polimorfismo Encapsulamento
 class Animal {
     protected nome: string
     protected especie: string

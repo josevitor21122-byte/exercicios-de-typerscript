@@ -8,31 +8,34 @@
 export function executarQuestao3() {
     class Retangulo {
         constructor(base, altura) {
-            this._base = base;
-            this._altura = altura;
+            this.base = base;
+            this.altura = altura;
         }
         mudarLados(novaBase, novaAltura) {
             if (novaBase <= 0 || novaAltura <= 0) {
                 console.log("Os lados devem ser maiores que zero.");
                 return;
             }
-            this._base = novaBase;
-            this._altura = novaAltura;
+            this.base = novaBase;
+            this.altura = novaAltura;
         }
         retornarBase() {
-            return this._base;
+            return this.base;
         }
         retornarAltura() {
-            return this._altura;
+            return this.altura;
         }
         calcularArea() {
-            return this._base * this._altura;
+            return this.base * this.altura;
         }
         calcularPerimetro() {
-            return 2 * (this._base + this._altura);
+            return 2 * (this.base + this.altura);
         }
         exibir() {
-            console.log(`Base: ${this._base} | Altura: ${this._altura}\nÁrea: ${this.calcularArea()}\nPerímetro: ${this.calcularPerimetro()}`);
+            console.log(`Base: ${this.base}`);
+            console.log(`Altura: ${this.altura}`);
+            console.log(`Área: ${this.calcularArea()}`);
+            console.log(`Perímetro: ${this.calcularPerimetro()}`);
         }
     }
     let meuRetangulo = new Retangulo(1, 2);

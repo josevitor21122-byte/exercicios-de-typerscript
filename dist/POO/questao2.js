@@ -22,6 +22,6 @@ export function executarQuestao2() {
         }
     }
     let quadrado = new Quadrado(3);
-    console.log(`Lado inicial: ${quadrado.retornarValorDoLado()}`); // Saída: 5
+    console.log(`Lado inicial: ${quadrado.retornarValorDoLado()}`);
     console.log(`Área inicial: ${quadrado.calcularArea()}`);
 }

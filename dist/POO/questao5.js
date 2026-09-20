@@ -27,7 +27,10 @@ export function executarQuestao5() {
             this.altura += alturaCm;
         }
         exibir() {
-            console.log(`Nome: ${this.nome} | Idade: ${this.idade} anos | Peso: ${this.peso}kg | Altura: ${this.altura}cm`);
+            console.log(`Nome: ${this.nome}`);
+            console.log(`Idade: ${this.idade}`);
+            console.log(`Peso ${this.peso}`);
+            console.log(`Altura: ${this.altura}`);
         }
     }
     let novaPessoa = new Pessoa("Carlos", 18, 70, 175);

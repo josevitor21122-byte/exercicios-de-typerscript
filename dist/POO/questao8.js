@@ -10,7 +10,9 @@ export function executarQuestao8() {
             this.salario = salario;
         }
         exibirResumo() {
-            console.log(`• Nome: ${this.nome} | Cargo: ${this.cargo} | Salário: R$ ${this.salario.toFixed(2)}`);
+            console.log(`Nome: ${this.nome}`);
+            console.log(`Cargo: ${this.cargo}`);
+            console.log(`Salário: ${this.salario}`);
         }
     }
     let listaFuncionarios = [];
