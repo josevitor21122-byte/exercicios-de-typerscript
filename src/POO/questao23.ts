@@ -8,8 +8,8 @@
 // valor final que o cliente pagará.
 
 export function executarQuestao23(): void {
+    abstract class Produto {
 
-abstract class Produto {
     private codigo: number
     private nome: string
     private precoCusto: number
@@ -33,31 +33,45 @@ abstract class Produto {
     }
 
     public abstract calcularPreco(): number
+    public abstract getTipo(): string
+    public mostrarProduto(): void {
 
-    public abstract mostrarProduto(): void
+        console.log(`Código: ${this.codigo}`)
+        console.log(`Nome: ${this.nome}`)
+        console.log(`Preço: R$ ${this.calcularPreco()}`)
+        console.log(`Tipo: ${this.getTipo()}`)
+    }
 }
 
+
 class ProdutoPerecivel extends Produto {
+
     private dataValidade: string
 
-    constructor( codigo: number, nome: string, precoCusto: number, dataValidade: string) {
+    constructor(codigo: number, nome: string, precoCusto: number, dataValidade: string) {
         super(codigo, nome, precoCusto)
         this.dataValidade = dataValidade
     }
 
-    public getDataValidade(): string {
-        return this.dataValidade
+    public getTipo(): string {
+        return "Perecível"
     }
 
     public calcularPreco(): number {
-        let hoje = new Date()
+
+        let dataAtual = new Date()
         let validade = new Date(this.dataValidade)
 
-        if (
-            hoje.getFullYear() === validade.getFullYear() &&
-            hoje.getMonth() === validade.getMonth() &&
-            hoje.getDate() === validade.getDate()
-        ) {
+        let diaAtual = dataAtual.getDate()
+        let mesAtual = dataAtual.getMonth()
+        let anoAtual = dataAtual.getFullYear()
+
+        let diaValidade = validade.getDate()
+        let mesValidade = validade.getMonth()
+        let anoValidade = validade.getFullYear()
+
+        if (diaAtual === diaValidade && mesAtual === mesValidade && anoAtual === anoValidade) {
+
             return this.getPrecoCusto() * 0.70
         }
 
@@ -65,14 +79,15 @@ class ProdutoPerecivel extends Produto {
     }
 
     public mostrarProduto(): void {
-        console.log(
-            `Código: ${this.getCodigo()} | ` +
-            `Nome: ${this.getNome()} | ` +
-            `Preço: R$ ${this.getPrecoCusto().toFixed(2)} | ` +
-            `Validade: ${this.dataValidade}`
-        )
+
+        console.log(`Código: ${this.getCodigo()}`)
+        console.log(`Nome: ${this.getNome()}`)
+        console.log(`Data de validade: ${this.dataValidade}`)
+        console.log(`Preço: R$ ${this.calcularPreco()}`)
+        console.log(`Tipo: ${this.getTipo()}`)
     }
 }
+
 
 class ProdutoNaoPerecivel extends Produto {
 
@@ -80,61 +95,102 @@ class ProdutoNaoPerecivel extends Produto {
         super(codigo, nome, precoCusto)
     }
 
+    public getTipo(): string {
+        return "Não Perecível"
+    }
+
     public calcularPreco(): number {
         return this.getPrecoCusto()
     }
 
     public mostrarProduto(): void {
-        console.log(
-            `Código: ${this.getCodigo()} | ` +
-            `Nome: ${this.getNome()} | ` +
-            `Preço: R$ ${this.getPrecoCusto().toFixed(2)}`)
+
+        console.log(`Código: ${this.getCodigo()}`)
+        console.log(`Nome: ${this.getNome()}`)
+        console.log(`Preço: R$ ${this.calcularPreco()}`)
+        console.log(`Tipo: ${this.getTipo()}`)
     }
 }
 
-    let estoque: Produto[] = []
+    let produtos: Produto[] = []
+    let opcao: number = 0
 
-    let quantidade = Number(prompt("Digite a quantidade de produtos:"))
+    while (opcao !== 4) {
+        console.log(`1 - Cadastrar produto perecível`)
+        console.log(`2 - Cadastrar produto não perecível`)
+        console.log(`3 - Listar produtos e passar pelo caixa`)
+        console.log(`4 - Sair`)
 
-    for (let i = 0; i < quantidade; i++) {
-
-        console.log(`Produto ${i + 1}`)
-
-        let tipo = Number(prompt("Digite 1 para perecível ou 2 para não perecível:"))
-
-        let codigo = Number(prompt("Digite o código do produto: "))
-
-        let nome = String(prompt("Digite o nome do produto: "))
-
-        let preco = Number(prompt("Digite o preço de custo:"))
+        opcao = Number(prompt(`Digite uma opção: `))
 
 
-        if (tipo === 1) {
+        if (opcao === 1) {
 
-            let validade = String(prompt("Digite a data de validade:")) 
+            let codigo: number = Number(prompt(`Digite o código do produto: `))
 
-            estoque.push(new ProdutoPerecivel(codigo, nome, preco, validade))
+            let nome: string = String(prompt(`Digite o nome do produto: `))
 
-        } else if (tipo === 2) {
+            let preco: number = Number(prompt(`Digite o preço de custo: `))
 
-            estoque.push(new ProdutoNaoPerecivel(codigo, nome, preco))
+            let validade: string = String(prompt(`Digite a data de validade: `))
+
+            let produto: ProdutoPerecivel = new ProdutoPerecivel( codigo, nome, preco, validade)
+
+            produtos.push(produto)
+
+            console.log(`Produto perecível cadastrado!`)
+
+        } else if (opcao === 2) {
+
+            let codigo: number = Number(prompt(`Digite o código do produto: `))
+
+            let nome: string = String(prompt(`Digite o nome do produto: `))
+
+            let preco: number = Number(prompt(`Digite o preço de custo:`))
+
+            let produto: ProdutoNaoPerecivel = new ProdutoNaoPerecivel(codigo, nome, preco)
+
+            produtos.push(produto)
+
+            console.log(`Produto não perecível cadastrado!`)
+
+        } else if (opcao === 3) {
+
+            if (produtos.length === 0) {
+
+                console.log(`Nenhum produto cadastrado.`);
+
+            } else {
+
+                for (let i = 0; i < produtos.length; i++) {
+
+                    console.log(`Produto ${i + 1}`)
+
+                    produtos[i].mostrarProduto()
+                }
+
+                let total: number = 0
+
+                for (let i = 0; i < produtos.length; i++) {
+
+                    let produto = produtos[i]
+                    let valor = produto.calcularPreco()
+
+                    console.log(`Produto: ${produto.getNome()}`)
+                    console.log(`Valor a pagar: R$ ${valor}`)
+
+                    total = total + valor
+                }
+
+                console.log(`Total da compra: R$ ${total}`)
+            }
+
+
+        } else if (opcao === 4) {
+            console.log(`Programa encerrado.`)
 
         } else {
-
-            console.log("Tipo de produto inválido.")
-            i--
+            console.log(`Opção inválida.`)
         }
-    }
-
-    for (let produto of estoque) {
-        produto.mostrarProduto()
-    }
-
-    for (let produto of estoque) {
-
-        let valorFinal = produto.calcularPreco()
-
-        console.log(`Produto: ${produto.getNome()}`) 
-        console.log(`Valor final: R$ ${valorFinal.toFixed(2)}`)
     }
 }

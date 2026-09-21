@@ -10,6 +10,7 @@
 
 export function executarQuestao24(): void {
 abstract class Tarefa {
+
     private descricao: string
     private concluida: boolean
 
@@ -26,14 +27,17 @@ abstract class Tarefa {
         return this.concluida
     }
 
-    public marcarConcluida(): void {
+    public marcarComoConcluida(): void {
         this.concluida = true
     }
 
     public abstract mostrarTarefa(): void
+    public abstract getTipo(): string
 }
 
+
 class TarefaAcademica extends Tarefa {
+
     private disciplina: string
 
     constructor(descricao: string, disciplina: string) {
@@ -41,188 +45,151 @@ class TarefaAcademica extends Tarefa {
         this.disciplina = disciplina
     }
 
-    public getDisciplina(): string {
-        return this.disciplina
+    public getTipo(): string {
+        return "Acadêmica"
     }
 
     public mostrarTarefa(): void {
-        console.log(
-            `Descrição: ${this.getDescricao()} ` +
-            `Disciplina: ${this.disciplina} ` +
-            `Concluída: ${this.getConcluida()}`)
+
+        console.log(`Descrição: ${this.getDescricao()}`)
+        console.log(`Disciplina: ${this.disciplina}`)
+
+        if (this.getConcluida()) {
+            console.log(`Status: `)
+        } else {
+            console.log(`Status: `)
+        }
     }
 }
 
-class TarefaPessoal extends Tarefa {
-    private prioridade: number
 
-    constructor(descricao: string, prioridade: number) {
+class TarefaPessoal extends Tarefa {
+
+    private prioridade: string
+
+    constructor(descricao: string, prioridade: string) {
         super(descricao)
         this.prioridade = prioridade
     }
 
-    public getPrioridade(): number {
-        return this.prioridade
+    public getTipo(): string {
+        return "Pessoal"
     }
 
     public mostrarTarefa(): void {
-        console.log(
-            `Descrição: ${this.getDescricao()} ` +
-            `Prioridade: ${this.prioridade} ` +
-            `Concluída: ${this.getConcluida()}`)
+
+        console.log(`Descrição: ${this.getDescricao()}`)
+        console.log(`Prioridade: ${this.prioridade}`)
+
+        if (this.getConcluida()) {
+            console.log(`Status: Concluída`)
+        } else {
+            console.log(`Status: Pendente`)
+        }
     }
 }
 
-    const tarefas: Tarefa[] = []
+    let tarefas: Tarefa[] = []
+    let opcao: number = 0
 
-    let opcao: number
+    while (opcao !== 5) {
+        console.log(`1 - Adicionar tarefa acadêmica`)
+        console.log(`2 - Adicionar tarefa pessoal`)
+        console.log(`3 - Marcar tarefa como concluída`)
+        console.log(`4 - Listar tarefas acadêmicas pendentes`)
+        console.log(`5 - Sair`)
 
-    do {
+        opcao = Number(prompt(`Digite uma opção:`))
 
-        opcao = Number(
-            prompt(
-                "1 - Adicionar tarefa acadêmica" +
-                "2 - Adicionar tarefa pessoal" +
-                "3 - Marcar tarefa como concluída" +
-                "4 - Listar tarefas acadêmicas pendentes" +
-                "5 - Listar todas as tarefas" +
-                "0 - Sair" +
-                "Digite uma opção:")
-        )
+        if (opcao === 1) {
 
+            let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
 
-        switch (opcao) {
+            let disciplina: string = String(prompt(`Digite o nome da disciplina: `))
 
-            case 1: {
+            let tarefa: TarefaAcademica = new TarefaAcademica(descricao, disciplina)
 
-                let descricao = String(prompt("Digite a descrição da tarefa: "))
+            tarefas.push(tarefa)
 
-                let disciplina = String(prompt("Digite o nome da disciplina: "))
+            console.log(`Tarefa acadêmica cadastrada!`)
 
-                const tarefa = new TarefaAcademica(descricao, disciplina)
+        } else if (opcao === 2) {
 
-                tarefas.push(tarefa)
+            let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
 
-                console.log("Tarefa acadêmica cadastrada.")
+            let prioridade: string = String(prompt(`Digite a prioridade: `))
 
-                break
-            }
+            let tarefa: TarefaPessoal = new TarefaPessoal(descricao, prioridade)
 
+            tarefas.push(tarefa)
 
-            case 2: {
+            console.log(`Tarefa pessoal cadastrada!`)
 
-                const descricao = prompt(
-                    "Digite a descrição da tarefa:"
-                ) ?? "";
+        } else if (opcao === 3) {
 
-                const prioridade = Number(
-                    prompt("Digite o nível de prioridade:")
-                );
+            if (tarefas.length === 0) {
 
-                const tarefa = new TarefaPessoal(
-                    descricao,
-                    prioridade
-                );
+                console.log(`Nenhuma tarefa cadastrada.`)
 
-                tarefas.push(tarefa);
-
-                console.log("Tarefa pessoal cadastrada.");
-
-                break;
-            }
-
-
-            case 3: {
-
-                if (tarefas.length === 0) {
-                    console.log("Nenhuma tarefa cadastrada.");
-                    break;
-                }
-
-                console.log("\nTAREFAS CADASTRADAS:");
+            } else {
 
                 for (let i = 0; i < tarefas.length; i++) {
 
-                    console.log(
-                        `${i} - ${tarefas[i].getDescricao()} | ` +
-                        `Concluída: ${tarefas[i].getConcluida()}`
-                    );
-                }
+                    console.log(`Número: ${i}`)
+                    console.log(`Tipo: ${tarefas[i].getTipo()}`)
+                    console.log(`Descrição: ${tarefas[i].getDescricao()}`)
 
-                const indice = Number(
-                    prompt(
-                        "Digite o número da tarefa que deseja concluir:"
-                    ))
-
-                if (indice >= 0 && indice < tarefas.length) {
-
-                    tarefas[indice].marcarConcluida()
-
-                    console.log("Tarefa marcada como concluída.")
-
-                } else {
-
-                    console.log("Tarefa não encontrada.")
-                }
-
-                break
-            }
-
-
-            case 4: {
-                let encontrou = false
-
-                for (let tarefa of tarefas) {
-
-                    if (
-                        tarefa instanceof TarefaAcademica &&
-                        tarefa.getConcluida() === false
-                    ) {
-
-                        tarefa.mostrarTarefa()
-
-                        encontrou = true
+                    if (tarefas[i].getConcluida()) {
+                        console.log(`Status: Concluída`)
+                    } else {
+                        console.log(`Status: Pendente`)
                     }
                 }
 
-                if (encontrou) {
+                let indice: number = Number(prompt(`Digite o número da tarefa que deseja concluir:`))
 
-                    console.log("Nenhuma tarefa acadêmica pendente.")
+                if (indice >= 0 && indice < tarefas.length) {
+
+                    tarefas[indice].marcarComoConcluida()
+
+                    console.log(`Tarefa marcada como concluída!`)
+
+                } else {
+
+                    console.log(`Número de tarefa inválido.`)
                 }
-
-                break;
             }
 
 
-            case 5: {
+        } else if (opcao === 4) {
 
-                if (tarefas.length === 0) {
+            let encontrou: boolean = false
 
-                    console.log("Nenhuma tarefa cadastrada.")
+            for (let i = 0; i < tarefas.length; i++) {
 
-                    break
+                if (
+                    tarefas[i].getTipo() === "Acadêmica" && tarefas[i].getConcluida() === false) {
+
+                    tarefas[i].mostrarTarefa()
+
+                    encontrou = true
                 }
+            }
 
-                for (let tarefa of tarefas) {
+            if (encontrou === false) {
 
-                    tarefa.mostrarTarefa()
-                }
-
-                break
+                console.log(`Nenhuma tarefa acadêmica pendente.`)
             }
 
 
-            case 0:
+        } else if (opcao === 5) {
 
-                console.log("Programa encerrado.")
-
-                break
+            console.log(`Programa encerrado.`)
 
 
-            default:
+        } else {
 
-                console.log("Opção inválida.")
+            console.log(`Opção inválida.`)
         }
-
-    } while (opcao !== 0)
+    }
 }
