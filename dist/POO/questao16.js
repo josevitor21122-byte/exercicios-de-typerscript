@@ -9,7 +9,6 @@
 // Fluxo do Programa: O sistema deve cadastrar vários animais, listar por tipo (Mamíferos ou Aves) e
 // ao final a disparar a rotina simularHoraAlimentacao() chamando o método de som de cada um.
 export function executarQuestao16() {
-    // 16. Herança Polimorfismo Encapsulamento
     class Animal {
         constructor(nome, especie, idade, tipo) {
             this.nome = nome;

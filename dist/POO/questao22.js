@@ -9,69 +9,65 @@
 // manutenção imediata.
 export function executarQuestao22() {
     class Veiculo {
-        constructor(placa, quilometragemAtual, kmUltimaRevisao) {
+        constructor(placa, quilometragem) {
             this.placa = placa;
-            this.quilometragemAtual = quilometragemAtual;
-            this.kmUltimaRevisao = kmUltimaRevisao;
+            this.quilometragem = quilometragem;
         }
-        mostrarPlaca() { return this.placa; }
-        atualizarQuilometragem(novaKm) { this.quilometragemAtual = novaKm; }
-        mostrarQuilometragem() { return this.quilometragemAtual; }
-        mostrarKmUltimaRevisao() { return this.kmUltimaRevisao; }
+        getPlaca() {
+            return this.placa;
+        }
+        getQuilometragem() {
+            return this.quilometragem;
+        }
+        setQuilometragem(quilometragem) {
+            this.quilometragem = quilometragem;
+        }
     }
     class Onibus extends Veiculo {
-        getIntervalo() { return 10000; }
-        getTipo() { return "Onibus"; }
         precisaRevisao() {
-            return (this.quilometragemAtual - this.kmUltimaRevisao) >= this.getIntervalo();
+            return this.getQuilometragem() % 10000 === 0;
         }
     }
     class Ambulancia extends Veiculo {
-        getIntervalo() { return 5000; }
-        getTipo() { return "Ambulancia"; }
         precisaRevisao() {
-            return (this.quilometragemAtual - this.kmUltimaRevisao) >= this.getIntervalo();
+            return this.getQuilometragem() % 5000 === 0;
         }
     }
-    let qtd = Number(prompt("Digite a quantidade de veiculos da frota") || "0");
     let frota = [];
-    for (let i = 0; i < qtd; i++) {
-        let tipo = Number(prompt(`Veiculo ${i + 1} - Digite 1 para Onibus e 2 para Ambulancia`) || "1");
-        let placa = String(prompt(`Digite a placa do veiculo ${i + 1}`) || "");
-        let kmAtual = Number(prompt(`Digite a quilometragem atual do veiculo ${placa}`) || "0");
-        let kmUltimaRevisao = Number(prompt(`Digite a quilometragem da ultima revisao do veiculo ${placa}`) || "0");
+    let quantidade = Number(prompt("Digite a quantidade de veículos:"));
+    for (let i = 0; i < quantidade; i++) {
+        console.log(`Veículo ${i + 1}`);
+        let tipo = Number(prompt("Digite 1 para ônibus ou 2 para ambulância:"));
+        let placa = String(prompt("Digite a placa:"));
+        let quilometragem = Number(prompt("Digite a quilometragem atual: "));
         if (tipo === 1) {
-            frota.push(new Onibus(placa, kmAtual, kmUltimaRevisao));
+            frota.push(new Onibus(placa, quilometragem));
+        }
+        else if (tipo === 2) {
+            frota.push(new Ambulancia(placa, quilometragem));
         }
         else {
-            frota.push(new Ambulancia(placa, kmAtual, kmUltimaRevisao));
+            console.log("Tipo de veículo inválido.");
+            i--;
         }
     }
-    let placaBusca = String(prompt("Mecanico - Digite a placa do veiculo para verificar") || "");
-    let kmInformada = Number(prompt(`Digite a quilometragem atual do veiculo ${placaBusca}`) || "0");
-    let indiceEncontrado = -1;
-    for (let i = 0; i < frota.length; i++) {
-        if (frota[i].mostrarPlaca() === placaBusca) {
-            indiceEncontrado = i;
+    let placaConsulta = String(prompt("Digite a placa do veículo que deseja consultar:"));
+    let encontrado = false;
+    for (let veiculo of frota) {
+        if (veiculo.getPlaca() === placaConsulta) {
+            encontrado = true;
+            let novaQuilometragem = Number(prompt("Digite a quilometragem atual do veículo: "));
+            veiculo.setQuilometragem(novaQuilometragem);
+            if (veiculo.precisaRevisao()) {
+                console.log(`O veículo ${veiculo.getPlaca()} precisa ser retido para manutenção imediata.`);
+            }
+            else {
+                console.log(`O veículo ${veiculo.getPlaca()} não precisa ser retido para manutenção.`);
+            }
+            break;
         }
     }
-    if (indiceEncontrado === -1) {
-        console.log(`Veiculo com placa ${placaBusca} nao encontrado na frota`);
-        alert(`Veiculo com placa ${placaBusca} nao encontrado na frota`);
-    }
-    else {
-        let veiculo = frota[indiceEncontrado];
-        veiculo.atualizarQuilometragem(kmInformada);
-        let rodado = veiculo.mostrarQuilometragem() - veiculo.mostrarKmUltimaRevisao();
-        console.log(`Veiculo: ${veiculo.getTipo()} - Placa ${veiculo.mostrarPlaca()}`);
-        console.log(`Rodado desde a ultima revisao: ${rodado} km`);
-        if (veiculo.precisaRevisao()) {
-            console.log(`O veiculo ${veiculo.mostrarPlaca()} PRECISA ser retido para manutencao imediata`);
-            alert(`ATENCAO: O veiculo ${veiculo.mostrarPlaca()} PRECISA ser retido para manutencao imediata`);
-        }
-        else {
-            console.log(`O veiculo ${veiculo.mostrarPlaca()} NAO precisa de manutencao`);
-            alert(`LIBERADO: O veiculo ${veiculo.mostrarPlaca()} NAO precisa de manutencao`);
-        }
+    if (encontrado) {
+        console.log("Veículo não encontrado.");
     }
 }

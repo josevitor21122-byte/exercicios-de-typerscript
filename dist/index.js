@@ -1,4 +1,4 @@
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
 //POO
 import { executarQuestao1 } from "./POO/questao1.js";
 import { executarQuestao2 } from "./POO/questao2.js";
@@ -22,6 +22,11 @@ import { executarQuestao19 } from "./POO/questao19.js";
 import { executarQuestao20 } from "./POO/questao20.js";
 import { executarQuestao21 } from "./POO/questao21.js";
 import { executarQuestao22 } from "./POO/questao22.js";
+import { executarQuestao23 } from "./POO/questao23.js";
+import { executarQuestao24 } from "./POO/questao24.js";
+import { executarQuestao25 } from "./POO/questao25.js";
+import { executarQuestao26 } from "./POO/questao26.js";
+import { executarQuestao27 } from "./POO/questao27.js";
 (_a = document.getElementById('btn1')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", executarQuestao1);
 (_b = document.getElementById('btn2')) === null || _b === void 0 ? void 0 : _b.addEventListener("click", executarQuestao2);
 (_c = document.getElementById('btn3')) === null || _c === void 0 ? void 0 : _c.addEventListener("click", executarQuestao3);
@@ -44,3 +49,8 @@ import { executarQuestao22 } from "./POO/questao22.js";
 (_v = document.getElementById('btn20')) === null || _v === void 0 ? void 0 : _v.addEventListener("click", executarQuestao20);
 (_w = document.getElementById('btn21')) === null || _w === void 0 ? void 0 : _w.addEventListener("click", executarQuestao21);
 (_x = document.getElementById('btn22')) === null || _x === void 0 ? void 0 : _x.addEventListener("click", executarQuestao22);
+(_y = document.getElementById('btn23')) === null || _y === void 0 ? void 0 : _y.addEventListener("click", executarQuestao23);
+(_z = document.getElementById('btn24')) === null || _z === void 0 ? void 0 : _z.addEventListener("click", executarQuestao24);
+(_0 = document.getElementById('btn25')) === null || _0 === void 0 ? void 0 : _0.addEventListener("click", executarQuestao25);
+(_1 = document.getElementById('btn26')) === null || _1 === void 0 ? void 0 : _1.addEventListener("click", executarQuestao26);
+(_2 = document.getElementById('btn27')) === null || _2 === void 0 ? void 0 : _2.addEventListener("click", executarQuestao27);

@@ -69,7 +69,7 @@ class Ave extends Animal {
     }
 
     emitirSom(): void {
-        console.log(`${this.nome} faz: Piu Piu`)
+        console.log(`${this.nome} faz: Piu Piu Piu`)
     }
 
     exibirDados(): void {
