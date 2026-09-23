@@ -8,7 +8,7 @@
 // atualizado de forma protegida após cada operação.
 
 export function executarQuestao26(): void {
-    abstract class Conta {
+    abstract class conta {
         protected nomeTitular: string
         protected saldo: number
 
@@ -35,7 +35,7 @@ export function executarQuestao26(): void {
 
     }
 
-    class ContaCorrente extends Conta {
+    class ContaCorrente extends conta {
         constructor(nomeTitular: string, saldo: number = 0) {
             super(nomeTitular, saldo)
         }
@@ -56,7 +56,7 @@ export function executarQuestao26(): void {
         }
     }
 
-    class ContaPoupanca extends Conta {
+    class ContaPoupanca extends conta {
         constructor(nomeTitular: string, saldo: number = 0) {
             super(nomeTitular, saldo)        
         }
@@ -73,13 +73,19 @@ export function executarQuestao26(): void {
         }
     }
     let opcao = -1
+    let valor
+    let nome: string = String(prompt("Informe o seu nome: "))
 
 while (opcao !== 0) {
     opcao = Number(prompt("1 - Depositar" + "2 - Sacar" + "3 - Exibir dados" + "0 - Sair"))
 
     if(opcao === 1) {
-        let valor = number(prompt(""))
+       valor = Number(prompt("Saldo depositado: "))
+
+       conta.depositar(valor: number = 0)
+       conta.exibirDados()
     }
+    else if (opcao == 2)
 }
 
 
