@@ -26,6 +26,9 @@ import { executarQuestao24 } from "./POO/questao24.js";
 import { executarQuestao25 } from "./POO/questao25.js";
 import { executarQuestao26 } from "./POO/questao26.js";
 import { executarQuestao27 } from "./POO/questao27.js";
+import { executarQuestao28 } from "./POO/questao28.js";
+import { executarQuestao29 } from "./POO/questao29.js";
+import { executarQuestao30 } from "./POO/questao30.js";
 
 document.getElementById('btn1')?.addEventListener("click", executarQuestao1)
 document.getElementById('btn2')?.addEventListener("click", executarQuestao2)
@@ -54,3 +57,6 @@ document.getElementById('btn24')?.addEventListener("click", executarQuestao24)
 document.getElementById('btn25')?.addEventListener("click", executarQuestao25)
 document.getElementById('btn26')?.addEventListener("click", executarQuestao26)
 document.getElementById('btn27')?.addEventListener("click", executarQuestao27)
+document.getElementById('btn28')?.addEventListener("click", executarQuestao28)
+document.getElementById('btn29')?.addEventListener("click", executarQuestao29)
+document.getElementById('btn30')?.addEventListener("click", executarQuestao30)
