@@ -27,6 +27,7 @@ export function executarQuestao2(): void {
     calcularArea(): number {
         return this._tamanhoDoLado * this._tamanhoDoLado
     }
+    
     }
     
     let quadrado = new Quadrado(3)

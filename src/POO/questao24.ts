@@ -99,12 +99,11 @@ class TarefaPessoal extends Tarefa {
         console.log(`4 - Listar tarefas acadêmicas pendentes`)
         console.log(`5 - Sair`)
 
-        opcao = Number(prompt(`Digite uma opção:`))
+        opcao = Number(prompt(`Digite uma opção: `))
 
         if (opcao === 1) {
 
             let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
-
             let disciplina: string = String(prompt(`Digite o nome da disciplina: `))
 
             let tarefa: TarefaAcademica = new TarefaAcademica(descricao, disciplina)
@@ -116,19 +115,16 @@ class TarefaPessoal extends Tarefa {
         } else if (opcao === 2) {
 
             let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
-
             let prioridade: string = String(prompt(`Digite a prioridade: `))
 
             let tarefa: TarefaPessoal = new TarefaPessoal(descricao, prioridade)
 
             tarefas.push(tarefa)
-
             console.log(`Tarefa pessoal cadastrada!`)
 
         } else if (opcao === 3) {
 
             if (tarefas.length === 0) {
-
                 console.log(`Nenhuma tarefa cadastrada.`)
 
             } else {
@@ -151,25 +147,20 @@ class TarefaPessoal extends Tarefa {
                 if (indice >= 0 && indice < tarefas.length) {
 
                     tarefas[indice].marcarComoConcluida()
-
                     console.log(`Tarefa marcada como concluída!`)
 
                 } else {
-
                     console.log(`Número de tarefa inválido.`)
                 }
             }
 
 
         } else if (opcao === 4) {
-
             let encontrou: boolean = false
 
             for (let i = 0; i < tarefas.length; i++) {
 
-                if (
-                    tarefas[i].getTipo() === "Acadêmica" && tarefas[i].getConcluida() === false) {
-
+                if (tarefas[i].getTipo() === "Acadêmica" && tarefas[i].getConcluida() === false) {
                     tarefas[i].mostrarTarefa()
 
                     encontrou = true
@@ -177,18 +168,13 @@ class TarefaPessoal extends Tarefa {
             }
 
             if (encontrou === false) {
-
                 console.log(`Nenhuma tarefa acadêmica pendente.`)
             }
 
-
         } else if (opcao === 5) {
-
             console.log(`Programa encerrado.`)
 
-
         } else {
-
             console.log(`Opção inválida.`)
         }
     }

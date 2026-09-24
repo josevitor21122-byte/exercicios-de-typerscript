@@ -75,7 +75,7 @@ class AssinaturaPremium extends Assinatura {
 }
 
     let contratos: Assinatura[] = []
-    let opcao: number = 0;
+    let opcao: number = 0
 
     while (opcao !== 3) {
         console.log(`1 - Cadastrar cliente`)
@@ -91,8 +91,7 @@ class AssinaturaPremium extends Assinatura {
             console.log(`1 - Plano Padrão`)
             console.log(`2 - Plano Premium`)
 
-            let plano: number = Number(prompt(`Escolha o plano:`))
-
+            let plano: number = Number(prompt(`Escolha o plano: `))
             let valor: number = Number(prompt(`Digite o valor mensal do plano: `))
 
             if (plano === 1) {
@@ -100,7 +99,6 @@ class AssinaturaPremium extends Assinatura {
                 let assinatura: AssinaturaPadrao = new AssinaturaPadrao(email, valor)
 
                 contratos.push(assinatura)
-
                 console.log(`Cliente cadastrado no plano Padrão!`)
 
             } else if (plano === 2) {
@@ -108,11 +106,9 @@ class AssinaturaPremium extends Assinatura {
                 let assinatura: AssinaturaPremium = new AssinaturaPremium(email, valor)
 
                 contratos.push(assinatura)
-
                 console.log(`Cliente cadastrado no plano Premium!`)
 
             } else {
-
                 console.log(`Plano inválido.`)
             }
 
@@ -126,7 +122,6 @@ class AssinaturaPremium extends Assinatura {
             for (let i = 0; i < contratos.length; i++) {
 
                 if (contratos[i].getEmail() === emailBusca) {
-
                     contratos[i].mostrarContrato()
 
                     encontrou = true
@@ -140,12 +135,9 @@ class AssinaturaPremium extends Assinatura {
 
 
         } else if (opcao === 3) {
-
             console.log(`Programa encerrado.`)
 
-
         } else {
-
             console.log(`Opção inválida.`)
         }
     }
