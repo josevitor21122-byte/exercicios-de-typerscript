@@ -10,16 +10,11 @@
 export function executarQuestao23(): void {
 
     abstract class Produto {
-
         private codigo: number
         private nome: string
         private precoCusto: number
 
-        constructor(
-            codigo: number,
-            nome: string,
-            precoCusto: number
-        ) {
+        constructor(codigo: number,nome: string,precoCusto: number) {
             this.codigo = codigo
             this.nome = nome
             this.precoCusto = precoCusto
@@ -38,10 +33,8 @@ export function executarQuestao23(): void {
         }
 
         abstract calcularPrecoFinal(): number
-
         abstract exibirDados(): void
     }
-
 
     class ProdutoPerecivel extends Produto {
         private dataValidade: string
@@ -66,7 +59,7 @@ export function executarQuestao23(): void {
         exibirDados(): void {
             console.log(`Código: ${this.getCodigo()}`)
             console.log(`Nome: ${this.getNome()}`)
-            console.log(`Preço de custo: R$ ${this.getPrecoCusto()}`)
+            console.log(`Preço de custo: ${this.getPrecoCusto()}`)
             console.log(`Data de validade: ${this.dataValidade}`)
 
             if (this.calcularPrecoFinal() < this.getPrecoCusto()) {
@@ -80,7 +73,6 @@ export function executarQuestao23(): void {
     }
 
     class ProdutoNaoPerecivel extends Produto {
-
         calcularPrecoFinal(): number {
             return this.getPrecoCusto()
         }
@@ -88,8 +80,8 @@ export function executarQuestao23(): void {
         exibirDados(): void {
             console.log(`Código: ${this.getCodigo()}`)
             console.log(`Nome: ${this.getNome()}`)
-            console.log(`Preço de custo: R$ ${this.getPrecoCusto()}`)
-            console.log(`Preço final: R$ ${this.calcularPrecoFinal()}`)
+            console.log(`Preço de custo: ${this.getPrecoCusto()}`)
+            console.log(`Preço final: ${this.calcularPrecoFinal()}`)
         }
     }
 

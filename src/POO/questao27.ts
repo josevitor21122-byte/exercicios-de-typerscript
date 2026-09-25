@@ -42,17 +42,12 @@ export function executarQuestao27(): void {
 
         private quantidadePortas: number
 
-        constructor(
-            numeroTombamento: number,
-            descricao: string,
-            quantidadePortas: number
-        ) {
+        constructor(numeroTombamento: number,descricao: string,quantidadePortas: number) {
             super(numeroTombamento, descricao)
             this.quantidadePortas = quantidadePortas
         }
 
         autoInspecao(): void {
-            console.log("===== FICHA TÉCNICA - ROTEADOR =====")
             console.log(`Número de tombamento: ${this.numeroTombamento}`)
             console.log(`Descrição: ${this.descricao}`)
             console.log(`Quantidade de portas: ${this.quantidadePortas}`)
@@ -60,164 +55,90 @@ export function executarQuestao27(): void {
         }
     }
 
-
     let equipamentos: Equipamento[] = []
 
     let opcao = -1
-
     while (opcao !== 0) {
 
         opcao = Number(
-            prompt(
-                "INVENTÁRIO DE EQUIPAMENTOS\n\n" +
-                "1 - Cadastrar Computador\n" +
-                "2 - Cadastrar Roteador\n" +
-                "3 - Realizar auto-inspeção\n" +
-                "0 - Sair\n\n" +
-                "Escolha uma opção:"
-            )
-        )
+            prompt("1 - Cadastrar Computador" + "2 - Cadastrar Roteador" +"3 - Realizar auto-inspeção" + "0 - Sair" + "Escolha uma opção:"))
 
         if (opcao === 1) {
+            let numeroTombamento = Number(prompt("Informe o número de tombamento:"))
 
-            let numeroTombamento = Number(
-                prompt("Informe o número de tombamento:")
-            )
-
-            while (
-                numeroTombamento <= 0 ||
-                numeroTombamento % 1 !== 0
-            ) {
+            while (numeroTombamento <= 0 || numeroTombamento % 1 !== 0) {
                 console.log("Número de tombamento inválido!")
 
-                numeroTombamento = Number(
-                    prompt("Informe um número de tombamento válido:")
-                )
+                numeroTombamento = Number(prompt("Informe um número de tombamento válido:"))
             }
 
-
-            let descricao = String(
-                prompt("Informe a descrição do computador:")
-            )
+            let descricao = String(prompt("Informe a descrição do computador:"))
 
             while (descricao.trim() === "") {
 
                 console.log("A descrição não pode ser vazia!")
-
-                descricao = String(
-                    prompt("Informe uma descrição válida:")
-                )
+                descricao = String(prompt("Informe uma descrição válida:"))
             }
 
+            let memoriaRAM = Number(prompt("Informe a quantidade de memória RAM em GB:"))
 
-            let memoriaRAM = Number(
-                prompt("Informe a quantidade de memória RAM em GB:")
-            )
-
-            while (
-                memoriaRAM <= 0
-            ) {
+            while (memoriaRAM <= 0) {
                 console.log("Quantidade de memória RAM inválida!")
-
-                memoriaRAM = Number(
-                    prompt("Informe uma quantidade válida de memória RAM:")
-                )
+                memoriaRAM = Number(prompt("Informe uma quantidade válida de memória RAM:"))
             }
 
-
-            let computador = new Computador(
-                numeroTombamento,
-                descricao,
-                memoriaRAM
-            )
+            let computador = new Computador(numeroTombamento,descricao,memoriaRAM)
 
             equipamentos.push(computador)
-
             console.log("Computador cadastrado com sucesso!")
         }
 
 
         else if (opcao === 2) {
 
-            let numeroTombamento = Number(
-                prompt("Informe o número de tombamento:")
-            )
+            let numeroTombamento = Number(prompt("Informe o número de tombamento:"))
 
-            while (
-                numeroTombamento <= 0 ||
-                numeroTombamento % 1 !== 0
-            ) {
+            while (numeroTombamento <= 0 || numeroTombamento % 1 !== 0) {
                 console.log("Número de tombamento inválido!")
 
-                numeroTombamento = Number(
-                    prompt("Informe um número de tombamento válido:")
-                )
+                numeroTombamento = Number(prompt("Informe um número de tombamento válido:"))
             }
 
-
-            let descricao = String(
-                prompt("Informe a descrição do roteador:")
-            )
+            let descricao = String(prompt("Informe a descrição do roteador:"))
 
             while (descricao.trim() === "") {
 
                 console.log("A descrição não pode ser vazia!")
-
-                descricao = String(
-                    prompt("Informe uma descrição válida:")
-                )
+                descricao = String(prompt("Informe uma descrição válida:"))
             }
 
+            let quantidadePortas = Number(prompt("Informe a quantidade de portas disponíveis:"))
 
-            let quantidadePortas = Number(
-                prompt("Informe a quantidade de portas disponíveis:")
-            )
+            while (quantidadePortas <= 0 || quantidadePortas % 1 !== 0) {
 
-            while (
-                quantidadePortas <= 0 ||
-                quantidadePortas % 1 !== 0
-            ) {
                 console.log("Quantidade de portas inválida!")
-
-                quantidadePortas = Number(
-                    prompt("Informe uma quantidade válida de portas:")
-                )
+                quantidadePortas = Number(prompt("Informe uma quantidade válida de portas:"))
             }
 
 
-            let roteador = new Roteador(
-                numeroTombamento,
-                descricao,
-                quantidadePortas
-            )
+            let roteador = new Roteador(numeroTombamento,descricao,quantidadePortas)
 
             equipamentos.push(roteador)
-
             console.log("Roteador cadastrado com sucesso!")
-        }
 
-
-        else if (opcao === 3) {
+        } else if (opcao === 3) {
 
             if (equipamentos.length === 0) {
-
                 console.log("Nenhum equipamento foi cadastrado!")
-
             } else {
 
-                console.log("===== AUTO-INSPEÇÃO DOS EQUIPAMENTOS =====")
-
                 for (let equipamento of equipamentos) {
-
                     equipamento.autoInspecao()
                 }
             }
         } else if (opcao === 0) {
-
             console.log("Programa encerrado!")
-
         } else {
-
             console.log("Opção inválida!")
         }
     }

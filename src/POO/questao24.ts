@@ -88,7 +88,6 @@ class TarefaPessoal extends Tarefa {
         }
     }
 }
-
     let tarefas: Tarefa[] = []
     let opcao: number = 0
 
@@ -153,7 +152,6 @@ class TarefaPessoal extends Tarefa {
                     console.log(`Número de tarefa inválido.`)
                 }
             }
-
 
         } else if (opcao === 4) {
             let encontrou: boolean = false

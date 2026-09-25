@@ -40,34 +40,27 @@ abstract class Assinatura {
     }
 }
 
-
 class AssinaturaPadrao extends Assinatura {
 
     constructor(email: string, valorPlano: number) {
         super(email, valorPlano)
     }
-
     public getTipo(): string {
         return "Padrão"
     }
-
     public mostrarBeneficios(): void {
         console.log(`Telas simultâneas: 2`)
         console.log(`Resolução 4K: Não incluída`)
     }
 }
 
-
 class AssinaturaPremium extends Assinatura {
-
     constructor(email: string, valorPlano: number) {
         super(email, valorPlano)
     }
-
     public getTipo(): string {
         return "Premium"
     }
-
     public mostrarBeneficios(): void {
         console.log(`Telas simultâneas: 4`)
         console.log(`Resolução 4K: Incluída`)
@@ -112,7 +105,6 @@ class AssinaturaPremium extends Assinatura {
                 console.log(`Plano inválido.`)
             }
 
-
         } else if (opcao === 2) {
 
             let emailBusca: string = String(prompt(`Digite o e-mail para buscar: `))
@@ -132,7 +124,6 @@ class AssinaturaPremium extends Assinatura {
 
                 console.log(`Nenhum contrato encontrado.`)
             }
-
 
         } else if (opcao === 3) {
             console.log(`Programa encerrado.`)
