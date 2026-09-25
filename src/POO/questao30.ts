@@ -59,105 +59,72 @@ export function executarQuestao30(): void {
 
     while (opcao !== 0) {
 
-        opcao = Number(
-            prompt(
-                "SISTEMA DE BILHETAGEM - TRANSPORTE\n\n" +
-                "1 - Cadastrar Passagem Comum\n" +
-                "2 - Cadastrar Passagem Estudantil\n" +
-                "3 - Exibir relatório e faturamento total\n" +
-                "0 - Sair\n\n" +
-                "Escolha uma opção:"
-            )
-        )
+        opcao = Number(prompt("1 - Cadastrar Passagem Comum" + "2 - Cadastrar Passagem Estudantil" + "3 - Exibir relatório e faturamento total" + "0 - Sair" + "Escolha uma opção:"))
 
         if (opcao === 1) {
 
-            let nomePassageiro = String(
-                prompt("Informe o nome do passageiro:")
-            )
+            let nomePassageiro = String(prompt("Informe o nome do passageiro:"))
 
             while (nomePassageiro === "") {
                 console.log("O nome não pode ser vazio!")
-                nomePassageiro = String(
-                    prompt("Informe um nome válido:")
-                )
+
+                nomePassageiro = String(prompt("Informe um nome válido:"))
             }
 
-
-            let cpf = String(
-                prompt("Informe o CPF do passageiro:")
-            )
+            let cpf = String(prompt("Informe o CPF do passageiro:"))
 
             while (cpf === "") {
                 console.log("O CPF não pode ser vazio!")
-                cpf = String(
-                    prompt("Informe um CPF válido:")
-                )
+
+                cpf = String(prompt("Informe um CPF válido:"))
             }
 
 
-            let valorBase = Number(
-                prompt("Informe o valor base da corrida:")
-            )
+            let valorBase = Number(prompt("Informe o valor base da corrida:"))
 
             while (valorBase <= 0) {
                 console.log("Valor base inválido!")
-                valorBase = Number(
-                    prompt("Informe um valor base válido:")
-                )
+                valorBase = Number(prompt("Informe um valor base válido:"))
             }
 
 
             let passagem = new PassagemComum(nomePassageiro, cpf, valorBase)
 
             passagens.push(passagem)
-
             console.log("Passagem Comum cadastrada com sucesso!")
         }
 
 
         else if (opcao === 2) {
 
-            let nomePassageiro = String(
-                prompt("Informe o nome do passageiro:")
-            )
+            let nomePassageiro = String(prompt("Informe o nome do passageiro:"))
 
             while (nomePassageiro === "") {
                 console.log("O nome não pode ser vazio!")
-                nomePassageiro = String(
-                    prompt("Informe um nome válido:")
-                )
+                nomePassageiro = String(prompt("Informe um nome válido:"))
             }
 
 
-            let cpf = String(
-                prompt("Informe o CPF do passageiro:")
-            )
+            let cpf = String(prompt("Informe o CPF do passageiro:"))
 
             while (cpf === "") {
                 console.log("O CPF não pode ser vazio!")
-                cpf = String(
-                    prompt("Informe um CPF válido:")
-                )
+
+                cpf = String(prompt("Informe um CPF válido:"))
             }
 
 
-            let valorBase = Number(
-                prompt("Informe o valor base da corrida:")
-            )
+            let valorBase = Number(prompt("Informe o valor base da corrida:"))
 
             while (valorBase <= 0) {
                 console.log("Valor base inválido!")
-                valorBase = Number(
-                    prompt("Informe um valor base válido:")
-                )
+                valorBase = Number(prompt("Informe um valor base válido:"))
             }
 
 
             let passagem = new PassagemEstudantil(nomePassageiro, cpf, valorBase)
 
             passagens.push(passagem)
-
             console.log("Passagem Estudantil cadastrada com sucesso!")
         }
 
@@ -170,33 +137,24 @@ export function executarQuestao30(): void {
 
             } else {
 
-                console.log("===== RELATÓRIO DE PASSAGENS VENDIDAS =====")
-
                 let faturamentoTotal = 0
 
                 for (let i = 0; i < passagens.length; i++) {
                     let passagem = passagens[i]
 
                     passagem.exibirDetalhes()
-                    console.log("-----------------------------")
 
                     faturamentoTotal = faturamentoTotal + passagem.calcularValorFinal()
                 }
 
-                console.log(`Faturamento Total do Dia: R$ ${faturamentoTotal.toFixed(2)}`)
+                console.log(`Faturamento Total do Dia: ${faturamentoTotal}`)
             }
         }
 
 
         else if (opcao === 0) {
-
             console.log("Programa encerrado!")
-
-        }
-
-
-        else {
-
+        } else {
             console.log("Opção inválida!")
         }
     }

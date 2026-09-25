@@ -8,9 +8,7 @@
 // objeto para imprimir uma ficha técnica detalhada de cada item do almoxarifado.
 
 export function executarQuestao27(): void {
-
     abstract class Equipamento {
-
         protected numeroTombamento: number
         protected descricao: string
 
@@ -22,22 +20,16 @@ export function executarQuestao27(): void {
         abstract autoInspecao(): void
     }
 
-
     class Computador extends Equipamento {
 
         private memoriaRAM: number
 
-        constructor(
-            numeroTombamento: number,
-            descricao: string,
-            memoriaRAM: number
-        ) {
+        constructor(numeroTombamento: number,descricao: string, memoriaRAM: number) {
             super(numeroTombamento, descricao)
             this.memoriaRAM = memoriaRAM
         }
 
         autoInspecao(): void {
-            console.log("===== FICHA TÉCNICA - COMPUTADOR =====")
             console.log(`Número de tombamento: ${this.numeroTombamento}`)
             console.log(`Descrição: ${this.descricao}`)
             console.log(`Memória RAM: ${this.memoriaRAM} GB`)

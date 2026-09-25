@@ -43,11 +43,7 @@ export function executarQuestao28(): void {
 
         private valorAdicionalHidro: number
 
-        constructor(
-            numeroQuarto: number,
-            precoBaseDiaria: number,
-            valorAdicionalHidro: number
-        ) {
+        constructor(numeroQuarto: number,precoBaseDiaria: number,valorAdicionalHidro: number) {
             super(numeroQuarto, precoBaseDiaria)
             this.valorAdicionalHidro = valorAdicionalHidro
         }
@@ -67,150 +63,83 @@ export function executarQuestao28(): void {
     while (opcao !== 0) {
 
         opcao = Number(
-            prompt(
-                "GESTÃO DE DIÁRIAS - HOTEL FAZENDA\n\n" +
-                "1 - Cadastrar Quarto Básico\n" +
-                "2 - Cadastrar Suíte Master\n" +
-                "3 - Exibir quartos com faturamento > R$ 1.000,00\n" +
-                "0 - Sair\n\n" +
-                "Escolha uma opção:"
-            )
-        )
+            prompt("1 - Cadastrar Quarto Básico" + "2 - Cadastrar Suíte Master" + "3 - Exibir quartos com faturamento > R$ 1.000,00" + "0 - Sair" + "Escolha uma opção:"))
 
         if (opcao === 1) {
+            let numeroQuarto = Number(prompt("Informe o número do quarto:"))
 
-            let numeroQuarto = Number(
-                prompt("Informe o número do quarto:")
-            )
-
-            while (
-                numeroQuarto <= 0 ||
-                numeroQuarto % 1 !== 0
-            ) {
+            while (numeroQuarto <= 0 || numeroQuarto % 1 !== 0) {
                 console.log("Número do quarto inválido!")
-                numeroQuarto = Number(
-                    prompt("Informe um número de quarto válido:")
-                )
+                numeroQuarto = Number(prompt("Informe um número de quarto válido:"))
             }
 
+            let precoBaseDiaria = Number(prompt("Informe o preço base da diária:"))
 
-            let precoBaseDiaria = Number(
-                prompt("Informe o preço base da diária:")
-            )
-
-            while (
-                precoBaseDiaria <= 0
-            ) {
+            while (precoBaseDiaria <= 0) {
                 console.log("Preço base inválido!")
-                precoBaseDiaria = Number(
-                    prompt("Informe um preço base válido:")
-                )
+                precoBaseDiaria = Number(prompt("Informe um preço base válido:"))
             }
 
+            let dias = Number(prompt("Informe quantos dias o hóspede ficou alojado:"))
 
-            let dias = Number(
-                prompt("Informe quantos dias o hóspede ficou alojado:")
-            )
-
-            while (
-                dias <= 0 ||
-                dias % 1 !== 0
-            ) {
+            while (dias <= 0 || dias % 1 !== 0) {
                 console.log("Quantidade de dias inválida!")
-                dias = Number(
-                    prompt("Informe uma quantidade de dias válida:")
-                )
+                dias = Number(prompt("Informe uma quantidade de dias válida:"))
             }
-
 
             let quarto = new QuartoBasico(numeroQuarto, precoBaseDiaria)
 
             acomodacoes.push(quarto)
             diasHospedagem.push(dias)
-
             console.log("Quarto Básico cadastrado com sucesso!")
         }
 
 
         else if (opcao === 2) {
 
-            let numeroQuarto = Number(
-                prompt("Informe o número da suíte:")
-            )
+            let numeroQuarto = Number(prompt("Informe o número da suíte:"))
 
-            while (
-                numeroQuarto <= 0 ||
-                numeroQuarto % 1 !== 0
-            ) {
+            while (numeroQuarto <= 0 || numeroQuarto % 1 !== 0) {
                 console.log("Número da suíte inválido!")
-                numeroQuarto = Number(
-                    prompt("Informe um número de suíte válido:")
-                )
+                numeroQuarto = Number(prompt("Informe um número de suíte válido:"))
             }
 
+            let precoBaseDiaria = Number(prompt("Informe o preço base da diária:"))
 
-            let precoBaseDiaria = Number(
-                prompt("Informe o preço base da diária:")
-            )
-
-            while (
-                precoBaseDiaria <= 0
-            ) {
+            while (precoBaseDiaria <= 0) {
                 console.log("Preço base inválido!")
-                precoBaseDiaria = Number(
-                    prompt("Informe um preço base válido:")
-                )
+                precoBaseDiaria = Number(prompt("Informe um preço base válido:"))
             }
-
 
             let valorAdicionalHidro = Number(
                 prompt("Informe o valor adicional fixo da hidromassagem:")
             )
 
-            while (
-                valorAdicionalHidro < 0
-            ) {
+            while (valorAdicionalHidro < 0) {
                 console.log("Valor adicional inválido!")
-                valorAdicionalHidro = Number(
-                    prompt("Informe um valor adicional válido:")
-                )
+                valorAdicionalHidro = Number(prompt("Informe um valor adicional válido:"))
             }
 
+            let dias = Number(prompt("Informe quantos dias o hóspede ficou alojado:"))
 
-            let dias = Number(
-                prompt("Informe quantos dias o hóspede ficou alojado:")
-            )
-
-            while (
-                dias <= 0 ||
-                dias % 1 !== 0
-            ) {
+            while (dias <= 0 || dias % 1 !== 0) {
                 console.log("Quantidade de dias inválida!")
-                dias = Number(
-                    prompt("Informe uma quantidade de dias válida:")
-                )
+                dias = Number(prompt("Informe uma quantidade de dias válida:"))
             }
-
 
             let suite = new SuiteMaster(numeroQuarto, precoBaseDiaria, valorAdicionalHidro)
 
             acomodacoes.push(suite)
             diasHospedagem.push(dias)
-
             console.log("Suíte Master cadastrada com sucesso!")
         }
 
 
         else if (opcao === 3) {
-
             if (acomodacoes.length === 0) {
-
                 console.log("Nenhum quarto foi cadastrado!")
 
             } else {
-
-                console.log("===== QUARTOS COM FATURAMENTO ACIMA DE R$ 1.000,00 =====")
-
                 let encontrou = false
 
                 for (let i = 0; i < acomodacoes.length; i++) {
@@ -236,7 +165,6 @@ export function executarQuestao28(): void {
             console.log("Programa encerrado!")
 
         } else {
-
             console.log("Opção inválida!")
         }
     }

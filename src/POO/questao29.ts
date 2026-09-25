@@ -8,9 +8,7 @@
 // exibe o valor total de multas que a biblioteca deve recolher.
 
 export function executarQuestao29(): void {
-
     abstract class Obra {
-
         protected titulo: string
         protected autor: string
 
@@ -30,7 +28,6 @@ export function executarQuestao29(): void {
         }
 
         calcularPenalidade(diasAtraso: number): number {
-            // R$ 2,50 por dia de atraso
             return diasAtraso * 2.50
         }
     }
@@ -43,8 +40,7 @@ export function executarQuestao29(): void {
         }
 
         calcularPenalidade(diasAtraso: number): number {
-            // Artigos digitais não geram multa em dinheiro (retorna 0)
-            console.log(`[AVISO] O artigo digital "${this.titulo}" gerou uma advertência virtual ao usuário.`)
+            console.log(`O artigo digital gerou um aviso: "${this.titulo}"`)
             return 0
         }
     }
@@ -54,60 +50,34 @@ export function executarQuestao29(): void {
     let diasAtrasos: number[] = []
 
     let opcao = -1
-
     while (opcao !== 0) {
 
-        opcao = Number(
-            prompt(
-                "GESTÃO DE EMPRÉSTIMOS - BIBLIOTECA\n\n" +
-                "1 - Cadastrar Livro Físico (com multa por atraso)\n" +
-                "2 - Cadastrar Artigo Científico Digital (com advertência)\n" +
-                "3 - Exibir valor total de multas a recolher\n" +
-                "0 - Sair\n\n" +
-                "Escolha uma opção:"
-            )
-        )
+        opcao = Number(prompt("1 - Cadastrar Livro Físico (com multa por atraso)" + "2 - Cadastrar Artigo Científico Digital (com advertência)" + "3 - Exibir valor total de multas a recolher" + "0 - Sair" + "Escolha uma opção:"))
 
         if (opcao === 1) {
 
-            let titulo = String(
-                prompt("Informe o título do livro físico:")
-            )
+            let titulo = String(prompt("Informe o título do livro físico:"))
 
             while (titulo === "") {
                 console.log("O título não pode ser vazio!")
-                titulo = String(
-                    prompt("Informe um título válido:")
-                )
+                titulo = String(prompt("Informe um título válido:"))
             }
 
 
-            let autor = String(
-                prompt("Informe o autor do livro físico:")
-            )
+            let autor = String(prompt("Informe o autor do livro físico:"))
 
             while (autor === "") {
                 console.log("O autor não pode ser vazio!")
-                autor = String(
-                    prompt("Informe um autor válido:")
-                )
+                autor = String(prompt("Informe um autor válido:"))
             }
 
 
-            let diasAtraso = Number(
-                prompt("Informe a quantidade de dias de atraso:")
-            )
+            let diasAtraso = Number(prompt("Informe a quantidade de dias de atraso:"))
 
-            while (
-                diasAtraso < 0 ||
-                diasAtraso % 1 !== 0
-            ) {
+            while (diasAtraso < 0 || diasAtraso % 1 !== 0) {
                 console.log("Quantidade de dias inválida!")
-                diasAtraso = Number(
-                    prompt("Informe uma quantidade de dias válida:")
-                )
+                diasAtraso = Number(prompt("Informe uma quantidade de dias válida:"))
             }
-
 
             let livro = new LivroFisico(titulo, autor)
 
@@ -115,49 +85,30 @@ export function executarQuestao29(): void {
             diasAtrasos.push(diasAtraso)
 
             console.log("Livro Físico cadastrado com sucesso!")
-        }
 
+        } else if (opcao === 2) {
 
-        else if (opcao === 2) {
-
-            let titulo = String(
-                prompt("Informe o título do artigo digital:")
-            )
+            let titulo = String(prompt("Informe o título do artigo digital:"))
 
             while (titulo === "") {
                 console.log("O título não pode ser vazio!")
-                titulo = String(
-                    prompt("Informe um título válido:")
-                )
+                titulo = String(prompt("Informe um título válido:"))
             }
 
-
-            let autor = String(
-                prompt("Informe o autor do artigo digital:")
-            )
+            let autor = String(prompt("Informe o autor do artigo digital:"))
 
             while (autor === "") {
                 console.log("O autor não pode ser vazio!")
-                autor = String(
-                    prompt("Informe um autor válido:")
-                )
+                autor = String(prompt("Informe um autor válido:"))
             }
 
-
-            let diasAtraso = Number(
-                prompt("Informe a quantidade de dias de atraso:")
+            let diasAtraso = Number(prompt("Informe a quantidade de dias de atraso:")
             )
 
-            while (
-                diasAtraso < 0 ||
-                diasAtraso % 1 !== 0
-            ) {
+            while (diasAtraso < 0 || diasAtraso % 1 !== 0) {
                 console.log("Quantidade de dias inválida!")
-                diasAtraso = Number(
-                    prompt("Informe uma quantidade de dias válida:")
-                )
+                diasAtraso = Number(prompt("Informe uma quantidade de dias válida:"))
             }
-
 
             let artigo = new ArtigoDigital(titulo, autor)
 
@@ -169,13 +120,11 @@ export function executarQuestao29(): void {
         } else if (opcao === 3) {
 
             if (obras.length === 0) {
-
                 console.log("Nenhuma obra foi cadastrada!")
 
             } else {
 
                 let totalMultas = 0
-
                 for (let i = 0; i < obras.length; i++) {
                     let obra = obras[i]
                     let dias = diasAtrasos[i]
@@ -183,13 +132,11 @@ export function executarQuestao29(): void {
                     let multaObra = obra.calcularPenalidade(dias)
                     totalMultas = totalMultas + multaObra
                 }
-
-                console.log(`Valor total de multas que a biblioteca deve recolher: R$ ${totalMultas}`)
+                console.log(`Valor total de multas que a biblioteca deve recolher: ${totalMultas}`)
             }
         } else if (opcao === 0) {
             console.log("Programa encerrado!")
         } else {
-
             console.log("Opção inválida!")
         }
     }
