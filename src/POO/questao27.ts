@@ -37,7 +37,6 @@ export function executarQuestao27(): void {
         }
     }
 
-
     class Roteador extends Equipamento {
 
         private quantidadePortas: number
