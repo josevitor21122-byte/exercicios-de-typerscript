@@ -10,100 +10,108 @@
 
 export function executarQuestao22(): void {
 
-abstract class Veiculo {
-    private placa: string;
-    private quilometragem: number;
+    abstract class VeiculoFrota {
+        private placa: string
+        protected quilometragemAtual: number
 
-    constructor(placa: string, quilometragem: number) {
-        this.placa = placa;
-        this.quilometragem = quilometragem;
+        constructor(placa: string, quilometragemAtual: number) {
+            this.placa = placa
+            this.quilometragemAtual = quilometragemAtual
+        }
+
+        getPlaca(): string {
+            return this.placa
+        }
+
+        getQuilometragemAtual(): number {
+            return this.quilometragemAtual
+        }
+
+        abstract verificarManutencao(): boolean
+        abstract obterTipo(): string
     }
 
-    public getPlaca(): string {
-        return this.placa
-    }
+    class Onibus extends VeiculoFrota {
 
-    public getQuilometragem(): number {
-        return this.quilometragem
-    }
+        constructor(placa: string, quilometragemAtual: number) {
+            super(placa, quilometragemAtual)
+        }
 
-    public setQuilometragem(quilometragem: number): void {
-        this.quilometragem = quilometragem
-    }
+        verificarManutencao(): boolean {
+            return this.quilometragemAtual >= 10000
+        }
 
-    public abstract precisaRevisao(): boolean
-}
-
-class Onibus extends Veiculo {
-
-    public precisaRevisao(): boolean {
-        return this.getQuilometragem() % 10000 === 0
-    }
-}
-
-class Ambulancia extends Veiculo {
-
-    public precisaRevisao(): boolean {
-        return this.getQuilometragem() % 5000 === 0
-    }
-}
-
-    let frota: Veiculo[] = []
-
-    let quantidade = Number(prompt("Digite a quantidade de veículos:"));
-
-    for (let i = 0; i < quantidade; i++) {
-
-        console.log(`Veículo ${i + 1}`)
-
-        let tipo = Number(prompt("Digite 1 para ônibus ou 2 para ambulância:"))
-
-        let placa = String(prompt("Digite a placa:"))
-
-        let quilometragem = Number(prompt("Digite a quilometragem atual: "))
-
-        if (tipo === 1) {
-            frota.push(new Onibus(placa, quilometragem))
-        } else if (tipo === 2) {
-            frota.push(new Ambulancia(placa, quilometragem))
-        } else {
-            console.log("Tipo de veículo inválido.")
-            i--
+        obterTipo(): string {
+            return "Ônibus"
         }
     }
 
+    class Ambulancia extends VeiculoFrota {
 
-    let placaConsulta = String(prompt("Digite a placa do veículo que deseja consultar:"))
+        constructor(placa: string, quilometragemAtual: number) {
+            super(placa, quilometragemAtual)
+        }
 
+        verificarManutencao(): boolean {
+            return this.quilometragemAtual >= 5000
+        }
 
-    let encontrado = false
+        obterTipo(): string {
+            return "Ambulância"
+        }
+    }
 
+    let veiculos: VeiculoFrota[] = []
+    let continuarCadastro = "sim"
 
-    for (let veiculo of frota) {
+    while (continuarCadastro === "sim") {
 
-        if (veiculo.getPlaca() === placaConsulta) {
-            encontrado = true
+        let tipo = String(prompt("Escolha o tipo de veículo: | 1 - Ônibus | 2 - Ambulância "))
+        let placa = String(prompt("Informe a placa do veículo: "))
+        let quilometragem = Number(prompt("Informe a quilometragem atual do veículo: "))
 
-            let novaQuilometragem = Number(prompt("Digite a quilometragem atual do veículo: "))
+        let veiculo: VeiculoFrota
 
-            veiculo.setQuilometragem(novaQuilometragem)
+        if (tipo === "1") {
+            veiculo = new Onibus(placa, quilometragem)
+        } else {
+            veiculo = new Ambulancia(placa, quilometragem)
+        }
 
+        veiculos.push(veiculo)
 
-            if (veiculo.precisaRevisao()) {
+        continuarCadastro = String(prompt("Deseja cadastrar outro veículo (sim/não): "))
+    }
 
-                console.log(`O veículo ${veiculo.getPlaca()} precisa ser retido para manutenção imediata.`)
+    if (veiculos.length === 0) {
+        console.log("Nenhum veículo foi cadastrado na frota")
+    } else {
+        let continuarConsulta = "sim"
 
-            } else {
+        while (continuarConsulta === "sim") {
+            let placaBusca = String(prompt("Informe a placa do veículo que deseja consultar para manutenção: "))
+            let encontrou = false
 
-                console.log(`O veículo ${veiculo.getPlaca()} não precisa ser retido para manutenção.`)
+            for (let i = 0; i < veiculos.length; i++) {
+                if (veiculos[i].getPlaca() === placaBusca) {
+                    let veiculoEncontrado = veiculos[i]
+                    encontrou = true
+
+                    console.log(`Placa ${veiculoEncontrado.getPlaca()} | Tipo: ${veiculoEncontrado.obterTipo()} | Quilometragem: ${veiculoEncontrado.getQuilometragemAtual()}`)
+                    
+                    if (veiculoEncontrado.verificarManutencao()) {
+                        console.log("Este veículo precisa ser retido")
+                    } else {
+                        console.log("Este veículo não precisa de manutenção.")
+                    }
+                    break
+                }
             }
 
-            break
+            if (encontrou) {
+                console.log("Nenhum veículo foi encontrado com essa placa.")
+            }
+            continuarConsulta = String(prompt("Deseja consultar outro veículo (sim/não): "))
         }
-    }
-
-
-    if (encontrado) {
-        console.log("Veículo não encontrado.")
     }
 }

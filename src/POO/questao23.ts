@@ -10,203 +10,108 @@
 export function executarQuestao23(): void {
 
     abstract class Produto {
-        private codigo: number
+        private codigo: string
         private nome: string
-        private precoCusto: number
+        protected precoCusto: number
 
-        constructor(codigo: number,nome: string,precoCusto: number) {
+        constructor(codigo: string, nome: string, precoCusto: number) {
             this.codigo = codigo
             this.nome = nome
             this.precoCusto = precoCusto
         }
 
-        protected getCodigo(): number {
+        getCodigo(): string {
             return this.codigo
         }
 
-        protected getNome(): string {
+        getNome(): string {
             return this.nome
         }
 
-        protected getPrecoCusto(): number {
+        getPrecoCusto(): number {
             return this.precoCusto
         }
 
         abstract calcularPrecoFinal(): number
-        abstract exibirDados(): void
+        abstract obterDetalhes(): string
     }
 
     class ProdutoPerecivel extends Produto {
         private dataValidade: string
+        private vencendoHoje: string
 
-        constructor( codigo: number, nome: string, precoCusto: number, dataValidade: string) {
+        constructor(codigo: string, nome: string, precoCusto: number, dataValidade: string, vencendoHoje: string) {
             super(codigo, nome, precoCusto)
             this.dataValidade = dataValidade
+            this.vencendoHoje = vencendoHoje
         }
 
         calcularPrecoFinal(): number {
-            let dataAtual = new Date()
-            let validade = new Date(this.dataValidade)
-
-            if (dataAtual.getDate() === validade.getDate() && dataAtual.getMonth() === validade.getMonth() && dataAtual.getFullYear() === validade.getFullYear()) {
-                return this.getPrecoCusto() * 0.70
-
+            if (this.vencendoHoje.toLowerCase() === "sim") {
+                let desconto = this.getPrecoCusto() * 0.30
+                return this.getPrecoCusto() - desconto
             } else {
                 return this.getPrecoCusto()
             }
         }
 
-        exibirDados(): void {
-            console.log(`Código: ${this.getCodigo()}`)
-            console.log(`Nome: ${this.getNome()}`)
-            console.log(`Preço de custo: ${this.getPrecoCusto()}`)
-            console.log(`Data de validade: ${this.dataValidade}`)
-
-            if (this.calcularPrecoFinal() < this.getPrecoCusto()) {
-                console.log("Desconto de 30% aplicado!")
-
-            } else {
-                console.log("Sem desconto!")
-            }
-            console.log(`Preço final: R$ ${this.calcularPrecoFinal()}`)
+        obterDetalhes(): string {
+            return `Validade: ${this.dataValidade} | Vencendo hoje: ${this.vencendoHoje}`
         }
     }
 
     class ProdutoNaoPerecivel extends Produto {
+
+        constructor(codigo: string, nome: string, precoCusto: number) {
+            super(codigo, nome, precoCusto)
+        }
+
         calcularPrecoFinal(): number {
             return this.getPrecoCusto()
         }
 
-        exibirDados(): void {
-            console.log(`Código: ${this.getCodigo()}`)
-            console.log(`Nome: ${this.getNome()}`)
-            console.log(`Preço de custo: ${this.getPrecoCusto()}`)
-            console.log(`Preço final: ${this.calcularPrecoFinal()}`)
+        obterDetalhes(): string {
+            return `Não Perecível`
         }
     }
 
     let produtos: Produto[] = []
-    let opcao = -1
+    let continuar = "sim"
 
-    while (opcao !== 0) {
+    while (continuar === "sim") {
 
-        opcao = Number(prompt("1 - Cadastrar Produto Perecível" + "2 - Cadastrar Produto Não Perecível" + "3 - Listar Produtos" + "4 - Passar Produtos pelo Caixa" + "0 - Sair"))
+        let tipo = String(prompt("Escolha o tipo de produto: | 1 - Produto Perecível | 2 - Produto Não Perecível"))
+        let codigo = String(prompt("Informe o código do produto: "))
+        let nome = String(prompt("Informe o nome do produto: "))
+        let precoCusto = Number(prompt("Informe o preço de custo: "))
 
-        if (opcao === 1) {
-            let codigo = Number(prompt("Informe o código do produto: "))
+        let produto: Produto
 
-            while (codigo <= 0 || codigo) {
-                console.log("Código inválido!")
-                codigo = Number(prompt("Informe um código válido: "))
-            }
-
-            let nome = String(prompt("Informe o nome do produto: "))
-
-            while (nome === "") {
-                console.log("Nome inválido!")
-                nome = String(prompt("Informe um nome válido: "))
-            }
-
-            let precoCusto = Number(prompt("Informe o preço de custo: "))
-
-            while (precoCusto <= 0 || precoCusto) {
-
-                console.log("Preço de custo inválido!")
-                precoCusto = Number(prompt("Informe um preço de custo válido: "))
-            }
-
-
+        if (tipo === "1") {
             let dataValidade = String(prompt("Informe a data de validade: "))
-
-            while (dataValidade === "" || new Date(dataValidade).getTime()) {
-
-                console.log("Data de validade inválida!")
-                dataValidade = String(prompt("Informe uma data de validade válida: "))
-            }
-
-            let produtoPerecivel = new ProdutoPerecivel( codigo, nome, precoCusto, dataValidade)
-
-            produtos.push(produtoPerecivel)
-            console.log("Produto perecível cadastrado com sucesso!")
-        }
-
-
-        else if (opcao === 2) {
-            let codigo = Number(prompt("Informe o código do produto:"))
-
-            while (codigo <= 0 || codigo) {
-
-                console.log("Código inválido!")
-                codigo = Number(prompt("Informe um código válido:"))
-            }
-
-
-            let nome = String(prompt("Informe o nome do produto:"))
-
-            while (nome === "") {
-
-                console.log("Nome inválido!")
-                nome = String(prompt("Informe um nome válido:"))
-            }
-
-
-            let precoCusto = Number(prompt("Informe o preço de custo:"))
-
-            while (precoCusto <= 0 || precoCusto) {
-
-                console.log("Preço de custo inválido!")
-                precoCusto = Number(prompt("Informe um preço de custo válido:"))
-            }
-
-
-            let produtoNaoPerecivel = new ProdutoNaoPerecivel(codigo,nome,precoCusto)
-
-            produtos.push(produtoNaoPerecivel)
-
-            console.log("Produto não perecível cadastrado com sucesso!")
-        }
-
-
-        else if (opcao === 3) {
-
-            if (produtos.length === 0) {
-                console.log("Nenhum produto cadastrado!")
-
-            } else {
-
-                for (let produto of produtos) {
-                    produto.exibirDados()
-                }
-            }
-        }
-
-
-        else if (opcao === 4) {
-
-            if (produtos.length === 0) {
-
-                console.log("Nenhum produto cadastrado!")
-
-            } else {
-
-                let valorTotal = 0
-
-                for (let produto of produtos) {
-
-                    let precoFinal = produto.calcularPrecoFinal()
-
-                    console.log(`${produto} - R$ ${precoFinal}`)
-                    valorTotal += precoFinal
-                }
-
-                console.log(`Valor final da compra: R$ ${valorTotal}`)
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-
+            let vencendoHoje = String(prompt("O produto está no dia do vencimento (sim/não): "))
+            produto = new ProdutoPerecivel(codigo, nome, precoCusto, dataValidade, vencendoHoje)
         } else {
-            console.log("Opção inválida!")
+            produto = new ProdutoNaoPerecivel(codigo, nome, precoCusto)
         }
+
+        produtos.push(produto)
+
+        continuar = String(prompt("Deseja cadastrar outro produto no estoque (sim/não): "))
+    }
+
+    if (produtos.length === 0) {
+        console.log("Nenhum produto foi cadastrado no estoque")
+    } else {
+        let valorTotalVenda = 0
+
+        for (let i = 0; i < produtos.length; i++) {
+            let p = produtos[i]
+            let precoFinal = p.calcularPrecoFinal()
+            valorTotalVenda += precoFinal
+
+            console.log(`Código: ${p.getCodigo()} | Nome: ${p.getNome()} | ${p.obterDetalhes()} | Custo: R$ ${p.getPrecoCusto().toFixed(2)} | Valor Final: ${precoFinal}`)
+        }
+        console.log(`Valor Total a Ser Pago pelo Cliente: R$ ${valorTotalVenda}`)
     }
 }

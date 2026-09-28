@@ -22,110 +22,67 @@ export function executarQuestao23() {
         getPrecoCusto() {
             return this.precoCusto;
         }
-        mostrarProduto() {
-            console.log(`Código: ${this.codigo}`);
-            console.log(`Nome: ${this.nome}`);
-            console.log(`Preço: R$ ${this.calcularPreco()}`);
-            console.log(`Tipo: ${this.getTipo()}`);
-        }
     }
     class ProdutoPerecivel extends Produto {
-        constructor(codigo, nome, precoCusto, dataValidade) {
+        constructor(codigo, nome, precoCusto, dataValidade, vencendoHoje) {
             super(codigo, nome, precoCusto);
             this.dataValidade = dataValidade;
+            this.vencendoHoje = vencendoHoje;
         }
-        getTipo() {
-            return "Perecível";
-        }
-        calcularPreco() {
-            let dataAtual = new Date();
-            let validade = new Date(this.dataValidade);
-            let diaAtual = dataAtual.getDate();
-            let mesAtual = dataAtual.getMonth();
-            let anoAtual = dataAtual.getFullYear();
-            let diaValidade = validade.getDate();
-            let mesValidade = validade.getMonth();
-            let anoValidade = validade.getFullYear();
-            if (diaAtual === diaValidade && mesAtual === mesValidade && anoAtual === anoValidade) {
-                return this.getPrecoCusto() * 0.70;
+        calcularPrecoFinal() {
+            if (this.vencendoHoje.toLowerCase() === "sim") {
+                let desconto = this.getPrecoCusto() * 0.30;
+                return this.getPrecoCusto() - desconto;
             }
-            return this.getPrecoCusto();
+            else {
+                return this.getPrecoCusto();
+            }
         }
-        mostrarProduto() {
-            console.log(`Código: ${this.getCodigo()}`);
-            console.log(`Nome: ${this.getNome()}`);
-            console.log(`Data de validade: ${this.dataValidade}`);
-            console.log(`Preço: R$ ${this.calcularPreco()}`);
-            console.log(`Tipo: ${this.getTipo()}`);
+        obterDetalhes() {
+            return `Validade: ${this.dataValidade} | Vencendo hoje: ${this.vencendoHoje}`;
         }
     }
     class ProdutoNaoPerecivel extends Produto {
         constructor(codigo, nome, precoCusto) {
             super(codigo, nome, precoCusto);
         }
-        getTipo() {
-            return "Não Perecível";
-        }
-        calcularPreco() {
+        calcularPrecoFinal() {
             return this.getPrecoCusto();
         }
-        mostrarProduto() {
-            console.log(`Código: ${this.getCodigo()}`);
-            console.log(`Nome: ${this.getNome()}`);
-            console.log(`Preço: R$ ${this.calcularPreco()}`);
-            console.log(`Tipo: ${this.getTipo()}`);
+        obterDetalhes() {
+            return `Não Perecível`;
         }
     }
     let produtos = [];
-    let opcao = 0;
-    while (opcao !== 4) {
-        console.log(`1 - Cadastrar produto perecível`);
-        console.log(`2 - Cadastrar produto não perecível`);
-        console.log(`3 - Listar produtos e passar pelo caixa`);
-        console.log(`4 - Sair`);
-        opcao = Number(prompt(`Digite uma opção: `));
-        if (opcao === 1) {
-            let codigo = Number(prompt(`Digite o código do produto: `));
-            let nome = String(prompt(`Digite o nome do produto: `));
-            let preco = Number(prompt(`Digite o preço de custo: `));
-            let validade = String(prompt(`Digite a data de validade: `));
-            let produto = new ProdutoPerecivel(codigo, nome, preco, validade);
-            produtos.push(produto);
-            console.log(`Produto perecível cadastrado!`);
-        }
-        else if (opcao === 2) {
-            let codigo = Number(prompt(`Digite o código do produto: `));
-            let nome = String(prompt(`Digite o nome do produto: `));
-            let preco = Number(prompt(`Digite o preço de custo:`));
-            let produto = new ProdutoNaoPerecivel(codigo, nome, preco);
-            produtos.push(produto);
-            console.log(`Produto não perecível cadastrado!`);
-        }
-        else if (opcao === 3) {
-            if (produtos.length === 0) {
-                console.log(`Nenhum produto cadastrado.`);
-            }
-            else {
-                for (let i = 0; i < produtos.length; i++) {
-                    console.log(`Produto ${i + 1}`);
-                    produtos[i].mostrarProduto();
-                }
-                let total = 0;
-                for (let i = 0; i < produtos.length; i++) {
-                    let produto = produtos[i];
-                    let valor = produto.calcularPreco();
-                    console.log(`Produto: ${produto.getNome()}`);
-                    console.log(`Valor a pagar: R$ ${valor}`);
-                    total = total + valor;
-                }
-                console.log(`Total da compra: R$ ${total}`);
-            }
-        }
-        else if (opcao === 4) {
-            console.log(`Programa encerrado.`);
+    let continuar = "sim";
+    while (continuar === "sim") {
+        let tipo = String(prompt("Escolha o tipo de produto: | 1 - Produto Perecível | 2 - Produto Não Perecível"));
+        let codigo = String(prompt("Informe o código do produto: "));
+        let nome = String(prompt("Informe o nome do produto: "));
+        let precoCusto = Number(prompt("Informe o preço de custo: "));
+        let produto;
+        if (tipo === "1") {
+            let dataValidade = String(prompt("Informe a data de validade: "));
+            let vencendoHoje = String(prompt("O produto está no dia do vencimento (sim/não): "));
+            produto = new ProdutoPerecivel(codigo, nome, precoCusto, dataValidade, vencendoHoje);
         }
         else {
-            console.log(`Opção inválida.`);
+            produto = new ProdutoNaoPerecivel(codigo, nome, precoCusto);
         }
+        produtos.push(produto);
+        continuar = String(prompt("Deseja cadastrar outro produto no estoque (sim/não): "));
+    }
+    if (produtos.length === 0) {
+        console.log("Nenhum produto foi cadastrado no estoque");
+    }
+    else {
+        let valorTotalVenda = 0;
+        for (let i = 0; i < produtos.length; i++) {
+            let p = produtos[i];
+            let precoFinal = p.calcularPrecoFinal();
+            valorTotalVenda += precoFinal;
+            console.log(`Código: ${p.getCodigo()} | Nome: ${p.getNome()} | ${p.obterDetalhes()} | Custo: R$ ${p.getPrecoCusto().toFixed(2)} | Valor Final: ${precoFinal}`);
+        }
+        console.log(`Valor Total a Ser Pago pelo Cliente: R$ ${valorTotalVenda}`);
     }
 }

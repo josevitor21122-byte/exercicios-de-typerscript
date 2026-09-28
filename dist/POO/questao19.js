@@ -9,96 +9,69 @@
 // perigo.
 export function executarQuestao19() {
     class Sensor {
-        constructor(codigo, leitura, tipo) {
-            this._codigo = codigo;
-            this._leitura = leitura;
-            this.tipo = tipo;
+        constructor(codigo, leitura) {
+            this.codigo = codigo;
+            this.leitura = leitura;
         }
         getCodigo() {
-            return this._codigo;
+            return this.codigo;
         }
         getLeitura() {
-            return this._leitura;
-        }
-        getTipo() {
-            return this.tipo;
-        }
-        setCodigo(codigo) {
-            this._codigo = codigo;
-        }
-        setLeitura(leitura) {
-            this._leitura = leitura;
-        }
-        passouDoLimite() {
-            return false;
-        }
-        exibirLeituraFormatada() {
-            console.log(`Sensor: ${this._codigo}`);
-            console.log(`Leitura: ${this._leitura}`);
+            return this.leitura;
         }
     }
     class SensorTemperatura extends Sensor {
         constructor(codigo, leitura) {
-            super(codigo, leitura, "T");
+            super(codigo, leitura);
         }
-        passouDoLimite() {
-            return this.getLeitura() > 40;
+        verificarAlerta() {
+            return this.leitura > 40;
         }
-        exibirLeituraFormatada() {
-            console.log(`Código: ${this.getCodigo()}`);
-            console.log(`Valor: ${this.getLeitura()}`);
+        exibirSensor() {
+            console.log(`Sensor de Temperatura : ${this.getCodigo()} | Leitura: ${this.getLeitura()}`);
         }
     }
     class SensorPressao extends Sensor {
         constructor(codigo, leitura) {
-            super(codigo, leitura, "P");
+            super(codigo, leitura);
         }
-        passouDoLimite() {
-            return this.getLeitura() > 5;
+        verificarAlerta() {
+            return this.leitura > 5;
         }
-        exibirLeituraFormatada() {
-            console.log(`Código: ${this.getCodigo()}`);
-            console.log(`Valor: ${this.getLeitura()}`);
+        exibirSensor() {
+            console.log(`Sensor de Pressão [Código: ${this.getCodigo()}] | Leitura: ${this.getLeitura()}`);
         }
     }
-    let listaSensores = [];
-    let continuarLeitura = true;
-    while (continuarLeitura) {
-        let opcao = String(prompt("Monitoramento de Sensores Digite: T - Sensor de Temperatura P - Sensor de Pressão F: "));
-        if (opcao === "F") {
-            continuarLeitura = false;
-        }
-        else if (opcao === "T" || opcao === "P") {
-            let codigo = String(prompt("Digite o código do sensor: "));
-            let leitura = Number(prompt("Digite o valor da última leitura: "));
-            if (opcao === "T") {
-                let sensTemp = new SensorTemperatura(codigo, leitura);
-                listaSensores.push(sensTemp);
-                console.log(`Sensor de Temperatura ${codigo} registrado!`);
-            }
-            else if (opcao === "P") {
-                let sensPres = new SensorPressao(codigo, leitura);
-                listaSensores.push(sensPres);
-                console.log(`Sensor de Pressão ${codigo} registrado!`);
-            }
+    let sensores = [];
+    let continuar = "sim";
+    while (continuar === "sim") {
+        let tipo = String(prompt("Escolha o tipo de sensor: | 1 - Sensor de Temperatura | 2 - Sensor de Pressão"));
+        let codigo = String(prompt("Informe o código identificador do sensor: "));
+        let leitura = Number(prompt("Informe o valor da última leitura registrada: "));
+        let sensor;
+        if (tipo === "1") {
+            sensor = new SensorTemperatura(codigo, leitura);
         }
         else {
-            console.log("Opção inválida!");
+            sensor = new SensorPressao(codigo, leitura);
         }
+        sensores.push(sensor);
+        continuar = String(prompt("Deseja cadastrar outro sensor (sim/não): "));
     }
-    let totalAlertas = 0;
-    for (let i = 0; i < listaSensores.length; i++) {
-        let sensorAtual = listaSensores[i];
-        if (sensorAtual.passouDoLimite()) {
-            sensorAtual.exibirLeituraFormatada();
-            totalAlertas++;
-            console.log("Status: PERIGO ");
-        }
-    }
-    if (totalAlertas === 0) {
-        console.log("Todos os sensores operando dentro dos limites seguros.");
+    if (sensores.length === 0) {
+        console.log("Nenhum sensor foi cadastrado!");
     }
     else {
-        console.log(`Total de sensores com alerta: ${totalAlertas}`);
+        let encontrouAlerta = false;
+        for (let i = 0; i < sensores.length; i++) {
+            let s = sensores[i];
+            if (s.verificarAlerta()) {
+                s.exibirSensor();
+                encontrouAlerta = true;
+            }
+        }
+        if (encontrouAlerta) {
+            console.log("Nenhum sensor disparou alerta de perigo.");
+        }
     }
 }

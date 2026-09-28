@@ -50,7 +50,7 @@ export function executarQuestao16() {
             this.migratoria = migratoria;
         }
         emitirSom() {
-            console.log(`${this.nome} faz: Piu Piu`);
+            console.log(`${this.nome} faz: Piu Piu Piu`);
         }
         exibirDados() {
             super.exibirDados();

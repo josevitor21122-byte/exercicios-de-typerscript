@@ -14,7 +14,6 @@
 
 export function executarQuestao33(): void {
     abstract class Obra {
-
         private titulo: string
         private autor: string
 
@@ -41,7 +40,6 @@ export function executarQuestao33(): void {
         }
 
         registrarAtraso(diasDeAtraso: number): number {
-            // Calcula multa de R$ 2,50 por dia de atraso
             let multa = diasDeAtraso * 2.50
             return multa
         }
@@ -55,7 +53,7 @@ export function executarQuestao33(): void {
 
         registrarAtraso(diasDeAtraso: number): number {
             if (diasDeAtraso > 0) {
-                console.log(`O artigo digital ${this.getTitulo()} teve ${diasDeAtraso} dia(s) de atraso. Aviso enviado ao usuário.`)
+                console.log(`O artigo digital: ${this.getTitulo()} teve ${diasDeAtraso} dia de atraso`)
             }
             return 0
         }
@@ -63,93 +61,44 @@ export function executarQuestao33(): void {
 
     let obras: Obra[] = []
     let diasAtrasos: number[] = []
+    let continuar = "sim"
 
-    let opcao = -1
+    while (continuar === "sim") {
 
-    while (opcao !== 0) {
+        let tipo = String(prompt("Escolha o tipo de obra: | 1 - Livro Físico (Multa R$ 2,50/dia) | 2 - Artigo Digital "))
+        let titulo = String(prompt("Informe o título da obra: "))
+        let autor = String(prompt("Informe o autor da obra: "))
+        let diasDeAtraso = Number(prompt("Informe a quantidade de dias de atraso: "))
 
-        opcao = Number(prompt("1 - Cadastrar Livro Físico (com multa por atraso)" + "2 - Cadastrar Artigo Digital (com advertência)" + "3 - Exibir valor total de multas a recolher" + "0 - Sair" + "Escolha uma opção:"))
+        let obra: Obra
 
-        if (opcao === 1) {
-
-            let titulo = String(prompt("Informe o título do livro físico:"))
-
-            while (titulo === "") {
-                console.log("O título não pode ser vazio!")
-                titulo = String(prompt("Informe um título válido:"))
-            }
-
-            let autor = String(prompt("Informe o autor do livro físico:"))
-
-            while (autor === "") {
-                console.log("O autor não pode ser vazio!")
-                autor = String(prompt("Informe um autor válido:"))
-            }
-
-            let diasDeAtraso = Number(prompt("Informe a quantidade de dias de atraso:"))
-
-            while (diasDeAtraso < 0 || diasDeAtraso % 1 !== 0) {
-                console.log("Quantidade de dias inválida!")
-                diasDeAtraso = Number(prompt("Informe uma quantidade de dias válida:"))
-            }
-
-            let livro = new LivroFisico(titulo, autor)
-
-            obras.push(livro)
-            diasAtrasos.push(diasDeAtraso)
-            console.log("Livro Físico cadastrado com sucesso!")
-
-        } else if (opcao === 2) {
-            let titulo = String(prompt("Informe o título do artigo digital:"))
-
-            while (titulo === "") {
-                console.log("O título não pode ser vazio!")
-                titulo = String(prompt("Informe um título válido:"))
-            }
-
-            let autor = String(prompt("Informe o autor do artigo digital:"))
-
-            while (autor === "") {
-                console.log("O autor não pode ser vazio!")
-                autor = String(prompt("Informe um autor válido:"))
-            }
-
-            let diasDeAtraso = Number(prompt("Informe a quantidade de dias de atraso:"))
-
-            while (diasDeAtraso < 0 || diasDeAtraso % 1 !== 0) {
-                console.log("Quantidade de dias inválida!")
-                diasDeAtraso = Number(prompt("Informe uma quantidade de dias válida:"))
-            }
-
-            let artigo = new ArtigoDigital(titulo, autor)
-
-            obras.push(artigo)
-            diasAtrasos.push(diasDeAtraso)
-            console.log("Artigo Digital cadastrado com sucesso!")
-        
-        } else if (opcao === 3) {
-            if (obras.length === 0) {
-
-                console.log("Nenhuma obra foi cadastrada!")
-
-            } else {
-                let totalMultas = 0
-                
-                for (let i = 0; i < obras.length; i++) {
-                    let obra = obras[i]
-                    let dias = diasAtrasos[i]
-
-                    let multaObra = obra.registrarAtraso(dias)
-                    totalMultas = totalMultas + multaObra
-                }
-                console.log(`Valor total de multas a recolher: ${totalMultas}`)
-            }
-        
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-        
+        if (tipo === "1") {
+            obra = new LivroFisico(titulo, autor)
         } else {
-            console.log("Opção inválida!")
+            obra = new ArtigoDigital(titulo, autor)
         }
+
+        obras.push(obra)
+        diasAtrasos.push(diasDeAtraso)
+
+        continuar = String(prompt("Deseja registrar outra devolução (sim/não): "))
+    }
+
+    if (obras.length === 0) {
+        console.log("Nenhuma obra foi cadastrada")
+    } else {
+
+        let totalMultas = 0
+
+        for (let i = 0; i < obras.length; i++) {
+            let obra = obras[i]
+            let dias = diasAtrasos[i]
+
+            let multaObra = obra.registrarAtraso(dias)
+            totalMultas += multaObra
+
+            console.log(`Obra: ${obra.getTitulo()} | Autor: ${obra.getAutor()} | Dias de Atraso: ${dias} | Multa: R$ ${multaObra}`)
+        }
+        console.log(`Valor total de multas a recolher: ${totalMultas}`)
     }
 }

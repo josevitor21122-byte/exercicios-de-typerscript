@@ -1,5 +1,4 @@
 // 30. O Sistema de Bilhetagem de Transporte Intermunicipal
-
 // O sistema de transportes da região precisa de um software para gerenciar a venda de passagens. Crie
 // um modelo onde cada passagem possua o nome do passageiro, CPF e o valor base da corrida. Garanta
 // que esses dados não sejam alterados diretamente de fora da classe. Existem duas modalidades: a
@@ -9,10 +8,10 @@
 // faturamento total do dia utilizando uma estrutura de redução ou soma acumulada.
 
 export function executarQuestao30(): void {
-    abstract class Passagem {
 
-        protected nomePassageiro: string
-        protected cpf: string
+    abstract class Passagem {
+        private nomePassageiro: string
+        private cpf: string
         protected valorBase: number
 
         constructor(nomePassageiro: string, cpf: string, valorBase: number) {
@@ -21,15 +20,20 @@ export function executarQuestao30(): void {
             this.valorBase = valorBase
         }
 
-        abstract calcularValorFinal(): number
-
-        exibirDetalhes(): void {
-            console.log(`Passageiro: ${this.nomePassageiro}`)
-            console.log(`CPF: ${this.cpf}`)
-            console.log(`Valor Final: ${this.calcularValorFinal()}`)
+        getNomePassageiro(): string {
+            return this.nomePassageiro
         }
-    }
 
+        getCpf(): string {
+            return this.cpf
+        }
+
+        getValorBase(): number {
+            return this.valorBase
+        }
+
+        abstract calcularValorFinal(): number
+    }
 
     class PassagemComum extends Passagem {
 
@@ -42,8 +46,8 @@ export function executarQuestao30(): void {
         }
     }
 
-
     class PassagemEstudantil extends Passagem {
+
         constructor(nomePassageiro: string, cpf: string, valorBase: number) {
             super(nomePassageiro, cpf, valorBase)
         }
@@ -53,109 +57,42 @@ export function executarQuestao30(): void {
         }
     }
 
-
     let passagens: Passagem[] = []
-    let opcao = -1
+    let continuar = "sim"
 
-    while (opcao !== 0) {
+    while (continuar === "sim") {
 
-        opcao = Number(prompt("1 - Cadastrar Passagem Comum" + "2 - Cadastrar Passagem Estudantil" + "3 - Exibir relatório e faturamento total" + "0 - Sair" + "Escolha uma opção:"))
+        let tipo = String(prompt("Escolha o tipo de passagem: | 1 - Passagem Comum | 2 - Passagem Estudantil)"))
+        let nomePassageiro = String(prompt("Informe o nome do passageiro: "))
+        let cpf = String(prompt("Informe o CPF do passageiro: "))
+        let valorBase = Number(prompt("Informe o valor base da corrida: "))
 
-        if (opcao === 1) {
+        let passagem: Passagem
 
-            let nomePassageiro = String(prompt("Informe o nome do passageiro:"))
-
-            while (nomePassageiro === "") {
-                console.log("O nome não pode ser vazio!")
-
-                nomePassageiro = String(prompt("Informe um nome válido:"))
-            }
-
-            let cpf = String(prompt("Informe o CPF do passageiro:"))
-
-            while (cpf === "") {
-                console.log("O CPF não pode ser vazio!")
-
-                cpf = String(prompt("Informe um CPF válido:"))
-            }
-
-
-            let valorBase = Number(prompt("Informe o valor base da corrida:"))
-
-            while (valorBase <= 0) {
-                console.log("Valor base inválido!")
-                valorBase = Number(prompt("Informe um valor base válido:"))
-            }
-
-
-            let passagem = new PassagemComum(nomePassageiro, cpf, valorBase)
-
-            passagens.push(passagem)
-            console.log("Passagem Comum cadastrada com sucesso!")
-        }
-
-
-        else if (opcao === 2) {
-
-            let nomePassageiro = String(prompt("Informe o nome do passageiro:"))
-
-            while (nomePassageiro === "") {
-                console.log("O nome não pode ser vazio!")
-                nomePassageiro = String(prompt("Informe um nome válido:"))
-            }
-
-
-            let cpf = String(prompt("Informe o CPF do passageiro:"))
-
-            while (cpf === "") {
-                console.log("O CPF não pode ser vazio!")
-
-                cpf = String(prompt("Informe um CPF válido:"))
-            }
-
-
-            let valorBase = Number(prompt("Informe o valor base da corrida:"))
-
-            while (valorBase <= 0) {
-                console.log("Valor base inválido!")
-                valorBase = Number(prompt("Informe um valor base válido:"))
-            }
-
-
-            let passagem = new PassagemEstudantil(nomePassageiro, cpf, valorBase)
-
-            passagens.push(passagem)
-            console.log("Passagem Estudantil cadastrada com sucesso!")
-        }
-
-
-        else if (opcao === 3) {
-
-            if (passagens.length === 0) {
-
-                console.log("Nenhuma passagem foi cadastrada!")
-
-            } else {
-
-                let faturamentoTotal = 0
-
-                for (let i = 0; i < passagens.length; i++) {
-                    let passagem = passagens[i]
-
-                    passagem.exibirDetalhes()
-
-                    faturamentoTotal = faturamentoTotal + passagem.calcularValorFinal()
-                }
-
-                console.log(`Faturamento Total do Dia: ${faturamentoTotal}`)
-            }
-        }
-
-
-        else if (opcao === 0) {
-            console.log("Programa encerrado!")
+        if (tipo === "1") {
+            passagem = new PassagemComum(nomePassageiro, cpf, valorBase)
         } else {
-            console.log("Opção inválida!")
+            passagem = new PassagemEstudantil(nomePassageiro, cpf, valorBase)
         }
+
+        passagens.push(passagem)
+
+        continuar = String(prompt("Deseja cadastrar outra passagem (sim/não): "))
+    }
+
+    if (passagens.length === 0) {
+        console.log("Nenhuma passagem foi cadastrada")
+    } else {
+
+        let faturamentoTotal = 0
+
+        for (let i = 0; i < passagens.length; i++) {
+            let p = passagens[i]
+            let valorFinal = p.calcularValorFinal()
+            faturamentoTotal += valorFinal
+
+            console.log(`Passageiro: ${p.getNomePassageiro()} | CPF: ${p.getCpf()} | Valor Final: R$ ${valorFinal}`)
+        }
+        console.log(`Faturamento Total do Dia: R$ ${faturamentoTotal}`)
     }
 }

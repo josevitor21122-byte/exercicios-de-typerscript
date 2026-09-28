@@ -10,8 +10,7 @@
 export function executarQuestao28(): void {
 
     abstract class Acomodacao {
-
-        protected numeroQuarto: number
+        private numeroQuarto: number
         protected precoBaseDiaria: number
 
         constructor(numeroQuarto: number, precoBaseDiaria: number) {
@@ -19,153 +18,91 @@ export function executarQuestao28(): void {
             this.precoBaseDiaria = precoBaseDiaria
         }
 
-        abstract calcularFaturamento(dias: number): number
-
         getNumeroQuarto(): number {
             return this.numeroQuarto
         }
+
+        getPrecoBaseDiaria(): number {
+            return this.precoBaseDiaria
+        }
+
+        abstract calcularTotalHospedagem(dias: number): number
+        abstract obterTipo(): string
     }
 
-
-    class QuartoBasico extends Acomodacao {
+    class AcomodacaoBasica extends Acomodacao {
 
         constructor(numeroQuarto: number, precoBaseDiaria: number) {
             super(numeroQuarto, precoBaseDiaria)
         }
 
-        calcularFaturamento(dias: number): number {
+        calcularTotalHospedagem(dias: number): number {
             return this.precoBaseDiaria * dias
         }
-    }
 
+        obterTipo(): string {
+            return "Acomodação Básica"
+        }
+    }
 
     class SuiteMaster extends Acomodacao {
+        private valorHidromassagem: number
 
-        private valorAdicionalHidro: number
-
-        constructor(numeroQuarto: number,precoBaseDiaria: number,valorAdicionalHidro: number) {
+        constructor(numeroQuarto: number, precoBaseDiaria: number, valorHidromassagem: number) {
             super(numeroQuarto, precoBaseDiaria)
-            this.valorAdicionalHidro = valorAdicionalHidro
+            this.valorHidromassagem = valorHidromassagem
         }
 
-        calcularFaturamento(dias: number): number {
+        calcularTotalHospedagem(dias: number): number {
             let totalDiarias = this.precoBaseDiaria * dias
-            return totalDiarias + this.valorAdicionalHidro
+            return totalDiarias + this.valorHidromassagem
+        }
+
+        obterTipo(): string {
+            return "Suíte Master"
         }
     }
-
 
     let acomodacoes: Acomodacao[] = []
     let diasHospedagem: number[] = []
+    let continuar = "sim"
 
-    let opcao = -1
+    while (continuar === "sim") {
+        let tipo = String(prompt("Escolha o tipo de acomodação: | 1 - Acomodação Básica | 2 - Suíte Master"))
+        let numeroQuarto = Number(prompt("Informe o número do quarto: "))
+        let precoBaseDiaria = Number(prompt("Informe o preço base da diária: "))
+        let dias = Number(prompt("Informe a quantidade de dias que o hóspede ficou alojado: "))
 
-    while (opcao !== 0) {
-
-        opcao = Number(
-            prompt("1 - Cadastrar Quarto Básico" + "2 - Cadastrar Suíte Master" + "3 - Exibir quartos com faturamento > R$ 1.000,00" + "0 - Sair" + "Escolha uma opção:"))
-
-        if (opcao === 1) {
-            let numeroQuarto = Number(prompt("Informe o número do quarto:"))
-
-            while (numeroQuarto <= 0 || numeroQuarto % 1 !== 0) {
-                console.log("Número do quarto inválido!")
-                numeroQuarto = Number(prompt("Informe um número de quarto válido:"))
-            }
-
-            let precoBaseDiaria = Number(prompt("Informe o preço base da diária:"))
-
-            while (precoBaseDiaria <= 0) {
-                console.log("Preço base inválido!")
-                precoBaseDiaria = Number(prompt("Informe um preço base válido:"))
-            }
-
-            let dias = Number(prompt("Informe quantos dias o hóspede ficou alojado:"))
-
-            while (dias <= 0 || dias % 1 !== 0) {
-                console.log("Quantidade de dias inválida!")
-                dias = Number(prompt("Informe uma quantidade de dias válida:"))
-            }
-
-            let quarto = new QuartoBasico(numeroQuarto, precoBaseDiaria)
-
-            acomodacoes.push(quarto)
-            diasHospedagem.push(dias)
-            console.log("Quarto Básico cadastrado com sucesso!")
-        }
-
-
-        else if (opcao === 2) {
-
-            let numeroQuarto = Number(prompt("Informe o número da suíte:"))
-
-            while (numeroQuarto <= 0 || numeroQuarto % 1 !== 0) {
-                console.log("Número da suíte inválido!")
-                numeroQuarto = Number(prompt("Informe um número de suíte válido:"))
-            }
-
-            let precoBaseDiaria = Number(prompt("Informe o preço base da diária:"))
-
-            while (precoBaseDiaria <= 0) {
-                console.log("Preço base inválido!")
-                precoBaseDiaria = Number(prompt("Informe um preço base válido:"))
-            }
-
-            let valorAdicionalHidro = Number(
-                prompt("Informe o valor adicional fixo da hidromassagem:")
-            )
-
-            while (valorAdicionalHidro < 0) {
-                console.log("Valor adicional inválido!")
-                valorAdicionalHidro = Number(prompt("Informe um valor adicional válido:"))
-            }
-
-            let dias = Number(prompt("Informe quantos dias o hóspede ficou alojado:"))
-
-            while (dias <= 0 || dias % 1 !== 0) {
-                console.log("Quantidade de dias inválida!")
-                dias = Number(prompt("Informe uma quantidade de dias válida:"))
-            }
-
-            let suite = new SuiteMaster(numeroQuarto, precoBaseDiaria, valorAdicionalHidro)
-
-            acomodacoes.push(suite)
-            diasHospedagem.push(dias)
-            console.log("Suíte Master cadastrada com sucesso!")
-        }
-
-
-        else if (opcao === 3) {
-            if (acomodacoes.length === 0) {
-                console.log("Nenhum quarto foi cadastrado!")
-
-            } else {
-                let encontrou = false
-
-                for (let i = 0; i < acomodacoes.length; i++) {
-
-                    let acomodacao = acomodacoes[i]
-                    let dias = diasHospedagem[i]
-
-                    let faturamentoTotal = acomodacao.calcularFaturamento(dias)
-
-                    if (faturamentoTotal > 1000.00) {
-                        console.log(`Número do Quarto: ${acomodacao.getNumeroQuarto()}`)
-                        console.log(`Faturamento Total: ${faturamentoTotal}`)
-                        encontrou = true
-                    }
-                }
-
-                if (!encontrou) {
-                    console.log("Nenhum quarto faturou mais de R$ 1.000,00 na temporada.")
-                }
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-
+        if (tipo === "1") {
+            acomodacoes.push(new AcomodacaoBasica(numeroQuarto, precoBaseDiaria))
         } else {
-            console.log("Opção inválida!")
+            let valorHidro = Number(prompt("Informe o valor adicional fixo da hidromassagem: "))
+            acomodacoes.push(new SuiteMaster(numeroQuarto, precoBaseDiaria, valorHidro))
+        }
+
+        diasHospedagem.push(dias)
+
+        continuar = String(prompt("Deseja cadastrar outro check-out (sim/não): "))
+    }
+
+    if (acomodacoes.length === 0) {
+        console.log("Nenhum check-out foi cadastrado")
+    } else {
+        let encontrou = false
+
+        for (let i = 0; i < acomodacoes.length; i++) {
+            let ac = acomodacoes[i]
+            let dias = diasHospedagem[i]
+            let totalFaturado = ac.calcularTotalHospedagem(dias)
+
+            if (totalFaturado > 1000.00) {
+                console.log(`Quarto: ${ac.getNumeroQuarto()} | Tipo: ${ac.obterTipo()} | Dias: ${dias} | Faturamento Total: R$ ${totalFaturado}`)
+                encontrou = true
+            }
+        }
+
+        if (encontrou) {
+            console.log("Nenhum quarto faturou mais de R$ 1.000,00 na temporada.")
         }
     }
 }

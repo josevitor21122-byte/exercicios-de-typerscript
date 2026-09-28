@@ -13,46 +13,43 @@ export function executarQuestao37(): void {
 
     abstract class Consumidor {
         private numeroConta: string
-        private quantidadeKWh: number
+        private kwhConsumidos: number
 
-        constructor(numeroConta: string, quantidadeKWh: number) {
+        constructor(numeroConta: string, kwhConsumidos: number) {
             this.numeroConta = numeroConta
-            this.quantidadeKWh = quantidadeKWh
+            this.kwhConsumidos = kwhConsumidos
         }
 
         getNumeroConta(): string {
             return this.numeroConta
         }
 
-        getQuantidadeKWh(): number {
-            return this.quantidadeKWh
+        getKwhConsumidos(): number {
+            return this.kwhConsumidos
         }
 
-        abstract calcularValor(): number
-        abstract getDescricaoTipo(): string
+        abstract calcularFatura(): number
     }
 
     class ConsumidorResidencial extends Consumidor {
-        constructor(numeroConta: string, quantidadeKWh: number) {
-            super(numeroConta, quantidadeKWh)
+
+        constructor(numeroConta: string, kwhConsumidos: number) {
+            super(numeroConta, kwhConsumidos)
         }
 
-        calcularValor(): number {
-            return this.getQuantidadeKWh() * 0.75
-        }
-
-        getDescricaoTipo(): string {
-            return "Residencial"
+        calcularFatura(): number {
+            return this.getKwhConsumidos() * 0.75
         }
     }
 
     class ConsumidorComercial extends Consumidor {
-        constructor(numeroConta: string, quantidadeKWh: number) {
-            super(numeroConta, quantidadeKWh)
+
+        constructor(numeroConta: string, kwhConsumidos: number) {
+            super(numeroConta, kwhConsumidos)
         }
 
-        calcularValor(): number {
-            let kwh = this.getQuantidadeKWh()
+        calcularFatura(): number {
+            let kwh = this.getKwhConsumidos()
             if (kwh <= 1000) {
                 return kwh * 0.60
             } else {
@@ -60,85 +57,45 @@ export function executarQuestao37(): void {
                 return (1000 * 0.60) + (excedente * 0.50)
             }
         }
-
-        getDescricaoTipo(): string {
-            return "Comercial"
-        }
     }
 
     let consumidores: Consumidor[] = []
-    let opcao = -1
+    let continuar = "sim"
 
-    while (opcao !== 0) {
+    while (continuar === "sim") {
 
-        opcao = Number(prompt("1 - Cadastrar Consumidor Residencial" +"2 - Cadastrar Consumidor Comercial" +"3 - Exibir faturas e média de consumo" +"0 - Sair" +"Escolha uma opção:"))
+        let tipo = String(prompt("Escolha o tipo de consumidor: | 1 - Residencial | 2 - Comercial"))
+        let numeroConta = String(prompt("Informe o número da conta: "))
+        let kwhConsumidos = Number(prompt("Informe a quantidade de kWh consumidos no mês: "))
 
-        if (opcao === 1) {
+        let consumidor: Consumidor
 
-            let numeroConta = String(prompt("Informe o número da conta:"))
-
-            while (numeroConta === "") {
-                console.log("O número da conta não pode ser vazio!")
-                numeroConta = String(prompt("Informe um número de conta válido:"))
-            }
-
-            let kwh = Number(prompt("Informe a quantidade de kWh consumidos no mês:"))
-
-            while (kwh < 0) {
-                console.log("Quantidade de kWh inválida!")
-                kwh = Number(prompt("Informe uma quantidade de kWh válida:"))
-            }
-
-            let consumidor = new ConsumidorResidencial(numeroConta, kwh)
-            consumidores.push(consumidor)
-            console.log("Consumidor Residencial cadastrado com sucesso!")
-
-        } else if (opcao === 2) {
-
-            let numeroConta = String(prompt("Informe o número da conta:"))
-
-            while (numeroConta === "") {
-                console.log("O número da conta não pode ser vazio!")
-                numeroConta = String(prompt("Informe um número de conta válido:"))
-            }
-
-            let kwh = Number(prompt("Informe a quantidade de kWh consumidos no mês:"))
-
-            while (kwh < 0) {
-                console.log("Quantidade de kWh inválida!")
-                kwh = Number(prompt("Informe uma quantidade de kWh válida:"))
-            }
-
-            let consumidor = new ConsumidorComercial(numeroConta, kwh)
-            consumidores.push(consumidor)
-            console.log("Consumidor Comercial cadastrado com sucesso!")
-
-        } else if (opcao === 3) {
-            if (consumidores.length === 0) {
-                console.log("Nenhum consumidor foi cadastrado!")
-            } else {
-                let somaKWh = 0
-
-                for (let i = 0; i < consumidores.length; i++) {
-                    let c = consumidores[i]
-                    let valorFatura = c.calcularValor()
-                    somaKWh += c.getQuantidadeKWh()
-
-                    let tipo = c.getDescricaoTipo()
-
-                    console.log(`Conta: ${c.getNumeroConta()} | Tipo: ${tipo}`)
-                    console.log(`Consumo: ${c.getQuantidadeKWh()} kWh | Fatura: R$ ${valorFatura}`)
-                }
-
-                let mediaKWh = somaKWh / consumidores.length
-                console.log(`Média de consumo em kWh de todos os cadastrados: ${mediaKWh}`)
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-
+        if (tipo === "1") {
+            consumidor = new ConsumidorResidencial(numeroConta, kwhConsumidos)
         } else {
-            console.log("Opção inválida!")
+            consumidor = new ConsumidorComercial(numeroConta, kwhConsumidos)
         }
+
+        consumidores.push(consumidor)
+
+        continuar = String(prompt("Deseja cadastrar outro consumidor? (sim/não): "))
+    }
+
+    if (consumidores.length === 0) {
+        console.log("Nenhum consumidor foi cadastrado")
+    } else {
+
+        let somaKwh = 0
+
+        for (let i = 0; i < consumidores.length; i++) {
+            let c = consumidores[i]
+            let valorFatura = c.calcularFatura()
+            somaKwh += c.getKwhConsumidos()
+
+            console.log(`Conta: ${c.getNumeroConta()} | kWh: ${c.getKwhConsumidos()} | Valor da Fatura: ${valorFatura}`)
+        }
+
+        let mediaKwh = somaKwh / consumidores.length
+        console.log(`Média de consumo em kWh de todos os cadastrados: ${mediaKwh}`)
     }
 }

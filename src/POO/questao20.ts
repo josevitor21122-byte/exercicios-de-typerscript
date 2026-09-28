@@ -9,108 +9,97 @@
 // faturamento total do estabelecimento.
 
 export function executarQuestao20(): void {
-class Pedido {
-    private _numeroMesa: number
-    private _valorIngredientes: number
-    protected tipo: string 
 
-    constructor(numeroMesa: number, valorIngredientes: number, tipo: string) {
-        this._numeroMesa = numeroMesa
-        this._valorIngredientes = valorIngredientes
-        this.tipo = tipo
-    }
+    abstract class PedidoPizzaria {
+        private numeroMesa: number
+        protected valorIngredientes: number
 
-    public getNumeroMesa(): number { 
-        return this._numeroMesa 
-    }
-    public getValorIngredientes(): number { 
-        return this._valorIngredientes 
-    }
-    public getTipo(): string { 
-        return this.tipo 
-    }
-
-
-    public setNumeroMesa(numeroMesa: number): void { 
-        this._numeroMesa = numeroMesa 
-    }
-    public setValorIngredientes(valor: number): void { 
-        this._valorIngredientes = valor 
-    }
-
-    public calcularTotal(): number {
-        return this._valorIngredientes
-    }
-
-    public exibirResumo(): void {
-        console.log(`Mesa: ${this._numeroMesa}`)
-        console.log(`Ingredientes: R$ ${this._valorIngredientes}`)
-    }
-}
-
-class PedidoDelivery extends Pedido {
-    protected taxaEntrega: number
-    private enderecoDestino: string
-
-    constructor(numeroMesa: number, valorIngredientes: number, taxaEntrega: number, enderecoDestino: string) {
-        super(numeroMesa, valorIngredientes, "D")
-        this.taxaEntrega = taxaEntrega
-        this.enderecoDestino = enderecoDestino
-    }
-    public calcularTotal(): number {
-        return this.getValorIngredientes() + this.taxaEntrega
-    }
-
-    public exibirResumo(): void {
-        console.log(`Mesa de Origem: ${this.getNumeroMesa()}`)
-        console.log(`Destino: ${this.enderecoDestino}`)
-        console.log(`Valor Base: ${this.getValorIngredientes()}`)
-        console.log(`Taxa: ${this.taxaEntrega}`)
-    }
-}
-
-let controlePedidos: Pedido[] = []
-let continuarPedidos = true
-let faturamentoTotal = 0
-
-while (continuarPedidos) {
-    let opcao = String(prompt("Pizzaria Local - Registro de Pedidos Digite: L - Pedido Local D - Pedido Delivery (Entrega) F - Fechar Caixa (Encerrar) Opção: "))
-
-    if (opcao === "F") {
-        continuarPedidos = false
-
-    } else if (opcao === "L" || opcao === "D") {
-        let mesa = Number(prompt("Número da mesa (ou código do pedido): "))
-        let valorIngredientes = Number(prompt("Valor total dos ingredientes: "))
-
-        if (opcao === "L") {
-            let novoPedidoLocal = new Pedido(mesa, valorIngredientes, "L")
-            controlePedidos.push(novoPedidoLocal)
-            console.log(`Pedido local para a mesa ${mesa}`)
-        } else if (opcao === "D") {
-            let endereco = String(prompt("Endereço de destino: "))
-            let taxa = Number(prompt("Valor da taxa de entrega: "))
-
-            let novoPedidoDelivery = new PedidoDelivery(mesa, valorIngredientes, taxa, endereco)
-            controlePedidos.push(novoPedidoDelivery)
-            console.log(`Pedido de Delivery para ${endereco}`)
+        constructor(numeroMesa: number, valorIngredientes: number) {
+            this.numeroMesa = numeroMesa
+            this.valorIngredientes = valorIngredientes
         }
 
-    } else {
-        console.log("Opção inválida!")
+        getNumeroMesa(): number {
+            return this.numeroMesa
+        }
+
+        getValorIngredientes(): number {
+            return this.valorIngredientes
+        }
+
+        abstract calcularValorFinal(): number
     }
-}
 
-for (let i = 0; i < controlePedidos.length; i++) {
-    let pedidoAtual = controlePedidos[i]
+    class PedidoMesa extends PedidoPizzaria {
 
-    pedidoAtual.exibirResumo() 
-    let valorFinalDoPedido = pedidoAtual.calcularTotal()
-    console.log(`Valor final: ${valorFinalDoPedido}`)
+        constructor(numeroMesa: number, valorIngredientes: number) {
+            super(numeroMesa, valorIngredientes)
+        }
 
-    faturamentoTotal += valorFinalDoPedido
-}
+        calcularValorFinal(): number {
+            return this.getValorIngredientes()
+        }
+    }
 
-console.log(`Faturamento Total: R$ ${faturamentoTotal}`)
-console.log(`Total de pedidos realizados: ${controlePedidos.length}`)
+    class PedidoDelivery extends PedidoPizzaria {
+        protected taxaEntrega: number
+        private enderecoDestino: string
+
+        constructor(numeroMesa: number, valorIngredientes: number, taxaEntrega: number, enderecoDestino: string) {
+            super(numeroMesa, valorIngredientes)
+            this.taxaEntrega = taxaEntrega
+            this.enderecoDestino = enderecoDestino
+        }
+
+        getTaxaEntrega(): number {
+            return this.taxaEntrega
+        }
+
+        getEnderecoDestino(): string {
+            return this.enderecoDestino
+        }
+
+        calcularValorFinal(): number {
+            return this.getValorIngredientes() + this.taxaEntrega
+        }
+    }
+
+    let pedidos: PedidoPizzaria[] = []
+    let continuar = "sim"
+
+    while (continuar === "sim") {
+
+        let tipo = String(prompt("Escolha o tipo de pedido: | 1 - Pedido de Mesa | 2 - Pedido de Entrega"))
+        let numeroMesa = Number(prompt("Informe o número da mesa : "))
+        let valorIngredientes = Number(prompt("Informe o valor dos ingredientes: "))
+
+        let pedido: PedidoPizzaria
+
+        if (tipo === "1") {
+            pedido = new PedidoMesa(numeroMesa, valorIngredientes)
+        } else {
+            let taxaEntrega = Number(prompt("Informe a taxa de entrega: "))
+            let enderecoDestino = String(prompt("Informe o endereço de destino: "))
+            pedido = new PedidoDelivery(numeroMesa, valorIngredientes, taxaEntrega, enderecoDestino)
+        }
+
+        pedidos.push(pedido)
+
+        continuar = String(prompt("Deseja cadastrar outro pedido (sim/não): "))
+    }
+
+    if (pedidos.length === 0) {
+        console.log("Nenhum pedido foi cadastrado")
+    } else {
+        let faturamentoTotal = 0
+
+        for (let i = 0; i < pedidos.length; i++) {
+            let p = pedidos[i]
+            let valorFinal = p.calcularValorFinal()
+            faturamentoTotal += valorFinal
+
+            console.log(`Mesa: ${p.getNumeroMesa()} | Valor Final: ${valorFinal}`)
+        }
+        console.log(`Faturamento Total do Estabelecimento: ${faturamentoTotal}`)
+    }
 }

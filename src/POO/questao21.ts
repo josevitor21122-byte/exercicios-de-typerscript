@@ -10,123 +10,115 @@
 
 export function executarQuestao21(): void {
 
-class Projeto {
-    private _titulo: string
-    private _coordenador: string
-    private _nota: number
-    protected tipo: string
+    abstract class ProjetoReforest {
+        private titulo: string
+        private coordenador: string
+        protected nota: number
 
-    constructor(titulo: string, coordenador: string, tipo: string) {
-        this._titulo = titulo
-        this._coordenador = coordenador
-        this._nota = 0
-        this.tipo = tipo
+        constructor(titulo: string, coordenador: string, nota: number) {
+            this.titulo = titulo
+            this.coordenador = coordenador
+            this.nota = 0
+            this.setNota(nota)
+        }
+
+        getTitulo(): string {
+            return this.titulo
+        }
+
+        getCoordenador(): string {
+            return this.coordenador
+        }
+
+        getNota(): number {
+            return this.nota
+        }
+
+        setNota(valor: number): void {
+            if (valor >= 0 && valor <= 10) {
+                this.nota = valor
+            } else {
+                console.log("Nota inválida! Deve estar entre 0 e 10.")
+                this.nota = 0
+            }
+        }
+
+        abstract obterDescricaoCategoria(): string
     }
 
-    public getTitulo(): string { 
-        return this._titulo 
-    }
-    public getCoordenador(): string { 
-        return this._coordenador 
-    }
-    public getNota(): number { 
-        return this._nota 
-    }
-    public getTipo(): string { 
-        return this.tipo 
+    class ProjetoVerde extends ProjetoReforest {
+
+        constructor(titulo: string, coordenador: string, nota: number) {
+            super(titulo, coordenador, nota)
+        }
+
+        obterDescricaoCategoria(): string {
+            return "Categoria: Projeto Verde"
+        }
     }
 
-    public setNota(nota: number): void {
-        if (nota >= 0 && nota <= 10) {
-            this._nota = nota
+    class ProjetoCultural extends ProjetoReforest {
+
+        constructor(titulo: string, coordenador: string, nota: number) {
+            super(titulo, coordenador, nota)
+        }
+
+        obterDescricaoCategoria(): string {
+            return "Categoria: Projeto Cultural"
+        }
+    }
+
+    let projetos: ProjetoReforest[] = []
+    let continuar = "sim"
+
+    while (continuar === "sim") {
+
+        let tipo = String(prompt("Escolha o tipo de projeto: | 1 - Projeto Verde | 2 - Projeto Cultural"))
+        let titulo = String(prompt("Informe o título do projeto: "))
+        let coordenador = String(prompt("Informe o nome do coordenador: "))
+        let nota = Number(prompt("Informe a nota de avaliação (0 a 10): "))
+
+        let projeto: ProjetoReforest
+
+        if (tipo === "1") {
+            projeto = new ProjetoVerde(titulo, coordenador, nota)
         } else {
-            console.log("Nota inválida! A nota deve estar obrigatoriamente entre 0 e 10.")
-            this._nota = 0
+            projeto = new ProjetoCultural(titulo, coordenador, nota)
+        }
+
+        projetos.push(projeto)
+
+        continuar = String(prompt("Deseja cadastrar outro projeto (sim/não): "))
+    }
+
+    if (projetos.length === 0) {
+        console.log("Nenhum projeto foi cadastrado!")
+    } else {
+        let somaNotas = 0
+
+        for (let i = 0; i < projetos.length; i++) {
+            somaNotas += projetos[i].getNota()
+        }
+
+        let mediaNotas = somaNotas / projetos.length
+
+        console.log(`Média aritmética das notas: ${mediaNotas}`)
+        console.log("Projetos com nota acima da média:")
+
+        let encontrou = false
+
+        for (let i = projetos.length - 1; i >= 0; i--) {
+            let p = projetos[i]
+
+            if (p.getNota() > mediaNotas) {
+                console.log(`Título: ${p.getTitulo()} | Coordenador: ${p.getCoordenador()} | Nota: ${p.getNota()}`)
+                console.log(p.obterDescricaoCategoria())
+                encontrou = true
+            }
+        }
+
+        if (encontrou) {
+            console.log("Nenhum projeto ficou acima da média.")
         }
     }
-
-    public exibirResumo(): void {
-        console.log(`Título: ${this._titulo}`)
-        console.log(`Coordenador: ${this._coordenador}`)
-        console.log(`Nota: ${this._nota}`)
-    }
-}
-
-class ProjetoVerde extends Projeto {
-    constructor(titulo: string, coordenador: string) {
-        super(titulo, coordenador, "V")
-    }
-
-    public exibirResumo(): void {
-        console.log(`Título: ${this.getTitulo()}`)
-        console.log(`Nota: ${this.getNota()}`)
-    }
-}
-
-class ProjetoCultural extends Projeto {
-    constructor(titulo: string, coordenador: string) {
-        super(titulo, coordenador, "C")
-    }
-
-    public exibirResumo(): void {
-        console.log(`Título: ${this.getTitulo()}`)
-        console.log(`Nota: ${this.getNota()}`)
-    }
-}
-
-let listaProjetos: Projeto[] = []
-let continuarInscricoes = true
-let somaNotas = 0
-
-while (continuarInscricoes) {
-    let opcao = String(prompt("Concurso Reforest - Inscrição de Projetos Digite: V - Projeto Verde C - Projeto Cultural F - Finalizar Inscrições Opção: "))
-
-    if (opcao === "F") {
-        continuarInscricoes = false 
-    } 
-    else if (opcao === "V" || opcao === "C") {
-        let titulo = String(prompt("Título do projeto: "))
-        let coordenador = String(prompt("Nome do coordenador: "))
-        let notaDigitada = Number(prompt("Digite a nota de avaliação (0 a 10): "))
-
-        if (opcao === "V") {
-            let projVerde = new ProjetoVerde(titulo, coordenador)
-            projVerde.setNota(notaDigitada)
-            
-            listaProjetos.push(projVerde)
-            somaNotas += projVerde.getNota() 
-            console.log(`Projeto Verde ${titulo}`)
-        } 
-        else if (opcao === "C") {
-            let projCultural = new ProjetoCultural(titulo, coordenador)
-            projCultural.setNota(notaDigitada)
-            
-            listaProjetos.push(projCultural)
-            somaNotas += projCultural.getNota() 
-            console.log(`Projeto Cultural "${titulo}" cadastrado!`)
-        }
-    } 
-    else {
-        console.log("Opção inválida!")
-    }
-}
-
-if (listaProjetos.length > 0) {
-    let mediaGeral = somaNotas / listaProjetos.length
-    console.log(`Média Geral da Competição: ${mediaGeral}`)
-    console.log("Projetos aprovados (acima da média) em ordem inversa de inscrição:")
-
-    for (let i = listaProjetos.length - 1; i >= 0; i--) {
-        let projetoAtual = listaProjetos[i]
-
-        if (projetoAtual.getNota() > mediaGeral) {
-            projetoAtual.exibirResumo() 
-            console.log(`Coordenador responsável: ${projetoAtual.getCoordenador()}`)
-        }
-    }
-
-} else {
-    console.log("Nenhum projeto foi cadastrado nesta noite.")
-}
-
 }

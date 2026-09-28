@@ -8,12 +8,12 @@
 // armazenado em uma lista de clientes. Ao encerrar o programa, a lista é percorrida para exibir o saldo
 // final de cashback acumulado por cada cliente e o valor total de cashback concedido pela loja.
 
-export function executarQuestaoCashback(): void {
+export function executarQuestao38(): void {
 
     abstract class Cliente {
         private nome: string
         private email: string
-        private saldoCashback: number
+        protected saldoCashback: number
 
         constructor(nome: string, email: string) {
             this.nome = nome
@@ -33,140 +33,66 @@ export function executarQuestaoCashback(): void {
             return this.saldoCashback
         }
 
-        adicionarCashback(valor: number): void {
-            this.saldoCashback += valor
-        }
-
         abstract processarCompra(valor: number): void
-        abstract getDescricaoTipo(): string
     }
 
     class ClientePadrao extends Cliente {
+
         constructor(nome: string, email: string) {
             super(nome, email)
         }
 
         processarCompra(valor: number): void {
             let cashback = valor * 0.01
-            this.adicionarCashback(cashback)
-        }
-
-        getDescricaoTipo(): string {
-            return "Padrão"
+            this.saldoCashback += cashback
+            console.log(`Cashback acumulado: ${cashback}`)
         }
     }
 
     class ClienteVIP extends Cliente {
+
         constructor(nome: string, email: string) {
             super(nome, email)
         }
 
         processarCompra(valor: number): void {
             let cashback = valor * 0.05
-            this.adicionarCashback(cashback)
-        }
-
-        getDescricaoTipo(): string {
-            return "VIP"
+            this.saldoCashback += cashback
+            console.log(`Cashback acumulado: ${cashback}`)
         }
     }
+
 
     let clientes: Cliente[] = []
-    let opcao = -1
+    let continuar = "sim"
 
-    while (opcao !== 0) {
+    while (continuar === "sim") {
 
-        opcao = Number(
-            prompt("1 - Cadastrar Cliente Padrão e registrar compra" +"2 - Cadastrar Cliente VIP e registrar compra" +"3 - Registrar compra para cliente existente" +"4 - Exibir resumo de cashback" +"0 - Sair" +"Escolha uma opção:"))
+        let tipo = String(prompt("Escolha o tipo de cliente: | 1 - Cliente Padrão | 2 - Cliente VIP"))
+        let nome = String(prompt("Informe o nome do cliente: "))
+        let email = String(prompt("Informe o e-mail do cliente: "))
+        let valorCompra = Number(prompt("Informe o valor da compra: "))
 
-        if (opcao === 1 || opcao === 2) {
+        let cliente: Cliente
 
-            let nome = String(prompt("Informe o nome do cliente:"))
-
-            while (nome === "") {
-                console.log("O nome não pode ser vazio!")
-                nome = String(prompt("Informe um nome válido:"))
-            }
-
-            let email = String(prompt("Informe o e-mail do cliente:"))
-
-            while (email === "") {
-                console.log("O e-mail não pode ser vazio!")
-                email = String(prompt("Informe um e-mail válido:"))
-            }
-
-            let valorCompra = Number(prompt("Informe o valor da compra:"))
-
-            while (valorCompra <= 0) {
-                console.log("O valor da compra deve ser maior que zero!")
-                valorCompra = Number(prompt("Informe um valor de compra válido:"))
-            }
-
-            let cliente: Cliente
-
-            if (opcao === 1) {
-                cliente = new ClientePadrao(nome, email)
-                console.log("Cliente Padrão cadastrado com sucesso!")
-            } else {
-                cliente = new ClienteVIP(nome, email)
-                console.log("Cliente VIP cadastrado com sucesso! Frete grátis garantido.")
-            }
-
-            cliente.processarCompra(valorCompra)
-            clientes.push(cliente)
-
-        } else if (opcao === 3) {
-            if (clientes.length === 0) {
-                console.log("Nenhum cliente cadastrado ainda!")
-            } else {
-                let emailBusca = String(prompt("Informe o e-mail do cliente para registrar a compra:"))
-                let indiceEncontrado = -1
-
-                for (let i = 0; i < clientes.length; i++) {
-                    if (clientes[i].getEmail() === emailBusca) {
-                        indiceEncontrado = i
-                    }
-                }
-
-                if (indiceEncontrado === -1) {
-                    console.log("Cliente não encontrado com esse e-mail!")
-                } else {
-                    let valorCompra = Number(prompt("Informe o valor da nova compra:"))
-
-                    while (valorCompra <= 0) {
-                        console.log("O valor da compra deve ser maior que zero!")
-                        valorCompra = Number(prompt("Informe um valor de compra válido:"))
-                    }
-
-                    clientes[indiceEncontrado].processarCompra(valorCompra)
-                    console.log(`Compra registrada com sucesso para ${clientes[indiceEncontrado].getNome()}!`)
-                }
-            }
-
-        } else if (opcao === 4) {
-            if (clientes.length === 0) {
-                console.log("Nenhum cliente foi cadastrado!")
-            } else {
-                let totalCashbackLoja = 0
-
-                console.log("=== RESUMO DE CASHBACK DA PLATAFORMA ===")
-                for (let i = 0; i < clientes.length; i++) {
-                    let c = clientes[i]
-                    let cashbackCliente = c.getSaldoCashback()
-                    totalCashbackLoja += cashbackCliente
-
-                    console.log(`Cliente: ${c.getNome()} | E-mail: ${c.getEmail()} | Tipo: ${c.getDescricaoTipo()}`)
-                    console.log(`Saldo de Cashback Acumulado: R$ ${cashbackCliente}`)
-                }
-
-                console.log(`Valor total de cashback concedido pela loja: R$ ${totalCashbackLoja}`)
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-
+        if (tipo === "1") {
+            cliente = new ClientePadrao(nome, email)
         } else {
-            console.log("Opção inválida!")
+            cliente = new ClienteVIP(nome, email)
         }
+
+        cliente.processarCompra(valorCompra)
+        clientes.push(cliente)
+
+        continuar = String(prompt("Deseja registrar outra compra (sim/não): "))
     }
+
+    let totalGeralCashback = 0
+
+    for (let i = 0; i < clientes.length; i++) {
+        let c = clientes[i]
+        console.log(`Cliente: ${c.getNome()} | E-mail: ${c.getEmail()} | Saldo de Cashback: R$ ${c.getSaldoCashback()}`)
+        totalGeralCashback += c.getSaldoCashback()
+    }
+    console.log(`Valor total de cashback concedido pela loja: R$ ${totalGeralCashback}`)
 }

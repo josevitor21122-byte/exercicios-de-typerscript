@@ -1,14 +1,18 @@
-// 21. Abstração Herança Polimorfismo Repetição Encapsulamento Arrays
-// Concurso de Projetos de Extensão Reforest
-// O projeto socioambiental &quot;Flor&amp;Ser&quot; abriu inscrições para novas propostas de reflorestamento no
-// campus. Cada projeto inscrito possui título, coordenador e uma nota de avaliação avaliada de forma
-// estrita (protegida por métodos de validação para que não receba valores fora do intervalo de 0 a 10).
-// Existem Projetos Verdes (focados em plantio urbano) e Projetos Culturais (focados em
-// conscientização). O usuário deve preencher a lista de projetos avaliados através do terminal. O
-// programa deve calcular a média aritmética de todas as notas usando estruturas de array e, em seguida,
-// listar de forma inversa à inscrição quais projetos ganharam nota acima da média da competição.
-export function executarQuestao21() {
-    class ProjetoReforest {
+// 31. O projeto socioambiental &quot;Flor&amp;Ser&quot; abriu inscrições para propostas de reflorestamento no campus
+// do IFS Tobias Barreto. Crie a superclasse Projeto com os atributos privados título, coordenador e
+// nota. O setter setNota(valor) deve validar estritamente o intervalo de 0 a 10, lançando exceção ou
+// mensagem de erro para valores inválidos. As subclasses ProjetoVerde (plantio urbano) e
+// ProjetoCultural (conscientização) sobrescrevem o método descricaoCategoria() com textos distintos.
+// O usuário preenche os projetos pelo terminal. O programa calcula a média das notas e, ao final, exibe
+// os projetos com nota acima da média, mostrando a categoria de cada uma via polimorfismo.
+// Requisitos mínimos:
+// • nota privada com validação estrita no setter (0 ≤ nota ≤ 10).
+// • descricaoCategoria() abstrato/sobrescrito em ProjetoVerde e ProjetoCultural.
+// • Cálculo de média com laço sobre os projetos cadastrados.
+// • Filtro e exibição dos projetos acima da média.
+// • Chamada polimórfica a descricaoCategoria() na exibição final.
+export function executarQuestao31() {
+    class Projeto {
         constructor(titulo, coordenador, nota) {
             this.titulo = titulo;
             this.coordenador = coordenador;
@@ -29,34 +33,34 @@ export function executarQuestao21() {
                 this.nota = valor;
             }
             else {
-                console.log("Nota inválida! Deve estar entre 0 e 10.");
+                console.log("Nota inválida! Deve estar entre 0 e 10. Atribuindo nota 0 por padrão.");
                 this.nota = 0;
             }
         }
     }
-    class ProjetoVerde extends ProjetoReforest {
+    class ProjetoVerde extends Projeto {
         constructor(titulo, coordenador, nota) {
             super(titulo, coordenador, nota);
         }
-        obterDescricaoCategoria() {
+        descricaoCategoria() {
             return "Categoria: Projeto Verde";
         }
     }
-    class ProjetoCultural extends ProjetoReforest {
+    class ProjetoCultural extends Projeto {
         constructor(titulo, coordenador, nota) {
             super(titulo, coordenador, nota);
         }
-        obterDescricaoCategoria() {
+        descricaoCategoria() {
             return "Categoria: Projeto Cultural";
         }
     }
     let projetos = [];
-    let continuar = "sim";
-    while (continuar === "sim") {
+    let continuarCadastro = "sim";
+    while (continuarCadastro === "sim") {
         let tipo = String(prompt("Escolha o tipo de projeto: | 1 - Projeto Verde | 2 - Projeto Cultural"));
         let titulo = String(prompt("Informe o título do projeto: "));
         let coordenador = String(prompt("Informe o nome do coordenador: "));
-        let nota = Number(prompt("Informe a nota de avaliação (0 a 10): "));
+        let nota = Number(prompt("Informe a nota do projeto (0 a 10): "));
         let projeto;
         if (tipo === "1") {
             projeto = new ProjetoVerde(titulo, coordenador, nota);
@@ -65,10 +69,10 @@ export function executarQuestao21() {
             projeto = new ProjetoCultural(titulo, coordenador, nota);
         }
         projetos.push(projeto);
-        continuar = String(prompt("Deseja cadastrar outro projeto (sim/não): "));
+        continuarCadastro = String(prompt("Deseja cadastrar outro projeto (sim/não): "));
     }
     if (projetos.length === 0) {
-        console.log("Nenhum projeto foi cadastrado!");
+        console.log("Nenhum projeto foi cadastrado");
     }
     else {
         let somaNotas = 0;
@@ -76,18 +80,18 @@ export function executarQuestao21() {
             somaNotas += projetos[i].getNota();
         }
         let mediaNotas = somaNotas / projetos.length;
-        console.log(`Média aritmética das notas: ${mediaNotas}`);
+        console.log(`Média geral das notas dos projetos: ${mediaNotas}`);
         console.log("Projetos com nota acima da média:");
-        let encontrou = false;
-        for (let i = projetos.length - 1; i >= 0; i--) {
+        let encontrouAcimaDaMedia = false;
+        for (let i = 0; i < projetos.length; i++) {
             let p = projetos[i];
             if (p.getNota() > mediaNotas) {
                 console.log(`Título: ${p.getTitulo()} | Coordenador: ${p.getCoordenador()} | Nota: ${p.getNota()}`);
-                console.log(p.obterDescricaoCategoria());
-                encontrou = true;
+                console.log(p.descricaoCategoria());
+                encontrouAcimaDaMedia = true;
             }
         }
-        if (encontrou) {
+        if (encontrouAcimaDaMedia) {
             console.log("Nenhum projeto ficou acima da média.");
         }
     }

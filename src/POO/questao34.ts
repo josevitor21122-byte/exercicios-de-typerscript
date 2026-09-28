@@ -32,6 +32,7 @@ export function executarQuestao34(): void {
     }
 
     class Carro extends Veiculo {
+
         constructor(placa: string, horaEntrada: string) {
             super(placa, horaEntrada)
         }
@@ -42,6 +43,7 @@ export function executarQuestao34(): void {
     }
 
     class Moto extends Veiculo {
+
         constructor(placa: string, horaEntrada: string) {
             super(placa, horaEntrada)
         }
@@ -53,99 +55,42 @@ export function executarQuestao34(): void {
 
     let veiculos: Veiculo[] = []
     let horasPermanencias: number[] = []
+    let continuar = "sim"
 
-    let opcao = -1
+    while (continuar === "sim") {
 
-    while (opcao !== 0) {
-        opcao = Number(prompt("1 - Cadastrar Saída de Carro (R$ 5,00/h)" + "2 - Cadastrar Saída de Moto (R$ 3,00/h)" + "3 - Exibir faturamento total do dia" + "0 - Sair" + "Escolha uma opção:"))
+        let tipo = String(prompt("Escolha o tipo de veículo: | 1 - Carro (R$ 5,00/h) | 2 - Moto (R$ 3,00/h)"))
+        let placa = String(prompt("Informe a placa do veículo: "))
+        let horaEntrada = String(prompt("Informe a hora de entrada: "))
+        let horasPermanencia = Number(prompt("Informe a quantidade de horas que permaneceu: "))
 
-        if (opcao === 1) {
+        let veiculo: Veiculo
 
-            let placa = String(prompt("Informe a placa do carro:"))
-
-            while (placa === "") {
-                console.log("A placa não pode ser vazia!")
-                placa = String(prompt("Informe uma placa válida:"))
-            }
-
-            let horaEntrada = String(prompt("Informe a hora de entrada do carro (ex: 08:00):"))
-
-            while (horaEntrada === "") {
-                console.log("A hora de entrada não pode ser vazia!")
-                horaEntrada = String(prompt("Informe uma hora de entrada válida:"))
-            }
-
-            let horasPermanencia = Number(prompt("Informe a quantidade de horas que permaneceu:"))
-
-            while (horasPermanencia <= 0) {
-
-                console.log("Quantidade de horas inválida!")
-                horasPermanencia = Number(prompt("Informe uma quantidade de horas válida:"))
-            }
-
-            let carro = new Carro(placa, horaEntrada)
-
-            veiculos.push(carro)
-            horasPermanencias.push(horasPermanencia)
-
-            console.log("Carro cadastrado com sucesso!")
-        } else if (opcao === 2) {
-
-            let placa = String(prompt("Informe a placa da moto:"))
-
-            while (placa === "") {
-                console.log("A placa não pode ser vazia!")
-                placa = String(prompt("Informe uma placa válida:"))
-            }
-
-
-            let horaEntrada = String(prompt("Informe a hora de entrada da moto (ex: 09:30):"))
-
-            while (horaEntrada === "") {
-                console.log("A hora de entrada não pode ser vazia!")
-                horaEntrada = String(prompt("Informe uma hora de entrada válida:"))
-            }
-
-            let horasPermanencia = Number(prompt("Informe a quantidade de horas que permaneceu:"))
-
-            while (horasPermanencia <= 0) {
-                console.log("Quantidade de horas inválida!")
-                horasPermanencia = Number(prompt("Informe uma quantidade de horas válida:"))
-            }
-
-            let moto = new Moto(placa, horaEntrada)
-
-            veiculos.push(moto)
-            horasPermanencias.push(horasPermanencia)
-
-            console.log("Moto cadastrada com sucesso!")
-
-        } else if (opcao === 3) {
-
-            if (veiculos.length === 0) {
-
-                console.log("Nenhum veículo foi cadastrado!")
-
-            } else {
-
-                let faturamentoTotal = 0
-
-                for (let i = 0; i < veiculos.length; i++) {
-                    let veiculo = veiculos[i]
-                    let horas = horasPermanencias[i]
-
-                    let valorVeiculo = veiculo.calcularValor(horas)
-                    faturamentoTotal = faturamentoTotal + valorVeiculo
-
-                    console.log(`Placa: ${veiculo.getPlaca()} | Entrada: ${veiculo.getHoraEntrada()} | Valor: R$ ${valorVeiculo.toFixed(2)}`)
-                }
-                console.log(`Faturamento Total Arrecadado: R$ ${faturamentoTotal.toFixed(2)}`)
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
+        if (tipo === "1") {
+            veiculo = new Carro(placa, horaEntrada)
         } else {
-            console.log("Opção inválida!")
+            veiculo = new Moto(placa, horaEntrada)
         }
+
+        veiculos.push(veiculo)
+        horasPermanencias.push(horasPermanencia)
+
+        continuar = String(prompt("Deseja cadastrar outro veículo (sim/não): "))
+    }
+
+    if (veiculos.length === 0) {
+        console.log("Nenhum veículo foi cadastrado")
+    } else {
+        let faturamentoTotal = 0
+
+        for (let i = 0; i < veiculos.length; i++) {
+            let v = veiculos[i]
+            let horas = horasPermanencias[i]
+            let valorVeiculo = v.calcularValor(horas)
+            faturamentoTotal += valorVeiculo
+
+            console.log(`Placa: ${v.getPlaca()} | Entrada: ${v.getHoraEntrada()} | Valor: R$ ${valorVeiculo}`)
+        }
+        console.log(`Faturamento Total Arrecadado no Dia: R$ ${faturamentoTotal}`)
     }
 }

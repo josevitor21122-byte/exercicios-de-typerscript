@@ -7,7 +7,7 @@
 // término do cadastro, o programa varre a lista inteira, disparando o método de auto-inspeção de cada
 // objeto para imprimir uma ficha técnica detalhada de cada item do almoxarifado.
 export function executarQuestao27() {
-    class Equipamento {
+    class EquipamentoTI {
         constructor(tombamento, descricao) {
             this.tombamento = tombamento;
             this.descricao = descricao;
@@ -19,89 +19,46 @@ export function executarQuestao27() {
             return this.descricao;
         }
     }
-    class Computador extends Equipamento {
-        constructor(tombamento, descricao, memoriaRAM) {
+    class Computador extends EquipamentoTI {
+        constructor(tombamento, descricao, memoriaRam) {
             super(tombamento, descricao);
-            this.memoriaRAM = memoriaRAM;
+            this.memoriaRam = memoriaRam;
         }
         autoInspecao() {
-            console.log(`Número de tombamento: ${this.getTombamento()}`);
-            console.log(`Descrição: ${this.getDescricao()}`);
-            console.log(`Memória RAM: ${this.memoriaRAM}`);
-            console.log(`Tipo: `);
+            console.log(`Tombamento: ${this.getTombamento()} | Descrição: ${this.getDescricao()} | Memória RAM: ${this.memoriaRam}`);
         }
     }
-    class Roteador extends Equipamento {
-        constructor(tombamento, descricao, portas) {
+    class Roteador extends EquipamentoTI {
+        constructor(tombamento, descricao, quantidadePortas) {
             super(tombamento, descricao);
-            this.portas = portas;
+            this.quantidadePortas = quantidadePortas;
         }
         autoInspecao() {
-            console.log(`Número de tombamento: ${this.getTombamento()}`);
-            console.log(`Descrição: ${this.getDescricao()}`);
-            console.log(`Quantidade de portas: ${this.portas}`);
-            console.log(`Tipo: Roteador`);
+            console.log(`Tombamento: ${this.getTombamento()} | Descrição: ${this.getDescricao()} | Portas Disponíveis: ${this.quantidadePortas}`);
         }
     }
     let equipamentos = [];
-    let opcao = 0;
-    while (opcao !== 3) {
-        console.log(`1 - Cadastrar computador`);
-        console.log(`2 - Cadastrar roteador`);
-        console.log(`3 - Finalizar cadastro`);
-        opcao = Number(prompt(`Digite uma opção: `));
-        if (opcao === 1) {
-            let tombamento = Number(prompt(`Digite o número de tombamento: `));
-            while (tombamento <= 0 || (tombamento)) {
-                console.log(`Número de tombamento inválido.`);
-                tombamento = Number(prompt(`Digite um número de tombamento válido: `));
-            }
-            let descricao = String(prompt(`Digite a descrição do computador: `));
-            while (descricao.trim() === "") {
-                console.log(`A descrição não pode ser vazia.`);
-                descricao = String(prompt(`Digite uma descrição válida: `));
-            }
-            let memoriaRAM = Number(prompt(`Digite a quantidade de memória RAM em GB: `));
-            while (memoriaRAM <= 0 || (memoriaRAM)) {
-                console.log(`Quantidade de memória RAM inválida.`);
-                memoriaRAM = Number(prompt(`Digite uma quantidade válida de memória RAM: `));
-            }
-            let computador = new Computador(tombamento, descricao, memoriaRAM);
-            equipamentos.push(computador);
-            console.log(`Computador cadastrado com sucesso!`);
-        }
-        else if (opcao === 2) {
-            let tombamento = Number(prompt(`Digite o número de tombamento: `));
-            while (tombamento <= 0 || (tombamento)) {
-                console.log(`Número de tombamento inválido.`);
-                tombamento = Number(prompt(`Digite um número de tombamento válido: `));
-            }
-            let descricao = String(prompt(`Digite a descrição do roteador: `));
-            while (descricao.trim() === "") {
-                console.log(`A descrição não pode ser vazia.`);
-                descricao = String(prompt(`Digite uma descrição válida: `));
-            }
-            let portas = Number(prompt(`Digite a quantidade de portas: `));
-            while (portas <= 0 || (portas)) {
-                console.log(`Quantidade de portas inválida.`);
-                portas = Number(prompt(`Digite uma quantidade válida de portas: `));
-            }
-            let roteador = new Roteador(tombamento, descricao, portas);
-            equipamentos.push(roteador);
-            console.log(`Roteador cadastrado com sucesso!`);
-        }
-        else if (opcao === 3) {
-            if (equipamentos.length === 0) {
-                console.log(`Nenhum equipamento foi cadastrado.`);
-            }
-            else {
-                for (let i = 0; i < equipamentos.length; i++) {
-                    equipamentos[i].autoInspecao();
-                }
-            }
+    let continuar = "sim";
+    while (continuar === "sim") {
+        let tipo = String(prompt("Escolha o tipo de equipamento: | 1 - Computador | 2 - Roteador"));
+        let tombamento = String(prompt("Informe o número de tombamento: "));
+        let descricao = String(prompt("Informe a descrição do equipamento: "));
+        if (tipo === "1") {
+            let memoriaRam = Number(prompt("Informe a quantidade de memória RAM : "));
+            equipamentos.push(new Computador(tombamento, descricao, memoriaRam));
         }
         else {
-            console.log(`Opção inválida.`);
+            let quantidadePortas = Number(prompt("Informe a quantidade de portas disponíveis: "));
+            equipamentos.push(new Roteador(tombamento, descricao, quantidadePortas));
+        }
+        continuar = String(prompt("Deseja cadastrar outro equipamento (sim/não): "));
+    }
+    if (equipamentos.length === 0) {
+        console.log("Nenhum equipamento foi catalogado no inventário");
+    }
+    else {
+        for (let i = 0; i < equipamentos.length; i++) {
+            equipamentos[i].autoInspecao();
         }
     }
 }

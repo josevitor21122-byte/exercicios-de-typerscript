@@ -29,8 +29,7 @@ export function executarQuestao35(): void {
         }
 
         exibirFicha(): void {
-            console.log(`Nome: ${this.nome}`)
-            console.log(`Cartão SUS: ${this.cartaoSUS}`)
+            console.log(`Nome: ${this.nome} | Cartão SUS: ${this.cartaoSUS}`)
         }
         abstract ehPrioritario(): boolean
     }
@@ -40,11 +39,11 @@ export function executarQuestao35(): void {
         constructor(nome: string, cartaoSUS: string) {
             super(nome, cartaoSUS)
         }
+
         ehPrioritario(): boolean {
             return false
         }
     }
-
 
     class PacientePrioritario extends Paciente {
         private tipoPrioridade: string
@@ -53,13 +52,10 @@ export function executarQuestao35(): void {
             super(nome, cartaoSUS)
             this.tipoPrioridade = tipoPrioridade
         }
-        getTipoPrioridade(): string {
-            return this.tipoPrioridade
-        }
+
         exibirFicha(): void {
-            console.log(`Nome: ${this.getNome()}`)
-            console.log(`Cartão SUS: ${this.getCartaoSUS()}`)
-            console.log(`>>> ATENDIMENTO PRIORITÁRIO: ${this.tipoPrioridade} <<<`)
+            console.log(`Nome: ${this.getNome()} | Cartão SUS: ${this.getCartaoSUS()}`)
+            console.log(`Atendimento prioritario: ${this.tipoPrioridade}`)
         }
 
         ehPrioritario(): boolean {
@@ -68,89 +64,41 @@ export function executarQuestao35(): void {
     }
 
     let pacientes: Paciente[] = []
+    let continuar = "sim"
 
-    let opcao = -1
+    while (continuar === "sim") {
 
-    while (opcao !== 0) {
+        let tipo = String(prompt("Escolha o tipo de paciente: | 1 - Paciente Comum | 2 - Paciente Prioritário"))
+        let nome = String(prompt("Informe o nome do paciente: "))
+        let cartaoSUS = String(prompt("Informe o número do cartão do SUS: "))
 
-        opcao = Number(
-            prompt("1 - Cadastrar Paciente Comum" + "2 - Cadastrar Paciente Prioritário" + "3 - Exibir fichas e total de prioritários" + "0 - Sair" + "Escolha uma opção:"))
+        let paciente: Paciente
 
-        if (opcao === 1) {
-
-            let nome = String(prompt("Informe o nome do paciente comum:"))
-
-            while (nome === "") {
-                console.log("O nome não pode ser vazio!")
-                nome = String(prompt("Informe um nome válido:"))
-            }
-
-            let cartaoSUS = String(prompt("Informe o número do cartão do SUS:"))
-
-            while (cartaoSUS === "") {
-                console.log("O cartão do SUS não pode ser vazio!")
-                cartaoSUS = String(prompt("Informe um cartão do SUS válido:"))
-            }
-
-            let paciente = new PacienteComum(nome, cartaoSUS)
-
-            pacientes.push(paciente)
-
-            console.log("Paciente Comum cadastrado com sucesso!")
-        } else if (opcao === 2) {
-
-            let nome = String(prompt("Informe o nome do paciente prioritário:"))
-
-            while (nome === "") {
-                console.log("O nome não pode ser vazio!")
-                nome = String(prompt("Informe um nome válido:"))
-            }
-
-            let cartaoSUS = String(prompt("Informe o número do cartão do SUS:"))
-
-            while (cartaoSUS === "") {
-                console.log("O cartão do SUS não pode ser vazio!")
-                cartaoSUS = String(prompt("Informe um cartão do SUS válido:"))
-            }
-
-            let tipoPrioridade = String(prompt("Informe o tipo de prioridade (ex: Idoso, Gestante):"))
-
-            while (tipoPrioridade === "") {
-                console.log("O tipo de prioridade não pode ser vazio!")
-                tipoPrioridade = String(prompt("Informe um tipo de prioridade válido:"))
-            }
-
-            let paciente = new PacientePrioritario(nome, cartaoSUS, tipoPrioridade)
-
-            pacientes.push(paciente)
-
-            console.log("Paciente Prioritário cadastrado com sucesso!")
-        } else if (opcao === 3) {
-
-            if (pacientes.length === 0) {
-
-                console.log("Nenhum paciente foi cadastrado!")
-
-            } else {
-
-                let totalPrioritarios = 0
-
-                for (let i = 0; i < pacientes.length; i++) {
-                    let paciente = pacientes[i]
-
-                    paciente.exibirFicha()
-
-                    if (paciente.ehPrioritario()) {
-                        totalPrioritarios = totalPrioritarios + 1
-                    }
-                }
-
-                console.log(`Quantidade total de pacientes prioritários atendidos: ${totalPrioritarios}`)
-            }
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
+        if (tipo === "1") {
+            paciente = new PacienteComum(nome, cartaoSUS)
         } else {
-            console.log("Opção inválida!")
+            let tipoPrioridade = String(prompt("Informe o tipo de prioridade: "))
+            paciente = new PacientePrioritario(nome, cartaoSUS, tipoPrioridade)
         }
+
+        pacientes.push(paciente)
+
+        continuar = String(prompt("Deseja cadastrar outro paciente (sim/não): "))
+    }
+
+    if (pacientes.length === 0) {
+        console.log("Nenhum paciente foi cadastrado!")
+    } else {
+        let totalPrioritarios = 0
+
+        for (let i = 0; i < pacientes.length; i++) {
+            let p = pacientes[i]
+            p.exibirFicha()
+
+            if (p.ehPrioritario()) {
+                totalPrioritarios++
+            }
+        }
+        console.log(`Quantidade total de pacientes prioritários atendidos: ${totalPrioritarios}`)
     }
 }

@@ -9,171 +9,100 @@
 // contidos na lista.
 
 export function executarQuestao24(): void {
-abstract class Tarefa {
 
-    private descricao: string
-    private concluida: boolean
+    abstract class Tarefa {
+        private descricao: string
+        protected concluida: boolean
 
-    constructor(descricao: string) {
-        this.descricao = descricao
-        this.concluida = false
+        constructor(descricao: string) {
+            this.descricao = descricao
+            this.concluida = false
+        }
+
+        getDescricao(): string {
+            return this.descricao
+        }
+
+        getConcluida(): boolean {
+            return this.concluida
+        }
+
+        marcarConcluida(): void {
+            this.concluida = true
+        }
+
+        abstract obterTipo(): string
     }
 
-    public getDescricao(): string {
-        return this.descricao
-    }
+    class TarefaAcademica extends Tarefa {
+        private disciplina: string
 
-    public getConcluida(): boolean {
-        return this.concluida
-    }
+        constructor(descricao: string, disciplina: string) {
+            super(descricao)
+            this.disciplina = disciplina
+        }
 
-    public marcarComoConcluida(): void {
-        this.concluida = true
-    }
+        getDisciplina(): string {
+            return this.disciplina
+        }
 
-    public abstract mostrarTarefa(): void
-    public abstract getTipo(): string
-}
-
-
-class TarefaAcademica extends Tarefa {
-
-    private disciplina: string
-
-    constructor(descricao: string, disciplina: string) {
-        super(descricao)
-        this.disciplina = disciplina
-    }
-
-    public getTipo(): string {
-        return "Acadêmica"
-    }
-
-    public mostrarTarefa(): void {
-
-        console.log(`Descrição: ${this.getDescricao()}`)
-        console.log(`Disciplina: ${this.disciplina}`)
-
-        if (this.getConcluida()) {
-            console.log(`Status: `)
-        } else {
-            console.log(`Status: `)
+        obterTipo(): string {
+            return "Acadêmica"
         }
     }
-}
 
+    class TarefaPessoal extends Tarefa {
+        private prioridade: string
 
-class TarefaPessoal extends Tarefa {
+        constructor(descricao: string, prioridade: string) {
+            super(descricao)
+            this.prioridade = prioridade
+        }
 
-    private prioridade: string
-
-    constructor(descricao: string, prioridade: string) {
-        super(descricao)
-        this.prioridade = prioridade
-    }
-
-    public getTipo(): string {
-        return "Pessoal"
-    }
-
-    public mostrarTarefa(): void {
-
-        console.log(`Descrição: ${this.getDescricao()}`)
-        console.log(`Prioridade: ${this.prioridade}`)
-
-        if (this.getConcluida()) {
-            console.log(`Status: Concluída`)
-        } else {
-            console.log(`Status: Pendente`)
+        obterTipo(): string {
+            return "Pessoal"
         }
     }
-}
+
     let tarefas: Tarefa[] = []
-    let opcao: number = 0
+    let continuar = "sim"
 
-    while (opcao !== 5) {
-        console.log(`1 - Adicionar tarefa acadêmica`)
-        console.log(`2 - Adicionar tarefa pessoal`)
-        console.log(`3 - Marcar tarefa como concluída`)
-        console.log(`4 - Listar tarefas acadêmicas pendentes`)
-        console.log(`5 - Sair`)
+    while (continuar === "sim") {
+        let tipo = String(prompt("Tipo de tarefa: | 1 - Acadêmica | 2 - Pessoal"))
+        let descricao = String(prompt("Descrição: "))
 
-        opcao = Number(prompt(`Digite uma opção: `))
-
-        if (opcao === 1) {
-
-            let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
-            let disciplina: string = String(prompt(`Digite o nome da disciplina: `))
-
-            let tarefa: TarefaAcademica = new TarefaAcademica(descricao, disciplina)
-
-            tarefas.push(tarefa)
-
-            console.log(`Tarefa acadêmica cadastrada!`)
-
-        } else if (opcao === 2) {
-
-            let descricao: string = String(prompt(`Digite a descrição da tarefa: `))
-            let prioridade: string = String(prompt(`Digite a prioridade: `))
-
-            let tarefa: TarefaPessoal = new TarefaPessoal(descricao, prioridade)
-
-            tarefas.push(tarefa)
-            console.log(`Tarefa pessoal cadastrada!`)
-
-        } else if (opcao === 3) {
-
-            if (tarefas.length === 0) {
-                console.log(`Nenhuma tarefa cadastrada.`)
-
-            } else {
-
-                for (let i = 0; i < tarefas.length; i++) {
-
-                    console.log(`Número: ${i}`)
-                    console.log(`Tipo: ${tarefas[i].getTipo()}`)
-                    console.log(`Descrição: ${tarefas[i].getDescricao()}`)
-
-                    if (tarefas[i].getConcluida()) {
-                        console.log(`Status: Concluída`)
-                    } else {
-                        console.log(`Status: Pendente`)
-                    }
-                }
-
-                let indice: number = Number(prompt(`Digite o número da tarefa que deseja concluir:`))
-
-                if (indice >= 0 && indice < tarefas.length) {
-
-                    tarefas[indice].marcarComoConcluida()
-                    console.log(`Tarefa marcada como concluída!`)
-
-                } else {
-                    console.log(`Número de tarefa inválido.`)
-                }
-            }
-
-        } else if (opcao === 4) {
-            let encontrou: boolean = false
-
-            for (let i = 0; i < tarefas.length; i++) {
-
-                if (tarefas[i].getTipo() === "Acadêmica" && tarefas[i].getConcluida() === false) {
-                    tarefas[i].mostrarTarefa()
-
-                    encontrou = true
-                }
-            }
-
-            if (encontrou === false) {
-                console.log(`Nenhuma tarefa acadêmica pendente.`)
-            }
-
-        } else if (opcao === 5) {
-            console.log(`Programa encerrado.`)
-
+        if (tipo === "1") {
+            let disciplina = String(prompt("Disciplina: "))
+            tarefas.push(new TarefaAcademica(descricao, disciplina))
         } else {
-            console.log(`Opção inválida.`)
+            let prioridade = String(prompt("Prioridade: "))
+            tarefas.push(new TarefaPessoal(descricao, prioridade))
+        }
+
+        continuar = String(prompt("Cadastrar outra (sim/não): "))
+    }
+
+    if (tarefas.length > 0) {
+        let concluirIndice = Number(prompt("Informe o número da tarefa (1 a " + tarefas.length + ") para marcar como concluída: "))
+        let indiceReal = concluirIndice - 1
+
+        if (indiceReal >= 0 && indiceReal < tarefas.length) {
+            tarefas[indiceReal].marcarConcluida()
+            console.log("Tarefa marcada como concluída!")
+        }
+
+        let encontrou = false
+
+        for (let i = 0; i < tarefas.length; i++) {
+            let t = tarefas[i]
+            if (t.obterTipo() === "Acadêmica" && t.getConcluida()) {
+                console.log(` ${t.getDescricao()}`)
+                encontrou = true
+            }
+        }
+
+        if (encontrou) {
+            console.log("Nenhuma tarefa acadêmica pendente.")
         }
     }
 }

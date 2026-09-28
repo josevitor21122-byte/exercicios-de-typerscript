@@ -8,137 +8,78 @@
 // objeto para imprimir uma ficha técnica detalhada de cada item do almoxarifado.
 
 export function executarQuestao27(): void {
-    abstract class Equipamento {
-        protected numeroTombamento: number
-        protected descricao: string
 
-        constructor(numeroTombamento: number, descricao: string) {
-            this.numeroTombamento = numeroTombamento
+    abstract class EquipamentoTI {
+        private tombamento: string
+        private descricao: string
+
+        constructor(tombamento: string, descricao: string) {
+            this.tombamento = tombamento
             this.descricao = descricao
+        }
+
+        getTombamento(): string {
+            return this.tombamento
+        }
+
+        getDescricao(): string {
+            return this.descricao
         }
 
         abstract autoInspecao(): void
     }
 
-    class Computador extends Equipamento {
+    class Computador extends EquipamentoTI {
+        private memoriaRam: number
 
-        private memoriaRAM: number
-
-        constructor(numeroTombamento: number,descricao: string, memoriaRAM: number) {
-            super(numeroTombamento, descricao)
-            this.memoriaRAM = memoriaRAM
+        constructor(tombamento: string, descricao: string, memoriaRam: number) {
+            super(tombamento, descricao)
+            this.memoriaRam = memoriaRam
         }
 
         autoInspecao(): void {
-            console.log(`Número de tombamento: ${this.numeroTombamento}`)
-            console.log(`Descrição: ${this.descricao}`)
-            console.log(`Memória RAM: ${this.memoriaRAM} GB`)
-            console.log("Equipamento inspecionado com sucesso!")
+            console.log(`Tombamento: ${this.getTombamento()} | Descrição: ${this.getDescricao()} | Memória RAM: ${this.memoriaRam}`)
         }
     }
 
-    class Roteador extends Equipamento {
-
+    class Roteador extends EquipamentoTI {
         private quantidadePortas: number
 
-        constructor(numeroTombamento: number,descricao: string,quantidadePortas: number) {
-            super(numeroTombamento, descricao)
+        constructor(tombamento: string, descricao: string, quantidadePortas: number) {
+            super(tombamento, descricao)
             this.quantidadePortas = quantidadePortas
         }
 
         autoInspecao(): void {
-            console.log(`Número de tombamento: ${this.numeroTombamento}`)
-            console.log(`Descrição: ${this.descricao}`)
-            console.log(`Quantidade de portas: ${this.quantidadePortas}`)
-            console.log("Equipamento inspecionado com sucesso!")
+            console.log(`Tombamento: ${this.getTombamento()} | Descrição: ${this.getDescricao()} | Portas Disponíveis: ${this.quantidadePortas}`)
         }
     }
 
-    let equipamentos: Equipamento[] = []
+    let equipamentos: EquipamentoTI[] = []
+    let continuar = "sim"
 
-    let opcao = -1
-    while (opcao !== 0) {
+    while (continuar === "sim") {
+        let tipo = String(prompt("Escolha o tipo de equipamento: | 1 - Computador | 2 - Roteador"))
+        let tombamento = String(prompt("Informe o número de tombamento: "))
+        let descricao = String(prompt("Informe a descrição do equipamento: "))
 
-        opcao = Number(
-            prompt("1 - Cadastrar Computador" + "2 - Cadastrar Roteador" +"3 - Realizar auto-inspeção" + "0 - Sair" + "Escolha uma opção:"))
-
-        if (opcao === 1) {
-            let numeroTombamento = Number(prompt("Informe o número de tombamento:"))
-
-            while (numeroTombamento <= 0 || numeroTombamento % 1 !== 0) {
-                console.log("Número de tombamento inválido!")
-
-                numeroTombamento = Number(prompt("Informe um número de tombamento válido:"))
-            }
-
-            let descricao = String(prompt("Informe a descrição do computador:"))
-
-            while (descricao.trim() === "") {
-
-                console.log("A descrição não pode ser vazia!")
-                descricao = String(prompt("Informe uma descrição válida:"))
-            }
-
-            let memoriaRAM = Number(prompt("Informe a quantidade de memória RAM em GB:"))
-
-            while (memoriaRAM <= 0) {
-                console.log("Quantidade de memória RAM inválida!")
-                memoriaRAM = Number(prompt("Informe uma quantidade válida de memória RAM:"))
-            }
-
-            let computador = new Computador(numeroTombamento,descricao,memoriaRAM)
-
-            equipamentos.push(computador)
-            console.log("Computador cadastrado com sucesso!")
+        if (tipo === "1") {
+            let memoriaRam = Number(prompt("Informe a quantidade de memória RAM : "))
+            equipamentos.push(new Computador(tombamento, descricao, memoriaRam))
+        } else {
+            let quantidadePortas = Number(prompt("Informe a quantidade de portas disponíveis: "))
+            equipamentos.push(new Roteador(tombamento, descricao, quantidadePortas))
         }
 
+        continuar = String(prompt("Deseja cadastrar outro equipamento (sim/não): "))
+    }
 
-        else if (opcao === 2) {
+    if (equipamentos.length === 0) {
+        console.log("Nenhum equipamento foi catalogado no inventário")
+    } else {
 
-            let numeroTombamento = Number(prompt("Informe o número de tombamento:"))
-
-            while (numeroTombamento <= 0 || numeroTombamento % 1 !== 0) {
-                console.log("Número de tombamento inválido!")
-
-                numeroTombamento = Number(prompt("Informe um número de tombamento válido:"))
-            }
-
-            let descricao = String(prompt("Informe a descrição do roteador:"))
-
-            while (descricao.trim() === "") {
-
-                console.log("A descrição não pode ser vazia!")
-                descricao = String(prompt("Informe uma descrição válida:"))
-            }
-
-            let quantidadePortas = Number(prompt("Informe a quantidade de portas disponíveis:"))
-
-            while (quantidadePortas <= 0 || quantidadePortas % 1 !== 0) {
-
-                console.log("Quantidade de portas inválida!")
-                quantidadePortas = Number(prompt("Informe uma quantidade válida de portas:"))
-            }
-
-
-            let roteador = new Roteador(numeroTombamento,descricao,quantidadePortas)
-
-            equipamentos.push(roteador)
-            console.log("Roteador cadastrado com sucesso!")
-
-        } else if (opcao === 3) {
-
-            if (equipamentos.length === 0) {
-                console.log("Nenhum equipamento foi cadastrado!")
-            } else {
-
-                for (let equipamento of equipamentos) {
-                    equipamento.autoInspecao()
-                }
-            }
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-        } else {
-            console.log("Opção inválida!")
+        for (let i = 0; i < equipamentos.length; i++) {
+            equipamentos[i].autoInspecao()
         }
     }
 }

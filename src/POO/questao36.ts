@@ -37,17 +37,15 @@ export function executarQuestao36(): void {
         }
 
         emitirCertificado(): void {
-            console.log(`Curso: ${this.getTitulo()} (${this.getCargaHoraria()}h)`)
-            console.log("Status: Certificado emitido automaticamente (Curso Livre concluído com sucesso!)")
+            console.log(`Curso Livre: ${this.getTitulo()} | Carga horaria: ${this.getCargaHoraria()}`)
         }
     }
 
     class CursoTecnico extends Curso {
-
         private numeroProjetoFinal: number
         private notaProjetoFinal: number
 
-        constructor( titulo: string,cargaHoraria: number,numeroProjetoFinal: number, notaProjetoFinal: number) {
+        constructor(titulo: string, cargaHoraria: number, numeroProjetoFinal: number, notaProjetoFinal: number) {
             super(titulo, cargaHoraria)
             this.numeroProjetoFinal = numeroProjetoFinal
             this.notaProjetoFinal = notaProjetoFinal
@@ -58,101 +56,47 @@ export function executarQuestao36(): void {
         }
 
         emitirCertificado(): void {
-            console.log(`Curso: ${this.getTitulo()} (${this.getCargaHoraria()}h) - Projeto nº ${this.numeroProjetoFinal}`)
-
+            console.log(`Curso Técnico: ${this.getTitulo()} | Carga horaria: ${this.getCargaHoraria()} | Númerodo projeto: ${this.numeroProjetoFinal}`)
+            
             if (this.notaProjetoFinal >= 7) {
-                console.log(`Status: Certificado LIBERADO! (Nota do projeto: ${this.notaProjetoFinal})`)
+                console.log(`Status: Certificado liberado: ${this.notaProjetoFinal})`)
             } else {
-                console.log(`Status: Certificado PENDENTE! (Nota do projeto: ${this.notaProjetoFinal} - Necessário nota >= 7)`)
+                console.log(`Status: Certificado pendente: ${this.notaProjetoFinal}`)
             }
         }
     }
 
     let cursos: Curso[] = []
+    let continuar = "sim"
 
-    let opcao = -1
+    while (continuar === "sim") {
 
-    while (opcao !== 0) {
+        let tipo = String(prompt("Escolha o tipo de curso concluído: | 1 - Curso Livre | 2 - Curso Técnico"))
+        let titulo = String(prompt("Informe o título do curso: "))
+        let cargaHoraria = Number(prompt("Informe a carga horária em horas: "))
 
-        opcao = Number(
-            prompt("1 - Cadastrar Curso Livre" +"2 - Cadastrar Curso Técnico" +"3 - Emitir certificados e verificar pendências" +"0 - Sair" +"Escolha uma opção:"))
+        let curso: Curso
 
-        if (opcao === 1) {
-
-            let titulo = String(prompt("Informe o título do curso livre:"))
-
-            while (titulo === "") {
-                console.log("O título não pode ser vazio!")
-                titulo = String(prompt("Informe um título válido:"))
-            }
-
-            let cargaHoraria = Number(prompt("Informe a carga horária em horas:"))
-
-            while (cargaHoraria <= 0) {
-                console.log("Carga horária inválida!")
-                cargaHoraria = Number(prompt("Informe uma carga horária válida:"))
-            }
-
-
-            let curso = new CursoLivre(titulo, cargaHoraria)
-
-            cursos.push(curso)
-
-            console.log("Curso Livre cadastrado com sucesso!")
-        } else if (opcao === 2) {
-
-            let titulo = String(prompt("Informe o título do curso técnico:"))
-
-            while (titulo === "") {
-                console.log("O título não pode ser vazio!")
-                titulo = String(prompt("Informe um título válido:"))
-            }
-
-            let cargaHoraria = Number(prompt("Informe a carga horária em horas:"))
-
-            while (cargaHoraria <= 0) {
-                console.log("Carga horária inválida!")
-                cargaHoraria = Number(prompt("Informe uma carga horária válida:"))
-            }
-
-            let numeroProjetoFinal = Number(prompt("Informe o número do projeto final:"))
-
-            while (numeroProjetoFinal <= 0 || numeroProjetoFinal % 1 !== 0) {
-                console.log("Número do projeto inválido!")
-                numeroProjetoFinal = Number(prompt("Informe um número de projeto válido:"))
-            }
-
-            let notaProjetoFinal = Number(prompt("Informe a nota do projeto final (0 a 10):"))
-
-            while (notaProjetoFinal < 0 || notaProjetoFinal > 10) {
-                console.log("Nota inválida! Deve estar entre 0 e 10.")
-                notaProjetoFinal = Number(prompt("Informe uma nota válida para o projeto final:"))
-            }
-
-            let curso = new CursoTecnico(titulo, cargaHoraria, numeroProjetoFinal, notaProjetoFinal)
-
-            cursos.push(curso)
-
-            console.log("Curso Técnico cadastrado com sucesso!")
-
-        } else if (opcao === 3) {
-            if (cursos.length === 0) {
-
-                console.log("Nenhum curso foi cadastrado!")
-
-            } else {
-                for (let i = 0; i < cursos.length; i++) {
-                    let curso = cursos[i]
-
-                    curso.emitirCertificado()
-                }
-            }
-
-        } else if (opcao === 0) {
-            console.log("Programa encerrado!")
-
+        if (tipo === "1") {
+            curso = new CursoLivre(titulo, cargaHoraria)
         } else {
-            console.log("Opção inválida!")
+            let numeroProjetoFinal = Number(prompt("Informe o número do projeto final: "))
+            let notaProjetoFinal = Number(prompt("Informe a nota do projeto final (0 a 10): "))
+            curso = new CursoTecnico(titulo, cargaHoraria, numeroProjetoFinal, notaProjetoFinal)
+        }
+
+        cursos.push(curso)
+
+        continuar = String(prompt("Deseja cadastrar outro curso? (sim/não): "))
+    }
+
+    if (cursos.length === 0) {
+        console.log("Nenhum curso foi cadastrado!")
+    } else {
+
+        for (let i = 0; i < cursos.length; i++) {
+            let c = cursos[i]
+            c.emitirCertificado()
         }
     }
 }
